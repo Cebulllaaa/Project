@@ -9,10 +9,13 @@ public class Server {
 	public BufferedReader reader;
 	public PrintWriter writer;
 	public Socket client;
-	
 	public static int port;
+	
+	private int type_Game;
+	
 	public Server(int x) {
 		this.port=x;
+		type_Game = choose_Type();
 	}
 	public void create_Server() {
 		try {
@@ -31,6 +34,10 @@ public class Server {
 		/*
 		 * TODO
 		 */
+	}
+	public int choose_Type() {
+		//Na chwile obecna wymagany jest tylko wariant gry "chiñskie warcaby "
+		return 1;
 	}
 	
 }
