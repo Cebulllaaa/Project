@@ -2,10 +2,14 @@ package Project.Game;
 
 import java.util.ArrayList;
 import java.util.Random;
+import Project.common.board.StandartBoard;
+
 /**Klasa dla konkretnej gry Trylma ("chiñskie warcaby") */
 public class TrylmaGame extends Game{
 	/**Zmienna okreslajaca ktore miejsce w kolejce wykona nastepny ruch*/
-	private int in_Queue;
+	public int in_Queue;
+	
+	public StandartBoard board;
 	
 	public TrylmaGame() {
 		possibilities = new ArrayList<Integer>();
@@ -21,8 +25,7 @@ public class TrylmaGame extends Game{
 	}
 	@Override
 	public void create_Board() {
-		// TODO Auto-generated method stub
-		
+		board = new StandartBoard();	
 	}
 
 	@Override
@@ -41,6 +44,9 @@ public class TrylmaGame extends Game{
 	public int decide_Turn() {
 		int x = Queue.get(in_Queue);
 		in_Queue = in_Queue +1;
+		if(in_Queue == Queue.size()) {
+			in_Queue = 0;
+		}
 		return x;
 		
 	}
