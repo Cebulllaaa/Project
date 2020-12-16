@@ -13,6 +13,7 @@ public class Server {
 	public PrintWriter writer;
 	public Socket client_socket;
 	public static int port;
+	public Socket[] client_sockets;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
@@ -36,6 +37,7 @@ public class Server {
 	}
 	public void listen() {
 		command = "";
+		int c;
 		while(command.isEmpty()) {
 			try {
 				try {
@@ -47,6 +49,7 @@ public class Server {
 				inputreader = new InputStreamReader(client_socket.getInputStream());
 				reader = new BufferedReader(inputreader);
 				command = reader.readLine();
+				
 			}
 			catch(IOException e) {
 				System.out.println(e);
@@ -59,6 +62,7 @@ public class Server {
 			writer = new PrintWriter(client_socket.getOutputStream());
 			writer.print(command);
 			writer.flush();
+			writer.close();
 		}
 		catch(IOException e) {
 			System.out.println(e);
@@ -67,6 +71,11 @@ public class Server {
 	public int choose_Type() {
 		//Na chwile obecna wymagany jest tylko wariant gry "chiñskie warcaby "
 		return 1;
+	}
+	public void EstabilishConnection() {
+		/*
+		 * TODO
+		 */
 	}
 	
 }

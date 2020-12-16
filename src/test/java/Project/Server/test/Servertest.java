@@ -1,5 +1,6 @@
 package Project.Server.test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.PrintWriter;
@@ -19,9 +20,13 @@ public class Servertest {
 	public void ServerConstructortest() {
 		Server serwer = new Server(6000);
 		assertEquals(6000,serwer.port);
-		//W przypadku wprowadzenia nowych trybow gry , do zmiany
-		assertEquals(1,serwer.type_Game);
 	} 
+	@Test
+	public void choose_typetest() {
+		Server serwer = new Server(6000);
+		serwer.choose_Type();
+		assertEquals(1,serwer.type_Game);
+	}
 	@Test 
 	public void createServertest() {
 		Server serwer = new Server(5999);
@@ -31,7 +36,8 @@ public class Servertest {
 	}
 	@Test
 	public void listenServertest() {
-		Server serwer = new Server(6003);
+		int port = 6003;
+		Server serwer = new Server(port);
 		serwer.create_Server();
 		ThreadListen listen;
 		ThreadWriteClient write;
@@ -42,63 +48,111 @@ public class Servertest {
 			listen = new ThreadListen();
 			listen.serwer = serwer;
 			write = new ThreadWriteClient();
-			write.port = 6003;
+			write.port = port;
 			write.command=test;
-			//listen.start();
-		//	write.start();
-		//	write.start();
-			Socket client_socket = new Socket("127.0.0.1",6003);
-			PrintWriter writer = new PrintWriter(client_socket.getOutputStream());
-			writer.print(test);
-			writer.flush();
-			serwer.listen();
-			assertEquals (test,serwer.command);
-			System.out.println("Hmmm" + serwer.command);
-	/*		serwer.listen();
-			writer.print(test2);
-			writer.flush();
-			assertEquals(serwer.command,test2);
-			serwer.listen();
-			writer.print(test2);
-			writer.flush();
-			assertEquals(serwer.command,test3); */
+			listen.start();
+			write.start();
+			write.join();
+			listen.join();
+			assertEquals (test,serwer.command); 
+			
+			listen = new ThreadListen();
+			listen.serwer=serwer;
+			write = new ThreadWriteClient();
+			write.port = port;
+			write.command = test2;
+			listen.start();
+			write.start();
+			write.join();
+			listen.join();
+			assertFalse(test.equals(serwer.command));
+			assertEquals(test2,serwer.command);
+			
+			listen = new ThreadListen();
+			listen.serwer=serwer;
+			write = new ThreadWriteClient();
+			write.port = port;
+			write.command = test3;
+			listen.start();
+			write.start();
+			write.join();
+			listen.join();
+			assertFalse(test.equals(serwer.command));
+			assertEquals(test3,serwer.command);
+			assertFalse(test2.equals(serwer.command));
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	} 
+	//W ramach tesu uzyje komunikacji pomiedzy dwoma serwerami 
+	@Test
+	public void writeServertest() {
+		int port_serwer = 6004;
+			
+		Server serwer = new Server(port_serwer);
+		serwer.create_Server();
+		
+		ThreadListenClient client1 = new ThreadListenClient();
+		client1.port_serwer = port_serwer;
+		
+		ThreadWrite serwerw = new ThreadWrite();
+		serwerw.serwer = serwer;
+		
+		String test = "TEST";
+		String test2 = "Instruction from Server";
+		String test3 = "Other instruction from Server";
+		try {
+			serwer.command = test;
+			serwerw.serwer = serwer;
+			
+			client1.start();
+			serwerw.start();
+							//Spostrzezenie wywolanie raz metody write sprawi ze tylko jeden klient otrzyma informacje
+							// Bede musial zaimplementowac funkcje Estabilish Connection i wysylac wiadomosci do klientow 
+							// z osobna
+			serwerw.join();
+			client1.join();
+			
+			assertEquals(client1.command,test);
+			
+			serwer.command = test2;
+			
+			client1 = new ThreadListenClient();
+			serwerw = new ThreadWrite();
+			serwerw.serwer = serwer;
+			client1.port_serwer = port_serwer;
+			
+			client1.start();
+			serwerw.start();
+			
+			client1.join();
+			serwerw.join();
+			
+			assertEquals(client1.command,test2);
+			assertFalse(test.equals(serwer.command));
+			
+			serwer.command = test3;
+			
+			client1 = new ThreadListenClient();
+			serwerw = new ThreadWrite();
+			serwerw.serwer = serwer;
+			client1.port_serwer = port_serwer;
+			
+			client1.start();
+			serwerw.start();
+			
+			client1.join();
+			serwerw.join();
+			
+			assertEquals(client1.command,test3);
+			assertFalse(test.equals(serwer.command));
+			assertFalse(test2.equals(serwer.command));
+			
 			
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
 	} 
-	/*W ramach tesu uzyje komunikacji pomiedzy dwoma serwerami 
-	@Test
-	public void writeServertest() {
-		Server serwer = new Server(6002);
-		serwer.create_Server();
-		Server serwer2  = new Server(6003);
-		serwer.create_Server();
-		Server serwer3 = new Server(6004);
-		serwer3.create_Server();
-		String test = "TEST";
-		String test2 = "Instruction from Server";
-		String test3 = "Other instruction from Server";
-		try {
-			serwer2.client_socket = new Socket("127.0.0.1",6002);
-			serwer3.client_socket = new Socket("127.0.0.1",6002);
-			serwer2.listen();
-			serwer3.listen();
-			serwer.command = test;
-			serwer.write();
-			assertEquals(serwer2.command, test);
-			assertEquals(serwer3.command,test);
-			serwer2.listen();
-			serwer3.listen();
-			serwer.command = test2;
-			serwer.write();
-			assertEquals(serwer2.command,test2);
-			assertEquals(serwer3.command,test);
-			
-		}
-		catch(Exception e) {
-			System.out.println(e);
-		}
-	} */ 
 }
