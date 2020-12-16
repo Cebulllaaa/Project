@@ -38,19 +38,15 @@ public class Server {
 		command = "";
 		while(command.isEmpty()) {
 			try {
-				System.out.println("jestm tu");
 				try {
 					client_socket = socket.accept();
-					System.out.println("Zaakceptowal");
 					}
 				catch (IOException e) {
 					System.out.println(e);
 				}
 				inputreader = new InputStreamReader(client_socket.getInputStream());
 				reader = new BufferedReader(inputreader);
-				System.out.println("Tu git");
 				command = reader.readLine();
-				System.out.println("On czeka");
 			}
 			catch(IOException e) {
 				System.out.println(e);
