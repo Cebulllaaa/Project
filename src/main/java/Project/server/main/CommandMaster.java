@@ -1,6 +1,7 @@
 package Project.server.main;
 
 import Project.Game.Game;
+import Project.Game.TrylmaGame;
 
 /**Klasa do zarzadzania komendami*/
 /**serwer przesyla po kolei:
@@ -13,10 +14,12 @@ public class CommandMaster {
 		public Game game;
 		public boolean success;
 	
-		public CommandMaster(Game x) {
+		public CommandMaster(int x) {
 			this.command = "";
 			before_start = true;
-			this.game =x;
+			if(x ==1) {
+			this.game =new TrylmaGame();
+			}
 		}
 	
 		public synchronized String getCommand() {

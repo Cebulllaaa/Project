@@ -22,15 +22,11 @@ public class Server {
 	public CommandMaster command_ms;
 	
 	public int type_Game;
-	public Game game;
 	
 	public Server(int x) {
 		this.port=x;
 		type_Game = choose_Type();
-			if(type_Game ==1) {
-				game = new TrylmaGame();
-				command_ms = new  CommandMaster(game);
-			}
+		command_ms = new  CommandMaster(type_Game);
 		
 	}
 	public void create_Server() {

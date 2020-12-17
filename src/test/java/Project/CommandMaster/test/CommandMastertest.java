@@ -17,7 +17,7 @@ public class CommandMastertest {
 	@Test
 	public void ConstructorTest() {
 		game = new TrylmaGame();
-		CommandMaster command_ms = new CommandMaster(game);
+		CommandMaster command_ms = new CommandMaster(1);
 		assertEquals(true,command_ms.before_start);
 		assertEquals(game,command_ms.game);
 		assertTrue(command_ms.getCommand().equals(""));
@@ -25,7 +25,7 @@ public class CommandMastertest {
 	@Test
 	public void setgetTest() {
 		game = new TrylmaGame();
-		CommandMaster command_ms = new CommandMaster(game);
+		CommandMaster command_ms = new CommandMaster(1);
 		String test = "TEST";
 		String test2 = "New test";
 		
@@ -39,7 +39,7 @@ public class CommandMastertest {
 	@Test
 	public void setIDcommandTest() {
 		game = new TrylmaGame();
-		CommandMaster command_ms = new CommandMaster(game);
+		CommandMaster command_ms = new CommandMaster(1);
 		command_ms.CommandMenu();
 		
 		assertTrue(command_ms.getCommand().equals("1;TODO"));
