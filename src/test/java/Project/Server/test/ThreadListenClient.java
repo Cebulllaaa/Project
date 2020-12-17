@@ -9,7 +9,6 @@ import Project.server.main.Server;
 public class ThreadListenClient extends Thread{
 	public Socket client_socket;
 	public String command;
-	public Server serwer;
 	public int port_serwer;
 	@Override
 	public void run() {

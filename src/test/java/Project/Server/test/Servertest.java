@@ -154,5 +154,21 @@ public class Servertest {
 		catch(Exception e) {
 			System.out.println(e);
 		}
-	} 
+	}
+	@Test
+	public void EstabilishConnectionTest() {
+		int port_serwer = 6005;
+		Server serwer  = new Server(port_serwer);
+		serwer.create_Server();
+		
+		ThreadConnection testconnection = new ThreadConnection();
+		testconnection.port_serwer = port_serwer;
+		ThreadConnectionServer serverconnection = new ThreadConnectionServer();
+		
+		serverconnection.serwer = serwer;
+		
+		serverconnection.start();
+		testconnection.start();
+		
+	}
 }
