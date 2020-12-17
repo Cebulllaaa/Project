@@ -1,4 +1,4 @@
-package Project.Game;
+package Project.common.game;
 
 import java.util.ArrayList;
 import java.util.Random;

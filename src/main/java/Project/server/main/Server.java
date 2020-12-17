@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-import Project.Game.*;
 /**G³ówna klasa odpowiadjaca za dzia³anie serwera*/
 public class Server {
 	
@@ -62,7 +61,7 @@ public class Server {
 		//Na chwile obecna wymagany jest tylko wariant gry "chiñskie warcaby "
 		return 1;
 	}
-	public void estabilishConnection() {
+	public void write() {
 		while(connection_iterator <1) {
 			try {
 				client_socket = socket.accept();

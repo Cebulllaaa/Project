@@ -5,8 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-import Project.Game.Game;
-import Project.Game.TrylmaGame;
+import Project.common.game.Game;
+import Project.common.game.TrylmaGame;
 import Project.server.main.CommandMaster;
 
 

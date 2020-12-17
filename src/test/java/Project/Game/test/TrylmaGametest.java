@@ -6,8 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import org.junit.Test;
+
+import Project.common.game.TrylmaGame;
+
 import java.util.Set;
-import Project.Game.TrylmaGame;
 
 
 public class TrylmaGametest {

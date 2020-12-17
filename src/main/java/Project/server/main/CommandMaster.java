@@ -1,7 +1,7 @@
 package Project.server.main;
 
-import Project.Game.Game;
-import Project.Game.TrylmaGame;
+import Project.common.game.Game;
+import Project.common.game.TrylmaGame;
 
 /**Klasa do zarzadzania komendami*/
 /**serwer przesyla po kolei:
