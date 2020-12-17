@@ -14,6 +14,9 @@ public class Server {
 	public PrintWriter writer;
 	public Socket client_socket;
 	public static int port;
+	public int connection_iterator=0;
+	public int connected =0;
+	public boolean for_connection_test =false;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
@@ -56,29 +59,24 @@ public class Server {
 			}
 		}
 	}
-	public void write() {
-		try {
-			client_socket = socket.accept();
-			writer = new PrintWriter(client_socket.getOutputStream());
-			writer.print(command);
-			writer.flush();
-			writer.close();
-		}
-		catch(IOException e) {
-			System.out.println(e);
-		}
-	}
 	public int choose_Type() {
 		//Na chwile obecna wymagany jest tylko wariant gry "chiñskie warcaby "
 		return 1;
 	}
 	public void estabilishConnection() {
-		try {
-			client_socket = socket.accept();
-			
-		}
-		catch(IOException e) {
-			
+		while(connection_iterator <1) {
+			try {
+				client_socket = socket.accept();
+				connected = connected+1;
+				//Od tego miejsca zaczynam pisac writer na ktory beda nowe testy
+				if(!for_connection_test) {
+				ThreadServerWrite write = new ThreadServerWrite(client_socket,command);
+				write.run();
+				}
+			}
+			catch(IOException e) {
+				System.out.println(e);
+			}
 		}
 	}
 }
