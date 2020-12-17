@@ -19,7 +19,7 @@ public class CommandMastertest {
 		game = new TrylmaGame();
 		CommandMaster command_ms = new CommandMaster(1);
 		assertEquals(true,command_ms.before_start);
-		assertEquals(game,command_ms.game);
+		assertEquals(game.getClass(),command_ms.game.getClass());
 		assertTrue(command_ms.getCommand().equals(""));
 	}
 	@Test
@@ -38,40 +38,39 @@ public class CommandMastertest {
 	
 	@Test
 	public void setIDcommandTest() {
-		game = new TrylmaGame();
 		CommandMaster command_ms = new CommandMaster(1);
 		command_ms.CommandMenu();
 		
 		assertTrue(command_ms.getCommand().equals("1;TODO"));
-		assertEquals(1,game.Players.size());
+		assertEquals(1,command_ms.game.Players.size());
 		
 		command_ms.CommandMenu();
-		assertEquals(2,game.Players.size());
+		assertEquals(2,command_ms.game.Players.size());
 		System.out.println(command_ms.getCommand());
 		assertTrue(command_ms.getCommand().equals("2;TODO"));
 		
 		command_ms.CommandMenu();
-		assertEquals(3,game.Players.size());
+		assertEquals(3,command_ms.game.Players.size());
 		System.out.println(command_ms.getCommand());
 		assertTrue(command_ms.getCommand().equals("3;TODO"));
 		
 		command_ms.CommandMenu();
-		assertEquals(4,game.Players.size());
+		assertEquals(4,command_ms.game.Players.size());
 		System.out.println(command_ms.getCommand());
 		assertTrue(command_ms.getCommand().equals("4;TODO"));
 		
 		command_ms.CommandMenu();
-		assertEquals(5,game.Players.size());
+		assertEquals(5,command_ms.game.Players.size());
 		System.out.println(command_ms.getCommand());
 		assertTrue(command_ms.getCommand().equals("5;TODO"));
 		
 		command_ms.CommandMenu();
-		assertEquals(6,game.Players.size());
+		assertEquals(6,command_ms.game.Players.size());
 		System.out.println(command_ms.getCommand());
 		assertTrue(command_ms.getCommand().equals("6;TODO"));
 		
 		command_ms.CommandMenu();
-		assertEquals(6,game.Players.size());
+		assertEquals(6,command_ms.game.Players.size());
 		System.out.println(command_ms.getCommand());
 		assertTrue(command_ms.getCommand().equals("-1;TODO"));
 	}
