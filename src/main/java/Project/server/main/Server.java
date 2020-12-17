@@ -15,13 +15,11 @@ public class Server {
 	public Socket client_socket;
 	public static int port;
 	public int connection_iterator=0;
-	public int connected =0;
-	public boolean for_connection_test =false;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
 	 */
-	public String command;
+	public CommandMaster command_ms;
 	
 	public int type_Game;
 	public Game game;
@@ -29,6 +27,11 @@ public class Server {
 	public Server(int x) {
 		this.port=x;
 		type_Game = choose_Type();
+			if(type_Game ==1) {
+				game = new TrylmaGame();
+				command_ms = new  CommandMaster(game);
+			}
+		
 	}
 	public void create_Server() {
 		try {
@@ -39,9 +42,9 @@ public class Server {
 		}
 	}
 	public void listen() {
-		command = "";
+		command_ms.setCommand("");
 		int c;
-		while(command.isEmpty()) {
+		while(command_ms.getCommand().isEmpty()) {
 			try {
 				try {
 					client_socket = socket.accept();
@@ -51,7 +54,7 @@ public class Server {
 				}
 				inputreader = new InputStreamReader(client_socket.getInputStream());
 				reader = new BufferedReader(inputreader);
-				command = reader.readLine();
+				command_ms.setCommand(reader.readLine());
 				
 			}
 			catch(IOException e) {
@@ -67,13 +70,9 @@ public class Server {
 		while(connection_iterator <1) {
 			try {
 				client_socket = socket.accept();
-				connected = connected+1;
-				//Od tego miejsca zaczynam pisac writer na ktory beda nowe testy
-				if(!for_connection_test) {
-				ThreadServerWrite write = new ThreadServerWrite(client_socket,command);
+				ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 				write.run();
 				}
-			}
 			catch(IOException e) {
 				System.out.println(e);
 			}

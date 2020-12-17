@@ -90,12 +90,13 @@ public class TrylmaGame extends Game{
 	}
 /**Funkcja dodaje graczy do listy graczy */
 	@Override
-	public void add_Player() {
+	public boolean add_Player() {
 		if(Players.size() < max_Players) {
 		Players.add(Players.size()+1);
+		return true;
 		}
 		else {
-			System.out.println("osiagnieta maksymalna liczbe graczy");
+			return false;
 		}
 	}
 

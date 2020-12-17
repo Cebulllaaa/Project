@@ -54,7 +54,7 @@ public class Servertest {
 			write.start();
 			write.join();
 			listen.join();
-			assertEquals (test,serwer.command); 
+			assertEquals (test,serwer.command_ms.getCommand()); 
 			
 			listen = new ThreadListen();
 			listen.serwer=serwer;
@@ -65,8 +65,8 @@ public class Servertest {
 			write.start();
 			write.join();
 			listen.join();
-			assertFalse(test.equals(serwer.command));
-			assertEquals(test2,serwer.command);
+			assertFalse(test.equals(serwer.command_ms.getCommand()));
+			assertEquals(test2,serwer.command_ms.getCommand());
 			
 			listen = new ThreadListen();
 			listen.serwer=serwer;
@@ -77,65 +77,14 @@ public class Servertest {
 			write.start();
 			write.join();
 			listen.join();
-			assertFalse(test.equals(serwer.command));
-			assertEquals(test3,serwer.command);
-			assertFalse(test2.equals(serwer.command));
+			assertFalse(test.equals(serwer.command_ms.getCommand()));
+			assertEquals(test3,serwer.command_ms.getCommand());
+			assertFalse(test2.equals(serwer.command_ms.getCommand()));
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
 	} 
-	@Test
-	public synchronized void EstabilishConnectionTest() {
-		int port_serwer = 6005;
-		Server serwer  = new Server(port_serwer);
-		serwer.create_Server();
-		serwer.for_connection_test=true;
-		
-		ThreadConnection testconnection = new ThreadConnection();
-		ThreadConnection testconnection2 = new ThreadConnection();
-		ThreadConnection testconnection3 = new ThreadConnection();
-		ThreadConnection testconnection4= new ThreadConnection();
-		ThreadConnection testconnection5 = new ThreadConnection();
-		ThreadConnection testconnection6= new ThreadConnection();
-		
-		testconnection.port_serwer = port_serwer;
-		testconnection2.port_serwer = port_serwer;
-		testconnection3.port_serwer = port_serwer;
-		testconnection4.port_serwer = port_serwer;
-		testconnection5.port_serwer = port_serwer;
-		testconnection6.port_serwer = port_serwer;
-		
-		ThreadConnectionServer serverconnection = new ThreadConnectionServer();
-		
-		serverconnection.serwer = serwer;
-		
-		serverconnection.start();
-		
-		testconnection.start();
-		testconnection2.start();
-		testconnection3.start();
-		testconnection4.start();
-		testconnection5.start();
-		testconnection6.start();
-		
-		try {
-		testconnection.join();
-		testconnection2.join();
-		testconnection3.join();
-		testconnection4.join();
-		testconnection5.join();
-		testconnection6.join();
-		
-		serwer.connection_iterator =1;
-		serverconnection.join();
-		assertEquals(6,serwer.connected);
-		}
-		catch(Exception e) {
-			System.out.println(e);
-		}
-		
-	}
 	@Test
 	public void testServerWriter() {
 		int port_serwer = 6006;
@@ -160,7 +109,7 @@ public class Servertest {
 		client6.port_serwer = port_serwer;
 		
 		ThreadConnectionServer serverconnection = new ThreadConnectionServer();
-		serwer.command = test;
+		serwer.command_ms.setCommand(test);
 		serverconnection.serwer =serwer;
 		
 		serverconnection.start();

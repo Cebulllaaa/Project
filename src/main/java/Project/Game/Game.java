@@ -32,6 +32,6 @@ public abstract class Game {
 	/**Funkcja tworzaca kolejke graczy */
 	public abstract void create_Queue();
 	/**Funkcja dodajaca gracza */
-	public abstract void add_Player();
+	public abstract boolean add_Player();
 	
 }

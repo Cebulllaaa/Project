@@ -1,6 +1,7 @@
 package Project.Game.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -94,42 +95,49 @@ public class TrylmaGametest {
 	}
 	@Test
 	public void add_Player_test() {
+		boolean success;
 		game = new TrylmaGame();
 		int x;
-		game.add_Player();
+		success = game.add_Player();
 		assertEquals(game.Players.size(),1);
 		x=game.Players.get(0);
 		assertEquals(x,1);
+		assertTrue(success);
 		
-		game.add_Player();
+		success = game.add_Player();
 		assertEquals(game.Players.size(),2);
 		x=game.Players.get(1);
 		assertEquals(x,2);
+		assertTrue(success);
 		
-		game.add_Player();
+		success = game.add_Player();
 		assertEquals(game.Players.size(),3);
 		x=game.Players.get(2);
 		assertEquals(x,3);
+		assertTrue(success);
 		
 		game.add_Player();
 		assertEquals(game.Players.size(),4);
 		x=game.Players.get(3);
 		assertEquals(x,4);
 		
-		game.add_Player();
+		success = game.add_Player();
 		assertEquals(game.Players.size(),5);
 		x=game.Players.get(4);
 		assertEquals(x,5);
+		assertTrue(success);
 		
-		game.add_Player();
+		success= game.add_Player();
 		assertEquals(game.Players.size(),6);
 		x=game.Players.get(5);
 		assertEquals(x,6);
+		assertTrue(success);
 		
-		game.add_Player();
+		success = game.add_Player();
 		assertEquals(game.Players.size(),6);
 		x=game.Players.get(5);
 		assertEquals(x,6);
+		assertFalse(success);
 	}
 	
 }
