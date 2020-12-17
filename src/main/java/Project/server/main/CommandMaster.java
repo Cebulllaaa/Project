@@ -5,8 +5,8 @@ import Project.Game.TrylmaGame;
 
 /**Klasa do zarzadzania komendami*/
 /**serwer przesyla po kolei:
-	 *    id klienta, typ gry (int), liczbe wszystkich graczy
-	 *    w grze (musi byc znana na poczatku), listy pozycji pionkow kolejnych graczy */
+	 *   nr instrukcji
+	 *   argumenty*/
 public class CommandMaster {
 	
 		private String command;
@@ -37,21 +37,22 @@ public class CommandMaster {
 					setIDcommand(command);
 				}
 				else {
-					setCommand("-1;TODO");
+					setCommand("1;-1;");
 				}
 			}
 		}
 		private synchronized void setIDcommand(String x) {
 			if(x.isEmpty()) {
-				setCommand("1;TODO");
+				setCommand("1;1;");
 			}
 			else {
-				int i = x.indexOf(';');
-				String last_player_id = x.substring(0, i);
+				int begin = x.indexOf(';');
+				int end = x.lastIndexOf(';');
+				String last_player_id = x.substring(begin+1, end);
 				try {
 					int last_player = Integer.parseInt(last_player_id);
 					String new_player_id = Integer.toString(last_player+1);
-					setCommand(new_player_id + ";TODO");
+					setCommand("1;"+new_player_id + ";");
 				}
 				catch(Exception e) {
 					

@@ -41,38 +41,32 @@ public class CommandMastertest {
 		CommandMaster command_ms = new CommandMaster(1);
 		command_ms.CommandMenu();
 		
-		assertTrue(command_ms.getCommand().equals("1;TODO"));
+		assertTrue(command_ms.getCommand().equals("1;1;"));
 		assertEquals(1,command_ms.game.Players.size());
 		
 		command_ms.CommandMenu();
 		assertEquals(2,command_ms.game.Players.size());
-		System.out.println(command_ms.getCommand());
-		assertTrue(command_ms.getCommand().equals("2;TODO"));
+		assertTrue(command_ms.getCommand().equals("1;2;"));
 		
 		command_ms.CommandMenu();
 		assertEquals(3,command_ms.game.Players.size());
-		System.out.println(command_ms.getCommand());
-		assertTrue(command_ms.getCommand().equals("3;TODO"));
+		assertTrue(command_ms.getCommand().equals("1;3;"));
 		
 		command_ms.CommandMenu();
 		assertEquals(4,command_ms.game.Players.size());
-		System.out.println(command_ms.getCommand());
-		assertTrue(command_ms.getCommand().equals("4;TODO"));
+		assertTrue(command_ms.getCommand().equals("1;4;"));
 		
 		command_ms.CommandMenu();
 		assertEquals(5,command_ms.game.Players.size());
-		System.out.println(command_ms.getCommand());
-		assertTrue(command_ms.getCommand().equals("5;TODO"));
+		assertTrue(command_ms.getCommand().equals("1;5;"));
 		
 		command_ms.CommandMenu();
 		assertEquals(6,command_ms.game.Players.size());
-		System.out.println(command_ms.getCommand());
-		assertTrue(command_ms.getCommand().equals("6;TODO"));
+		assertTrue(command_ms.getCommand().equals("1;6;"));
 		
 		command_ms.CommandMenu();
 		assertEquals(6,command_ms.game.Players.size());
-		System.out.println(command_ms.getCommand());
-		assertTrue(command_ms.getCommand().equals("-1;TODO"));
+		assertTrue(command_ms.getCommand().equals("1;-1;")); 
 	}
 
 }
