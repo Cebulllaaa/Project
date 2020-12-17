@@ -66,6 +66,7 @@ public class Server {
 		while(connection_iterator <1) {
 			try {
 				client_socket = socket.accept();
+				command_ms.CommandMenu();
 				ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 				write.run();
 				}

@@ -94,6 +94,7 @@ public class Servertest {
 		String test = "TEST";
 		String test2 = "Instruction from Server";
 		String test3 = "Other instruction from Server";
+		serwer.command_ms.before_start=false;
 		
 		ThreadListenClient client1 = new ThreadListenClient();
 		client1.port_serwer = port_serwer;
@@ -141,4 +142,110 @@ public class Servertest {
 		}
 		
 	}
+	/** Ten test sprawdza sytuacje w ktorej 7 klientow probuje podlaczyc sie do gry : Trylma game */
+	@Test
+	public void testWriteDifferentID(){
+		int port_serwer = 6007;
+		Server serwer  = new Server(port_serwer);
+		serwer.create_Server();
+		
+		String cmd1 = "1;1;";
+		String cmd2 = "1;2;";
+		String cmd3 = "1;3;";
+		String cmd4 = "1;4;";
+		String cmd5 = "1;5;";
+		String cmd6 = "1;6;";
+		String cmd7 = "1;-1;";
+		
+		ThreadListenClient client1 = new ThreadListenClient();
+		client1.port_serwer = port_serwer;
+		ThreadListenClient client2 = new ThreadListenClient();
+		client2.port_serwer = port_serwer;
+		ThreadListenClient client3 = new ThreadListenClient();
+		client3.port_serwer = port_serwer;
+		ThreadListenClient client4 = new ThreadListenClient();
+		client4.port_serwer = port_serwer;
+		ThreadListenClient client5 = new ThreadListenClient();
+		client5.port_serwer = port_serwer;
+		ThreadListenClient client6 = new ThreadListenClient();
+		client6.port_serwer = port_serwer;
+		ThreadListenClient client7 = new ThreadListenClient();
+		client7.port_serwer = port_serwer;
+		
+		ThreadConnectionServer serverconnection = new ThreadConnectionServer();
+		serverconnection.serwer =serwer;
+		serverconnection.start();
+		
+		client1.start();
+		client2.start();
+		client3.start();
+		client4.start();
+		client5.start();
+		client6.start();
+		client7.start();
+		
+		try {
+			client1.join();
+			client2.join();
+			client3.join();
+			client4.join();
+			client5.join();
+			client6.join();
+			client7.join();
+			
+			/*Z uwagi na charakter watkow nie wiadomo , ktory klient otrzyma ktore id , ale beda one
+			 * ale beda one unikalne (oraz nie dojdzie do sytuacji ze ktos otrzyma id : 3 jezeli nikt nie 
+			 * posiada id : 2 */
+		/*	
+			System.out.println(client1.command);
+			System.out.println(client2.command);
+			System.out.println(client3.command);
+			System.out.println(client4.command);
+			System.out.println(client5.command);
+			System.out.println(client6.command);
+			System.out.println(client7.command); */
+			
+			boolean p1 = (client1.command.equals(cmd1) || client1.command.equals(cmd2) 
+					|| 	client1.command.equals(cmd3) || client1.command.equals(cmd4) 
+					|| client1.command.equals(cmd5) || client1.command.equals(cmd6) 
+					|| client1.command.equals(cmd7));
+			boolean p2 = (client2.command.equals(cmd1) || client2.command.equals(cmd2) 
+					|| 	client2.command.equals(cmd3) || client2.command.equals(cmd4) 
+					|| client2.command.equals(cmd5) || client2.command.equals(cmd6) 
+					|| client2.command.equals(cmd7));
+			boolean p3 = (client3.command.equals(cmd1) || client3.command.equals(cmd2) 
+					|| 	client3.command.equals(cmd3) || client3.command.equals(cmd4) 
+					|| client3.command.equals(cmd5) || client3.command.equals(cmd6) 
+					|| client3.command.equals(cmd7));
+			boolean p4 = (client4.command.equals(cmd1) || client4.command.equals(cmd2) 
+					|| 	client4.command.equals(cmd3) || client4.command.equals(cmd4) 
+					|| client4.command.equals(cmd5) || client4.command.equals(cmd6) 
+					|| client4.command.equals(cmd7));
+			boolean p5 = (client5.command.equals(cmd1) || client5.command.equals(cmd2) 
+					|| 	client5.command.equals(cmd3) || client5.command.equals(cmd4) 
+					|| client5.command.equals(cmd5) || client5.command.equals(cmd6) 
+					|| client5.command.equals(cmd7));
+			boolean p6 = (client6.command.equals(cmd1) || client6.command.equals(cmd2) 
+					|| 	client6.command.equals(cmd3) || client6.command.equals(cmd4) 
+					|| client6.command.equals(cmd5) || client6.command.equals(cmd6) 
+					|| client6.command.equals(cmd7));
+			boolean p7 = (client7.command.equals(cmd1) || client7.command.equals(cmd2) 
+					|| 	client7.command.equals(cmd3) || client7.command.equals(cmd4) 
+					|| client7.command.equals(cmd5) || client7.command.equals(cmd6) 
+					|| client7.command.equals(cmd7));
+			
+			assertTrue(p1);
+			assertTrue(p2);
+			assertTrue(p3);
+			assertTrue(p4);
+			assertTrue(p5);
+			assertTrue(p6);
+			assertTrue(p7);
+		}
+		
+		catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
 }
