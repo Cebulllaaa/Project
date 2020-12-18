@@ -76,6 +76,8 @@ public abstract class AbstractFieldArrayFactory {
 			 */
 			Field.connectFields(triangle[prevTriangSize - 1 - i], triangle[prevTriangSize - 1]);
 
+			Field.connectFields(triangle[prevTriangSize - 2], triangle[prevTriangSize - 1]);
+
 		}
 
 		outerTriangles[triangleCounter] = triangle;
@@ -96,7 +98,7 @@ public abstract class AbstractFieldArrayFactory {
 		Field.connectFields(triangle[prevTriangSize + j - i], triangle[prevTriangSize + j]);
 
 		Field.connectFields(triangle[prevTriangSize + j], triangle[prevTriangSize + j - 1]);
-		Field.connectFields(triangle[prevTriangSize + j], triangle[prevTriangSize + j + 1]);
+//		Field.connectFields(triangle[prevTriangSize + j], triangle[prevTriangSize + j + 1]);
 
 	}
 

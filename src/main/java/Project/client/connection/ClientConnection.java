@@ -32,9 +32,9 @@ public class ClientConnection {
 	private final int clientNotAllowedCode = 7;
 	private final String regexDelim = ";";
 
-	public ClientConnection(Client newClient) {
+	/*public ClientConnection(Client newClient) {
 		//client = newClient;
-	}
+	}*/
 
 	/* zalozenie: serwer sie nie myli i przekaze zawsze odpowiednia liste wartosci
 	 * na poczatku komunikacji:
@@ -97,6 +97,7 @@ public class ClientConnection {
 		out.print(regexDelim);
 
 		out.print(newPosOfChangedPiece);
+
 /*		for (int[] playerPieces : pieces) {
 			for (int piece : playerPieces) {
 				out.print(regexDelim);
@@ -105,6 +106,7 @@ public class ClientConnection {
 			}
 		}
 */
+		out.println();
 		out.flush();
 
 	}
