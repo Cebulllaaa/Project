@@ -141,27 +141,27 @@ public abstract class AbstractFieldArrayFactory {
 		Field tempField = new Field(fieldCounter, Piece.NONE, Piece.NONE);
 		fieldCounter++;
 
-		if (j==0) {
+		if (j!=0) { // j!=0 -> to nie jest poczatek okrazenia
 			Field.connectFields(tempField, wholeBoard[index - 1]);
 		}
 
-		Field.connectFields(tempField, prevToConnect[i]);
+		Field.connectFields(tempField, prevToConnect[j]);
 		wholeBoard[index] = tempField;
 
 		for (int k=1; k<i; k++) {
 			tempField = new Field(fieldCounter, Piece.NONE, Piece.NONE);
 			fieldCounter++;
 
-			Field.connectFields(tempField, wholeBoard[indexToConnect[i] + k]);
-			Field.connectFields(tempField, wholeBoard[indexToConnect[i] + k - 1]);
+			Field.connectFields(tempField, wholeBoard[indexToConnect[j] + k]);
+			Field.connectFields(tempField, wholeBoard[indexToConnect[j] + k - 1]);
 			Field.connectFields(tempField, wholeBoard[index + k - 1]);
 
 			wholeBoard[index + k] = tempField;
 
 		}
 
-		prevToConnect[i] = tempField;
-		indexToConnect[i] = index;
+		prevToConnect[j] = wholeBoard[index];
+		indexToConnect[j] = index;
 
 	}
 
@@ -203,11 +203,11 @@ public abstract class AbstractFieldArrayFactory {
 		if (numOfFieldsToJoin > 0) {
 			// ostatnie 6*(n-1) pol w wholeBoard jest brzegowych
 			for (int i=1; i <= numOfFieldsToJoin; i++) {
-				fieldsToJoin[numOfFieldsToJoin - i] = wholeBoard[hexagonSize - 1];
+				fieldsToJoin[numOfFieldsToJoin - i] = wholeBoard[hexagonSize - i];
 			}
 
 			// konczymy tym czym zaczelismy
-			fieldsToJoin[numOfFieldsToJoin] = wholeBoard[hexagonSize - 1];
+			fieldsToJoin[numOfFieldsToJoin] = fieldsToJoin[0];
 
 		}
 
