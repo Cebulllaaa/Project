@@ -30,7 +30,7 @@ public class Client {
 	}
 
 	private void running(String host, int port) {
-		connectionToServer = new ClientConnection(this);
+		connectionToServer = new ClientConnection(); //this);
 
 		try {
 			connectionToServer.connect(host, port);
