@@ -24,14 +24,16 @@ public class ClientConnection {
 	private String[] serverMsg;
 	private int[][] pieces;
 	private boolean myTurn = false;
-	private int servMsgPiecesStart = 3;
-	private Client client;
-	private final int inGameServMsgPiecStart = 2;
+	private int changedPiece;
+	private int newPosOfChangedPiece;
+	private final int servMsgPiecesStart = 1;
+	//private Client client;
+	//private final int inGameServMsgPiecStart = 2;
 	private final int clientNotAllowedCode = 7;
 	private final String regexDelim = ";";
 
 	public ClientConnection(Client newClient) {
-		client = newClient;
+		//client = newClient;
 	}
 
 	/* zalozenie: serwer sie nie myli i przekaze zawsze odpowiednia liste wartosci
@@ -46,24 +48,27 @@ public class ClientConnection {
 		in = new Scanner(clientSocket.getInputStream());
 		out = new PrintWriter(clientSocket.getOutputStream());
 
-		serverMsg = in.nextLine().split(regexDelim);
+		serverMsg = in.nextLine().split(regexDelim); // setID: 1;idGracza
 
-		clientId = Integer.parseInt(serverMsg[0]);
+		clientId = Integer.parseInt(serverMsg[1]);
 
 		if (clientId == clientNotAllowedCode) {
 			throw new PlayerNotAllowedException("There are enough many players in this game");
 		}
 
-		try {
-			gameType = GameHelperMethods.getGameType( Integer.parseInt(serverMsg[1]) );
+		serverMsg = in.nextLine().split(regexDelim); // daneGry: 2;liczbaGraczy;gameType
 
-			numOfPlayers = Integer.parseInt(serverMsg[2]);
+		try {
+			gameType = GameHelperMethods.getGameType( Integer.parseInt(serverMsg[2]) );
+			numOfPlayers = Integer.parseInt(serverMsg[1]);
 
 			numOfPlayerPieces = numberOfMyPieces();
+
+			serverMsg = in.nextLine().split(regexDelim); // startGame: 3;
+
+			serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
 			pieces = new int[numOfPlayerPieces][numOfPlayers];
 			setPieces();
-
-			servMsgPiecesStart = inGameServMsgPiecStart;
 
 		}
 		catch (WrongGameTypeException wgtx) {
@@ -83,27 +88,32 @@ public class ClientConnection {
 	 * listy pozycji pionkow kolejnych graczy
 	 */
 	public void write() {
-		out.print(false);
+//		out.print(false);
+//		out.print(regexDelim);
+		out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
 		out.print(regexDelim);
-		out.print(clientId);
 
-		for (int[] playerPieces : pieces) {
+		out.print(changedPiece);
+		out.print(regexDelim);
+
+		out.print(newPosOfChangedPiece);
+/*		for (int[] playerPieces : pieces) {
 			for (int piece : playerPieces) {
 				out.print(regexDelim);
 				out.print(piece);
 
 			}
 		}
-
+*/
 		out.flush();
 
 	}
 
-	public void quitGame() {
+/*	public void quitGame() {
 		out.print(true);
 		out.flush();
 	}
-
+*/
 	/*
 	 * w trakcie komunikacji:
 	 * serwer przesyla:
@@ -111,15 +121,16 @@ public class ClientConnection {
 	 * listy pozycji pionkow kolejnych graczy
 	 */
 	public void read() throws GameEndedException {
-		serverMsg = in.nextLine().split(regexDelim);
+		serverMsg = in.nextLine().split(regexDelim); // endGame: 6;idZwyciezcy lub whoseTurn: 5;idWykonujacegoRuch
 
-		boolean gameEnded = Boolean.parseBoolean(serverMsg[0]);
+		boolean gameEnded = (Integer.parseInt(serverMsg[0]) == 6);
 		if (gameEnded) {
-			throw new GameEndedException("The game has ended");
+			throw new GameEndedException(serverMsg[1]);
 		}
 
 		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
 
+		serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
 		setPieces();
 
 	}
@@ -167,6 +178,11 @@ public class ClientConnection {
 		return serverMsg;
 	}
 	*/
+
+	public void setChange(int chPiece, int newPiecePos) {
+		changedPiece = chPiece;
+		newPosOfChangedPiece = newPiecePos;
+	}
 
 	public int[][] getPieces() {
 		return pieces;

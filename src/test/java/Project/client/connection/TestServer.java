@@ -13,7 +13,7 @@ public class TestServer extends Thread {
 	private Scanner in;
 	private PrintWriter out;
 
-	public TestServer() {
+	public TestServer() throws IOException {
 		serverSocket = new ServerSocket(8080);
 	}
 
@@ -38,6 +38,9 @@ public class TestServer extends Thread {
 		}
 	}
 
-	public testAccept// TODO
+	public void testAccept() {
+		//
+
+	}
 
 }
