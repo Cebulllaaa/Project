@@ -3,8 +3,9 @@ package Project.common.game;
 import java.util.ArrayList;
 import java.util.Random;
 import Project.common.board.StandartBoard;
+import Project.common.exceptions.ApplicationErrorException;
 
-/**Klasa dla konkretnej gry Trylma ("chiñskie warcaby") */
+/**Klasa dla konkretnej gry Trylma ("chiï¿½skie warcaby") */
 public class TrylmaGame extends Game{
 	/**Zmienna okreslajaca ktore miejsce w kolejce wykona nastepny ruch*/
 	public int in_Queue;
@@ -25,7 +26,12 @@ public class TrylmaGame extends Game{
 	}
 	@Override
 	public void create_Board() {
-		board = new StandartBoard();	
+		try {
+			board = new StandartBoard();
+		}
+		catch (ApplicationErrorException aex) {
+			System.out.println(aex.getMessage());
+		}
 	}
 
 	@Override

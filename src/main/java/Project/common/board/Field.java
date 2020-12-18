@@ -15,6 +15,7 @@ public class Field {
 	private int neighboursCounter = 0;
 	private final int fieldId;
 	private Piece pieceOnField;
+	private Piece homeType;
 	private static final int TOTAL_NUMBER_OF_NEIGHBOURS = 6;
 
 	/**
@@ -22,14 +23,27 @@ public class Field {
 	 * @param id identifier of the field
 	 * @param playerPiece information about a piece standing on the field (if there is any)
 	 */
-	public Field(int id, Piece playerPiece) {
+	public Field(int id, Piece playerPiece, Piece home) {
 		for (int i=0; i < neighbours.length; i++) {
 			neighbours[i] = null;
 		}
 
 		fieldId = id;
 		pieceOnField = playerPiece;
+		homeType = home;
 
+	}
+
+	/**
+	 * adds each field as a neighbour to the other
+	 * @param field1 field to connect
+	 * @param field2 other field to connect
+	 * @throws TooManyNeighboursException thrown if there are already 6 neighbours
+	 *         at one of the fields
+	 */
+	public static void connectFields(Field field1, Field field2) throws TooManyNeighboursException {
+		field1.setNeighbour(field2);
+		field2.setNeighbour(field1);
 	}
 
 	/**
@@ -80,6 +94,14 @@ public class Field {
 	 */
 	public Piece getPiece() {
 		return pieceOnField;
+	}
+
+	/**
+	 * getter of {@link Field#homeType homeType}
+	 * @return {@link Field#homeType homeType}
+	 */
+	public Piece getHomeType() {
+		return homeType;
 	}
 
 	/**

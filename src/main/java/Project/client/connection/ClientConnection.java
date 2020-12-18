@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import Project.client.exceptions.GameEndedException;
 import Project.client.exceptions.PlayerNotAllowedException;
+import Project.client.main.Client;
 import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
 import Project.common.game.GameType;
@@ -15,7 +16,6 @@ public class ClientConnection {
 
 	private int clientId;
 	private GameType gameType;
-//	private int turn;
 	private int numOfPlayers;
 	private int numOfPlayerPieces;
 	private Socket clientSocket;
@@ -25,9 +25,14 @@ public class ClientConnection {
 	private int[][] pieces;
 	private boolean myTurn = false;
 	private int servMsgPiecesStart = 3;
+	private Client client;
 	private final int inGameServMsgPiecStart = 2;
 	private final int clientNotAllowedCode = 7;
 	private final String regexDelim = ";";
+
+	public ClientConnection(Client newClient) {
+		client = newClient;
+	}
 
 	/* zalozenie: serwer sie nie myli i przekaze zawsze odpowiednia liste wartosci
 	 * na poczatku komunikacji:

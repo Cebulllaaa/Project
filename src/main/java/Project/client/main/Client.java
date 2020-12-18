@@ -13,10 +13,10 @@ import Project.common.game.GameType;
 public class Client {
 
 //	private static final String programName = "Client";
-	private static ClientConnection connectionToServer;
-	private static int id;
-	private static GameType gameType;
-	private static int[][] pieces;
+	private ClientConnection connectionToServer;
+	private int id;
+	private GameType gameType;
+	private int[][] pieces;
 
 	public static void main(String[] args) {
 		if (args.length != 2) {
@@ -24,10 +24,16 @@ public class Client {
 			System.exit(1);
 		}
 
-		connectionToServer = new ClientConnection();
+		Client client = new Client();
+		client.running(args[0], Integer.parseInt(args[1]));
+
+	}
+
+	private void running(String host, int port) {
+		connectionToServer = new ClientConnection(this);
 
 		try {
-			connectionToServer.connect(args[0], Integer.parseInt(args[1]));
+			connectionToServer.connect(host, port);
 			id = connectionToServer.getId();
 			gameType = connectionToServer.getGameType();
 			pieces = connectionToServer.getPieces();
@@ -62,6 +68,10 @@ public class Client {
 			}
 		}
 
+	}
+
+	public void notifyClient() {
+		//
 	}
 
 }
