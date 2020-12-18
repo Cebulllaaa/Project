@@ -27,7 +27,7 @@ public class CommandMaster {
 		public synchronized String getCommand() {
 			return command;
 		}
-		/** Funkcja wykorzystywana glownie do testow */
+		
 		public synchronized void setCommand(String x) {
 			this.command = x;
 		}
@@ -41,6 +41,9 @@ public class CommandMaster {
 				else {
 					setCommand("1;-1;");
 				}
+			}
+			else if(activiti.equals(SendActivities.SEND_GAME_INFORMATION)) {
+				sendGameInfo();
 			}
 		}
 		private synchronized void setIDcommand(String x) {
@@ -62,5 +65,14 @@ public class CommandMaster {
 			}
 			
 		}
+		private void sendGameInfo() {
+			if(game.getClass().equals(TrylmaGame.class)) {
+				setCommand("2;");
+				int players = game.Players.size();
+				String players_st = Integer.toString(players);
+				setCommand(command + players_st +";");
+			}
+		}
+		
 	
 }

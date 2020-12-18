@@ -73,5 +73,51 @@ public class CommandMastertest {
 		assertEquals(6,command_ms.game.Players.size());
 		assertTrue(command_ms.getCommand().equals("1;-1;")); 
 	}
+	
+	@Test
+	public void sendGameInfotest() {
+		SendActivities activity = SendActivities.SEND_GAME_INFORMATION;
+		CommandMaster command_ms = new CommandMaster(1, activity);
+		command_ms.CommandMenu();
+		
+		String cmd1 = "2;0;";
+		String cmd2 = "2;1;";
+		String cmd3 = "2;2;";
+		String cmd4 = "2;3;";
+		String cmd5 = "2;4;";
+		String cmd6 = "2;5;";
+		String cmd7 = "2;6;";
+	
+		command_ms.CommandMenu();
+		assertEquals(cmd1,command_ms.getCommand());
+		
+		command_ms.game.add_Player();
+		command_ms.CommandMenu();
+		assertEquals(cmd2,command_ms.getCommand());
+		
+		command_ms.game.add_Player();
+		command_ms.CommandMenu();
+		assertEquals(cmd3,command_ms.getCommand());
+		
+		command_ms.game.add_Player();
+		command_ms.CommandMenu();
+		assertEquals(cmd4,command_ms.getCommand());
+		
+		command_ms.game.add_Player();
+		command_ms.CommandMenu();
+		assertEquals(cmd5,command_ms.getCommand());
+		
+		command_ms.game.add_Player();
+		command_ms.CommandMenu();
+		assertEquals(cmd6,command_ms.getCommand());
+		
+		command_ms.game.add_Player();
+		command_ms.CommandMenu();
+		assertEquals(cmd7,command_ms.getCommand());
+		
+		command_ms.game.add_Player();
+		command_ms.CommandMenu();
+		assertEquals(cmd7,command_ms.getCommand());
+	}
 
 }
