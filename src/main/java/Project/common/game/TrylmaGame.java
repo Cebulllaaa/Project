@@ -21,7 +21,7 @@ public class TrylmaGame extends Game{
 		max_Players = 6;
 		min_Players = 2;
 		Players = new ArrayList<Integer>();
-		this.create_Board();
+		//this.create_Board();
 		in_Queue=0;
 	}
 	@Override

@@ -21,16 +21,19 @@ public class Server {
 	public CommandMaster command_ms;
 	
 	public int type_Game;
+	SendActivities com_activiti;
 	
 	public Server(int x) {
 		this.port=x;
 		type_Game = choose_Type();
-		command_ms = new  CommandMaster(type_Game);
+		com_activiti = SendActivities.SEND_ID;
+		command_ms = new  CommandMaster(type_Game,com_activiti);
 		
 	}
 	public void create_Server() {
 		try {
 			socket = new ServerSocket(this.port);
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();

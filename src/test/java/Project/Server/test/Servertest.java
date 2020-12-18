@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import org.junit.Test;
 
+import Project.server.main.SendActivities;
 import Project.server.main.Server;
 
 import java.util.Set;
@@ -94,7 +95,7 @@ public class Servertest {
 		String test = "TEST";
 		String test2 = "Instruction from Server";
 		String test3 = "Other instruction from Server";
-		serwer.command_ms.before_start=false;
+		serwer.command_ms.activiti= SendActivities.WRITE_TEST;
 		
 		ThreadListenClient client1 = new ThreadListenClient();
 		client1.port_serwer = port_serwer;

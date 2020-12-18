@@ -13,12 +13,14 @@ public class CommandMaster {
 		public  boolean before_start;
 		public Game game;
 		public boolean success;
+		public SendActivities activiti;
 	
-		public CommandMaster(int x) {
+		public CommandMaster(int x, SendActivities y) {
 			this.command = "";
 			before_start = true;
 			if(x ==1) {
 			this.game =new TrylmaGame();
+			this.activiti = y;
 			}
 		}
 	
@@ -31,7 +33,7 @@ public class CommandMaster {
 		}
 		
 		public synchronized void CommandMenu() {
-			if(before_start){
+			if(activiti.equals(SendActivities.SEND_ID)){
 				success = game.add_Player();
 				if(success) {
 					setIDcommand(command);

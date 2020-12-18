@@ -8,6 +8,7 @@ import org.junit.Test;
 import Project.common.game.Game;
 import Project.common.game.TrylmaGame;
 import Project.server.main.CommandMaster;
+import Project.server.main.SendActivities;
 
 
 
@@ -17,15 +18,18 @@ public class CommandMastertest {
 	@Test
 	public void ConstructorTest() {
 		game = new TrylmaGame();
-		CommandMaster command_ms = new CommandMaster(1);
+		SendActivities activity = SendActivities.SEND_ID;
+		CommandMaster command_ms = new CommandMaster(1,activity);
 		assertEquals(true,command_ms.before_start);
 		assertEquals(game.getClass(),command_ms.game.getClass());
 		assertTrue(command_ms.getCommand().equals(""));
+		assertEquals(command_ms.activiti,activity);
 	}
 	@Test
 	public void setgetTest() {
 		game = new TrylmaGame();
-		CommandMaster command_ms = new CommandMaster(1);
+		SendActivities activity = SendActivities.SEND_ID;
+		CommandMaster command_ms = new CommandMaster(1,activity);
 		String test = "TEST";
 		String test2 = "New test";
 		
@@ -38,7 +42,8 @@ public class CommandMastertest {
 	
 	@Test
 	public void setIDcommandTest() {
-		CommandMaster command_ms = new CommandMaster(1);
+		SendActivities activity = SendActivities.SEND_ID;
+		CommandMaster command_ms = new CommandMaster(1, activity);
 		command_ms.CommandMenu();
 		
 		assertTrue(command_ms.getCommand().equals("1;1;"));
