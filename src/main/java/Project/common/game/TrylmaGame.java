@@ -8,7 +8,7 @@ import Project.common.exceptions.ApplicationErrorException;
 /**Klasa dla konkretnej gry Trylma ("chi�skie warcaby") */
 public class TrylmaGame extends Game{
 	/**Zmienna okreslajaca ktore miejsce w kolejce wykona nastepny ruch*/
-	public int in_Queue;
+	
 	
 	public StandartBoard board;
 	
@@ -49,12 +49,15 @@ public class TrylmaGame extends Game{
 	@Override
 	public int decide_Turn() {
 		int x = Queue.get(in_Queue);
+		return x;
+		
+	}
+	@Override
+	public void  increase_Queue() {
 		in_Queue = in_Queue +1;
 		if(in_Queue == Queue.size()) {
 			in_Queue = 0;
-		}
-		return x;
-		
+		} 
 	}
 
 	@Override
@@ -105,5 +108,14 @@ public class TrylmaGame extends Game{
 			return false;
 		}
 	}
+@Override
+public int get_winner() {
+	return winner;
+}
+@Override
+public void set_winner(int x) {
+	this.winner = x;
+	
+}
 
 }

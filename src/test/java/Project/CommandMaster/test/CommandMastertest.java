@@ -79,7 +79,7 @@ public class CommandMastertest {
 		SendActivities activity = SendActivities.SEND_GAME_INFORMATION;
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		command_ms.CommandMenu();
-		
+		 
 		String cmd1 = "2;0;";
 		String cmd2 = "2;1;";
 		String cmd3 = "2;2;";
@@ -119,5 +119,106 @@ public class CommandMastertest {
 		command_ms.CommandMenu();
 		assertEquals(cmd7,command_ms.getCommand());
 	}
+	@Test
+	public void sendStartInfoTest() {
+		SendActivities activity = SendActivities.SEND_START_GAME;
+		CommandMaster command_ms = new CommandMaster(1, activity);
+		command_ms.CommandMenu();
+		String cmd = "3;";
+		
+		assertEquals(cmd,command_ms.getCommand());
+	}
+	
+	@Test
+	public void sendBoardTest() {
+		SendActivities activity = SendActivities.SEND_BOARD;
+		CommandMaster command_ms = new CommandMaster(1, activity);
+		command_ms.CommandMenu();
+		String cmd = "4;TODO;";
+		
+		assertEquals(cmd,command_ms.getCommand());
+	}
+	
+	@Test
+	public void sendTurntest() {
 
+		SendActivities activity = SendActivities.SEND_WHOSE_TURN;
+		CommandMaster command_ms = new CommandMaster(1, activity);
+		String cmd0 = "5;";
+		
+		command_ms.game.add_Player();
+		command_ms.game.add_Player();
+		command_ms.game.add_Player();
+		command_ms.game.add_Player();
+		command_ms.game.add_Player();
+		command_ms.game.add_Player();
+		command_ms.game.create_Queue();
+		command_ms.CommandMenu();
+		
+		int x =command_ms.game.Queue.get(command_ms.game.in_Queue);
+		String help = Integer.toString(x);
+		String cmd1=cmd0 + help +";";
+		//System.out.println(cmd1);
+		assertEquals(cmd1,command_ms.getCommand());
+		command_ms.game.increase_Queue();
+		
+		x =command_ms.game.Queue.get(command_ms.game.in_Queue);
+		help = Integer.toString(x);
+		cmd1=cmd0 + help +";";
+		command_ms.CommandMenu();
+		//System.out.println(cmd1);
+		assertEquals(cmd1,command_ms.getCommand());
+		command_ms.game.increase_Queue();
+	
+		x =command_ms.game.Queue.get(command_ms.game.in_Queue);
+		help = Integer.toString(x);
+		cmd1=cmd0 + help +";";
+		command_ms.CommandMenu();
+		//System.out.println(cmd1);
+		assertEquals(cmd1,command_ms.getCommand());
+		command_ms.game.increase_Queue();
+		
+		x =command_ms.game.Queue.get(command_ms.game.in_Queue);
+		help = Integer.toString(x);
+		cmd1=cmd0 + help +";";
+		command_ms.CommandMenu();
+		//System.out.println(cmd1);
+		assertEquals(cmd1,command_ms.getCommand());
+		command_ms.game.increase_Queue();
+		
+		x =command_ms.game.Queue.get(command_ms.game.in_Queue);
+		help = Integer.toString(x);
+		cmd1=cmd0 + help +";";
+		command_ms.CommandMenu();
+		//System.out.println(cmd1);
+		assertEquals(cmd1,command_ms.getCommand());
+		command_ms.game.increase_Queue();
+		
+		x =command_ms.game.Queue.get(command_ms.game.in_Queue);
+		help = Integer.toString(x);
+		cmd1=cmd0 + help +";";
+		command_ms.CommandMenu();
+		//System.out.println(cmd1);
+		assertEquals(cmd1,command_ms.getCommand());
+		command_ms.game.increase_Queue();
+		
+		x =command_ms.game.Queue.get(command_ms.game.in_Queue);
+		help = Integer.toString(x);
+		cmd1=cmd0 + help +";";
+		command_ms.CommandMenu();
+		//System.out.println(cmd1);
+		assertEquals(cmd1,command_ms.getCommand());
+		command_ms.game.increase_Queue();
+	}
+	@Test
+	public void sendEndInfoTest() {
+		SendActivities activity = SendActivities.SEND_END_GAME;
+		CommandMaster command_ms = new CommandMaster(1, activity);
+		int x = 4;
+		command_ms.game.set_winner(x);
+		String cmd = "6;4;";
+		
+		command_ms.CommandMenu();
+		assertEquals(cmd,command_ms.getCommand());
+	}
 }

@@ -22,7 +22,7 @@ public class TrylmaGametest {
 		assertEquals(2,game.min_Players);	
 		ArrayList<Integer> test_possibilities = new ArrayList<Integer>();
 		test_possibilities.add(2);
-		test_possibilities.add(3);
+		test_possibilities.add(3); 
 		test_possibilities.add(4);
 		test_possibilities.add(6);
 		assertEquals(game.possibilities,test_possibilities);
@@ -40,30 +40,38 @@ public class TrylmaGametest {
 		game.Queue.add(3);
 		
 		int next_turn_test = game.decide_Turn();
+		game.increase_Queue();
 		assertEquals(next_turn_test,4);
 		assertEquals(game.in_Queue,1);
 		
-		next_turn_test = game.decide_Turn();
-		assertEquals(next_turn_test,2);
-		assertEquals(game.in_Queue,2);
 		
 		next_turn_test = game.decide_Turn();
+		game.increase_Queue();
+		assertEquals(next_turn_test,2);
+		assertEquals(game.in_Queue,2); 
+		
+		next_turn_test = game.decide_Turn();
+		game.increase_Queue();
 		assertEquals(next_turn_test,5);
 		assertEquals(game.in_Queue,3);
 		
 		next_turn_test = game.decide_Turn();
+		game.increase_Queue();
 		assertEquals(next_turn_test,1);
 		assertEquals(game.in_Queue,4);
 		
 		next_turn_test = game.decide_Turn();
+		game.increase_Queue();
 		assertEquals(next_turn_test,6);
 		assertEquals(game.in_Queue,5);
 		
 		next_turn_test = game.decide_Turn();
+		game.increase_Queue();
 		assertEquals(next_turn_test,3);
 		assertEquals(game.in_Queue,0);
 		
 		next_turn_test = game.decide_Turn();
+		game.increase_Queue();
 		assertEquals(next_turn_test,4);
 		assertEquals(game.in_Queue,1);
 	}

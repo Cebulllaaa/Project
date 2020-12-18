@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public abstract class Game {
 	/**Lista Graczy w danej grze */
 	public ArrayList<Integer> Players;
+	public int in_Queue;
 	/**Maksymalna liczba graczy potrzebnych do uruchomienia gry */
 	public int max_Players;
 	/**Minimalna liczba graczy potrzebnych do uruchomienia gry */
@@ -12,6 +13,7 @@ public abstract class Game {
 	/**Lista wszystkich mozliwych graczy potrzebnych do uruchomienia gry */
 	public ArrayList<Integer> possibilities;
 	public ArrayList<Integer> Queue;
+	protected int winner;
 	/**Funkcja tworzaca plansze */
 	public abstract void create_Board();
 	/**Funkcja odpowiedzialna za rozpoczecie gry */
@@ -33,5 +35,7 @@ public abstract class Game {
 	public abstract void create_Queue();
 	/**Funkcja dodajaca gracza */
 	public abstract boolean add_Player();
-	
+	public abstract void  increase_Queue();
+	public abstract int get_winner();
+	public abstract void set_winner(int x);
 }

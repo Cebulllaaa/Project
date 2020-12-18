@@ -45,6 +45,23 @@ public class CommandMaster {
 			else if(activiti.equals(SendActivities.SEND_GAME_INFORMATION)) {
 				sendGameInfo();
 			}
+			else if(activiti.equals(SendActivities.SEND_START_GAME)) {
+				sendStartInfo();
+				
+			}
+			else if(activiti.equals(SendActivities.SEND_BOARD)) {
+				sendBoard();
+			}
+			else if(activiti.equals(SendActivities.SEND_WHOSE_TURN)) {
+				sendTurn();
+			}
+			else if(activiti.equals(SendActivities.SEND_END_GAME)) {
+				sendEndInfo();
+			}
+			else {
+				setCommand("-1;");
+				System.out.println("Cos poszlo nie tak");
+			}
 		}
 		private synchronized void setIDcommand(String x) {
 			if(x.isEmpty()) {
@@ -73,6 +90,23 @@ public class CommandMaster {
 				setCommand(command + players_st +";");
 			}
 		}
+		private void sendStartInfo() {
+			setCommand("3;");
+		}
+		private void sendBoard() {
+			setCommand("4;TODO;");
+		}
 		
-	
+		private void sendTurn() {
+			setCommand("5;");
+			int id_next = game.decide_Turn();
+			String id_s = Integer.toString(id_next);
+			setCommand(command + id_s +";");
+		}
+		private void sendEndInfo() {
+			setCommand("6;");
+			int winner = game.get_winner();
+			String winner_s = Integer.toString(winner);
+			setCommand(command + winner_s + ";");
+		}
 }

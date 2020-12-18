@@ -14,7 +14,7 @@ import Project.Server.test.ThreadConnectionServer;
 import Project.Server.test.ThreadListenClient;
 import Project.server.main.SendActivities;
 import Project.server.main.Server;
-/**Klasa testujaca aktywnosci komuniakcyjne serwera od indeksach 2-6*/
+/**Symulacja sprawdza czy wszystko dziala poprawnie na poziomie komunikacyjnym do 2 instukcji komunikacyjnej */
 public class Server_1_2_Simulation {
 	@Test
 	public void send_Game_information_test() {
