@@ -80,13 +80,13 @@ public class CommandMastertest {
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		command_ms.CommandMenu();
 		 
-		String cmd1 = "2;0;";
-		String cmd2 = "2;1;";
-		String cmd3 = "2;2;";
-		String cmd4 = "2;3;";
-		String cmd5 = "2;4;";
-		String cmd6 = "2;5;";
-		String cmd7 = "2;6;";
+		String cmd1 = "2;0;1;";
+		String cmd2 = "2;1;1;";
+		String cmd3 = "2;2;1;";
+		String cmd4 = "2;3;1;";
+		String cmd5 = "2;4;1;";
+		String cmd6 = "2;5;1;";
+		String cmd7 = "2;6;1;";
 	
 		command_ms.CommandMenu();
 		assertEquals(cmd1,command_ms.getCommand());

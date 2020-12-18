@@ -19,7 +19,7 @@ public class Server_1_2_Simulation {
 	@Test
 	public void send_Game_information_test() {
 		int port_serwer = 6000;
-		String cmd = "2;6;";
+		String cmd = "2;6;1;";
 		Server serwer  = new Server(port_serwer);
 		serwer.create_Server();
 		ThreadListenClient client1 = new ThreadListenClient();

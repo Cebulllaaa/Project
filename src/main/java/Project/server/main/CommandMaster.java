@@ -14,9 +14,11 @@ public class CommandMaster {
 		public Game game;
 		public boolean success;
 		public SendActivities activiti;
+		private int gametype;
 	
 		public CommandMaster(int x, SendActivities y) {
 			this.command = "";
+			this.gametype=x;
 			before_start = true;
 			if(x ==1) {
 			this.game =new TrylmaGame();
@@ -58,6 +60,9 @@ public class CommandMaster {
 			else if(activiti.equals(SendActivities.SEND_END_GAME)) {
 				sendEndInfo();
 			}
+			else if(activiti.equals(SendActivities.WRITE_TEST)) {
+				
+			}
 			else {
 				setCommand("-1;");
 				System.out.println("Cos poszlo nie tak");
@@ -87,7 +92,7 @@ public class CommandMaster {
 				setCommand("2;");
 				int players = game.Players.size();
 				String players_st = Integer.toString(players);
-				setCommand(command + players_st +";");
+				setCommand(command + players_st +";"+  Integer.toString(gametype)+";");
 			}
 		}
 		private void sendStartInfo() {

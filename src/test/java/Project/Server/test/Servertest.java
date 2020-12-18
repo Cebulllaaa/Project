@@ -38,7 +38,7 @@ public class Servertest {
 	@Test
 	public void listenServertest() {
 		int port = 6003;
-		Server serwer = new Server(port);
+		Server serwer = new Server(port); 
 		serwer.create_Server();
 		ThreadListen listen;
 		ThreadWriteClient write;

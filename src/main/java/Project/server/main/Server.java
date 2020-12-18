@@ -13,7 +13,7 @@ public class Server {
 	public PrintWriter writer;
 	public Socket client_socket;
 	public static int port;
-	public int connection_iterator=0;
+	public int connection_iterator;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
@@ -28,6 +28,7 @@ public class Server {
 		type_Game = choose_Type();
 		com_activiti = SendActivities.SEND_ID;
 		command_ms = new  CommandMaster(type_Game,com_activiti);
+		connection_iterator=0;
 		
 	}
 	public void create_Server() {
@@ -53,7 +54,7 @@ public class Server {
 				inputreader = new InputStreamReader(client_socket.getInputStream());
 				reader = new BufferedReader(inputreader);
 				command_ms.setCommand(reader.readLine());
-				
+				System.out.println(command_ms.getCommand());
 			}
 			catch(IOException e) {
 				System.out.println(e);
