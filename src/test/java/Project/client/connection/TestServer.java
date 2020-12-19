@@ -10,36 +10,50 @@ import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
 import Project.common.game.GameType;
 
-public class TestServer extends Thread {
+public class TestServer implements Runnable {
 
 	private Socket clientSocket;
 	private ServerSocket serverSocket;
 	private Scanner in;
 	private PrintWriter out;
+	private int repeat;
+	private int id;
+	private int playersCount;
+	private GameType gameType;
+	private int[] pieces;
 
-	public TestServer() throws IOException {
+	public TestServer(int id, int playersCount, GameType gameType, int[] pieces, int moves) throws IOException {
+		this.id = id;
+		this.playersCount = playersCount;
+		this.gameType = gameType;
+		this.pieces = pieces;
+		repeat = moves;
 		serverSocket = new ServerSocket(8080);
 	}
 
-	@Override
 	public void run() {
 		try {
 			listen();
+			acceptClient(id, playersCount, gameType, pieces);
+
+			for (int i=0; i < repeat; i++) {
+				pieces[i % pieces.length]++;
+				continueGame(i%playersCount, pieces);
+			}
+
+			endGame(id);
+
+			closeConnection();
 		}
-		catch (IOException iox) {
-			System.exit(1);
+		catch (Exception x) {
+			System.out.println(x.getMessage());
 		}
 	}
 
 	public void listen() throws IOException {
-		try {
-			clientSocket = serverSocket.accept();
-			in = new Scanner(clientSocket.getInputStream());
-			out = new PrintWriter(clientSocket.getOutputStream());
-		}
-		finally {
-			serverSocket.close();
-		}
+		clientSocket = serverSocket.accept();
+		in = new Scanner(clientSocket.getInputStream());
+		out = new PrintWriter(clientSocket.getOutputStream());
 	}
 
 	public void acceptClient(int id, int playersCount, GameType gameType, int[] pieces) throws WrongGameTypeException {
@@ -62,7 +76,7 @@ public class TestServer extends Thread {
 
 		out.flush();
 
-		out.print("4;");
+		out.print("4");
 		for (int i=0; i<pieces.length; i++) {
 			out.print(";");
 			out.print(pieces[i]);
@@ -80,7 +94,7 @@ public class TestServer extends Thread {
 
 		out.flush();
 
-		out.print("4;");
+		out.print("4");
 		for (int i=0; i<pieces.length; i++) {
 			out.print(";");
 			out.print(pieces[i]);
@@ -101,6 +115,11 @@ public class TestServer extends Thread {
 
 	public Scanner getIn() {
 		return in;
+	}
+
+	public void closeConnection() throws IOException {
+		serverSocket.close();
+		clientSocket.close();
 	}
 
 }

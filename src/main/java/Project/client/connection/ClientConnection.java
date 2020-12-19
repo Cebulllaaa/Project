@@ -67,7 +67,7 @@ public class ClientConnection {
 			serverMsg = in.nextLine().split(regexDelim); // startGame: 3;
 
 			serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
-			pieces = new int[numOfPlayerPieces][numOfPlayers];
+			pieces = new int[numOfPlayers][numOfPlayerPieces];
 			setPieces();
 
 		}
@@ -140,7 +140,7 @@ public class ClientConnection {
 	private void setPieces() {
 		for (int i=0; i < pieces.length; i++) {
 			for (int j=0; j < pieces[i].length; j++) {
-				pieces[i][j] = Integer.parseInt(serverMsg[i + servMsgPiecesStart]);
+				pieces[i][j] = Integer.parseInt(serverMsg[i * numOfPlayerPieces + j + servMsgPiecesStart]);
 			}
 		}
 	}
