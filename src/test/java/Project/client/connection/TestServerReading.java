@@ -2,6 +2,7 @@ package Project.client.connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.LinkedList;
 
 import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
@@ -9,12 +10,16 @@ import Project.common.game.GameType;
 
 public class TestServerReading extends TestServer {
 
+	private LinkedList<String> receivedMessages;
+
 	public TestServerReading(int id, int playersCount, GameType gameType, int[] pieces, int moves) throws IOException, WrongGameTypeException {
 		super(id, playersCount, gameType, pieces, moves);
+		receivedMessages = new LinkedList<String>();
 	}
 
 	public TestServerReading(int id, int playersCount, int gameCode, int[] pieces, int moves) throws IOException, WrongGameTypeException {
 		super(id, playersCount, gameCode, pieces, moves);
+		receivedMessages = new LinkedList<String>();
 	}
 
 	@Override
@@ -34,7 +39,11 @@ public class TestServerReading extends TestServer {
 
 		out.flush();
 
-		in.nextLine();
+		receivedMessages.add(in.nextLine());
 
+	}
+
+	public LinkedList<String> getReceivedMessages() {
+		return receivedMessages;
 	}
 }

@@ -185,12 +185,17 @@ public class ConnectionTest {
 	}
 
 	private void testWriting(int id, int players, GameType gt, int[] pieces, int runs) throws Exception {
-		server = new TestServer(id, players, GameType.STANDART, pieces, runs);
+		TestServerReading readingServer = new TestServerReading(id, players, GameType.STANDART, pieces, runs);
 
 		LinkedList<String> sentLines = new LinkedList<String>();
 
 		try {
-			initConnection();
+			client = new ClientConnection();
+			testing = new Thread(readingServer);
+
+			testing.start();
+			Thread.sleep(100);
+			client.connect("localhost", 8080);
 
 			//in = server.getIn();
 			int i=0;
@@ -222,12 +227,13 @@ public class ConnectionTest {
 			throw pnax;
 		}
 		finally {
-			Scanner in = server.getIn();
+			LinkedList<String> received = readingServer.getReceivedMessages();
 			while (! sentLines.isEmpty()) {
-				assertEquals(sentLines.remove(), in.nextLine());
+				assertEquals(sentLines.remove(), received.remove());
 			}
 
-			disconnect();
+			client.endConnection();
+			readingServer.closeConnection();
 		}
 
 	}
