@@ -18,7 +18,7 @@ import Project.server.main.Server;
  * jej zadaniem jest sprawdzic czy na poziomie komunikacyjnym serwera wszystko dziala 
 */
 public class FastGameSimulation {
-	 int port_serwer = 6000;
+	 int port_serwer = 6009;
 	Server server;
 	boolean started = false;
 	boolean correctmove;
@@ -72,7 +72,6 @@ public class FastGameSimulation {
 			server.command_ms.game.create_Queue();
 			send_whose_turn();
 			System.out.println(server.command_ms.game.Queue.get(server.command_ms.game.in_Queue));
-			//server.connection_iterator=1;
 		}
 		else {
 			server.command_ms.activiti=ServerActivities.LISTEN;
@@ -98,6 +97,7 @@ public class FastGameSimulation {
 			server.command_ms.activiti=ServerActivities.SEND_END_GAME;
 			server.command_ms.game.set_winner(1);
 			send_end_info();
+			server.connection_iterator=1;
 		}
 	}	
 	public void send_id() {
