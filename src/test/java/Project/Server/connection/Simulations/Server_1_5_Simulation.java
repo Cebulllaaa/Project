@@ -10,9 +10,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import org.junit.Test;
 
-import Project.Server.test.ThreadConnectionServer;
 import Project.Server.test.ThreadListenClient;
 import Project.server.main.ServerActivities;
+import Project.server.main.ThreadConnectionServer;
 import Project.server.main.Server;
 
 public class Server_1_5_Simulation {

@@ -9,10 +9,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import org.junit.Test;
 
-import Project.Server.test.ThreadConnectionServer;
 import Project.Server.test.ThreadListenClient;
 import Project.Server.test.ThreadWriteClient;
 import Project.server.main.ServerActivities;
+import Project.server.main.ThreadConnectionServer;
 import Project.server.main.Server;
 /*Jest to klasa która, symuluje  gre, (2 zostanie ona zakonczona w 2 ruchach )
  * jej zadaniem jest sprawdzic czy na poziomie komunikacyjnym serwera wszystko dziala 
