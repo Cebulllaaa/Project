@@ -16,7 +16,7 @@ import java.util.Set;
 
 
 public class Servertest {
-/*
+
 	@Test
 	public void ServerConstructortest() {
 		Server serwer = new Server(6000);
@@ -145,7 +145,7 @@ public class Servertest {
 		
 	}
 	/** Ten test sprawdza sytuacje w ktorej 7 klientow probuje podlaczyc sie do gry : Trylma game */
-/*	@Test
+	@Test
 	public void testWriteDifferentID(){
 		int port_serwer = 6007;
 		Server serwer  = new Server(port_serwer);
@@ -206,7 +206,7 @@ public class Servertest {
 			System.out.println(client5.command);
 			System.out.println(client6.command);
 			System.out.println(client7.command); */
-		/*	
+		
 			boolean p1 = (client1.command.equals(cmd1) || client1.command.equals(cmd2) 
 					|| 	client1.command.equals(cmd3) || client1.command.equals(cmd4) 
 					|| client1.command.equals(cmd5) || client1.command.equals(cmd6) 
@@ -249,53 +249,64 @@ public class Servertest {
 			System.out.println(e);
 		}
 	} 
-	*/
 	@Test
-	public void newListenTest() {
+	public  void newListenTest() {
 		int port_serwer = 6008;
 		Server serwer  = new Server(port_serwer);
 		serwer.create_Server();
+		ThreadConnectionServer serverconnection;
 		
 		ThreadWriteClient write;
 		String test = "TEST";
 		String test2 = "Some Command";
 		String test3 = "Other Command";
 		serwer.command_ms.activiti = ServerActivities.LISTEN;
+		serwer.command_ms.setCommand("");
 		try {
 			write = new ThreadWriteClient();
 			write.port = port_serwer;
 			write.command=test;
-			serwer.write();
-			System.out.println("zaraz zacnzie pisac");
-			write.start();
+			serverconnection = new ThreadConnectionServer();
+			serverconnection.serwer =serwer;
+			serverconnection.start();
 			
+			
+			write.start();
 			write.join();
-		
+			
+			while(serwer.command_ms.getCommand().isEmpty()) {
+				
+			}
+			
 			assertEquals (test,serwer.command_ms.getCommand()); 
 			
-			/*
+			
 			write = new ThreadWriteClient();
-			write.port = port;
+			write.port = port_serwer;
 			write.command = test2;
-			listen.start();
+			serwer.command_ms.setCommand("");
 			write.start();
 			write.join();
-			listen.join();
-			assertFalse(test.equals(serwer.command_ms.getCommand()));
+			
+			while(serwer.command_ms.getCommand().isEmpty()) {
+				
+			}
+			
 			assertEquals(test2,serwer.command_ms.getCommand());
 			
-			listen = new ThreadListen();
-			listen.serwer=serwer;
 			write = new ThreadWriteClient();
-			write.port = port;
+			write.port = port_serwer;
 			write.command = test3;
-			listen.start();
+			serwer.command_ms.setCommand("");
+			
+			
 			write.start();
 			write.join();
-			listen.join();
-			assertFalse(test.equals(serwer.command_ms.getCommand()));
+			
+			while(serwer.command_ms.getCommand().isEmpty()) {
+				
+			}
 			assertEquals(test3,serwer.command_ms.getCommand());
-			assertFalse(test2.equals(serwer.command_ms.getCommand())); */
 		}
 		catch(Exception e) {
 			System.out.println(e);

@@ -32,6 +32,7 @@ public class FastGameSimulation {
 	ThreadListenClient client6;
 	ThreadListen listen;
 	ThreadWriteClient write;
+	String test = "Answer";
 @Test
 	public void main() {
 		prepare_simulation();
@@ -73,10 +74,12 @@ public class FastGameSimulation {
 			server.command_ms.game.create_Queue();
 			send_whose_turn();
 			System.out.println(server.command_ms.game.Queue.get(server.command_ms.game.in_Queue));
-			server.connection_iterator=1;
+			//server.connection_iterator=1;
 		}
 		else {
+			server.command_ms.activiti=ServerActivities.LISTEN;
 			listen_client();
+			assertEquals (test,server.command_ms.getCommand()); 
 			correctmove = true; //TODO
 			if(correctmove) {
 				server.command_ms.game.increase_Queue();
@@ -90,7 +93,8 @@ public class FastGameSimulation {
 			server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
 			send_whose_turn();
 			System.out.println(server.command_ms.game.Queue.get(server.command_ms.game.in_Queue));
-			//listen_client();
+			server.command_ms.activiti=ServerActivities.LISTEN;
+			listen_client();
 			server.command_ms.activiti=ServerActivities.SEND_BOARD;
 			send_board();
 			server.command_ms.activiti=ServerActivities.SEND_END_GAME;
@@ -271,36 +275,24 @@ public class FastGameSimulation {
 		assertEquals(cmd,client5.command);
 		assertEquals(cmd,client6.command);
 	}
-	public void listen_client() {
-		try {
-			client1.client_socket.close();
-			client2.client_socket.close();
-			client3.client_socket.close();
-			client4.client_socket.close();
-			client5.client_socket.close();
-			client6.client_socket.close();
-		}
-		catch(Exception e) {
-			System.out.println(e);
-		}
-		
-		System.out.println("Nie dzialam");
+	public synchronized void listen_client() {
+		server.command_ms.setCommand("");
 		String test = "Answer";
-		listen = new ThreadListen();
-		listen.serwer = server;
 		write = new ThreadWriteClient();
 		write.port = port_serwer;
 		write.command=test;
-		listen.start();
+	
 		write.start();
 		try {
 			write.join();
-			listen.join();
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		assertEquals (test,server.command_ms.getCommand()); 
+		while(server.command_ms.getCommand().isEmpty()) {
+			
+		}
+		assertEquals (test,server.command_ms.getCommand());
 	}
 	public void send_end_info() {
 		String cmd =  "6;1;";

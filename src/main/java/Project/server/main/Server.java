@@ -14,6 +14,7 @@ public class Server {
 	public Socket client_socket;
 	public static int port;
 	public int connection_iterator;
+	public ThreadServerListen listen;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
@@ -40,7 +41,7 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	public void listen() {
+	public void listen2() {
 		command_ms.setCommand("");
 		int c;
 		while(command_ms.getCommand().isEmpty()) {
@@ -67,19 +68,15 @@ public class Server {
 	}
 	public void write() {
 		while(connection_iterator <1) {
-			System.out.println("Przed akceptacja ");
+		//	System.out.println("jest komenda przed " + command_ms.getCommand());
+		//	System.out.println("Przed akceptacja ");
 			try {
 				client_socket = socket.accept();
-				System.out.println("Zaakceptowal");
-				System.out.println(command_ms.activiti);
+				//System.out.println("Zaakceptowal");
 				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
-					System.out.println("dotad git");
-					//ThreadServerListen listen = new ThreadServerListen(client_socket);
-					//listen.run();
-					inputreader = new InputStreamReader(client_socket.getInputStream());
-					reader = new BufferedReader(inputreader);
-					command_ms.setCommand(reader.readLine());
-					System.out.println(command_ms.getCommand());
+					listen = new ThreadServerListen(client_socket, command_ms);
+					listen.run();
+				//	System.out.println("jest komenda " + command_ms.getCommand());
 					
 				}
 				else {

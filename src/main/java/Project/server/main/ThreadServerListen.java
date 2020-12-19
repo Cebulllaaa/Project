@@ -9,10 +9,13 @@ public class ThreadServerListen extends Thread {
 	public BufferedReader reader;
 	public InputStreamReader inputreader;
 	private String Cmd;
-	public ThreadServerListen(Socket x) {
+	private CommandMaster CmdM;
+	public ThreadServerListen(Socket x, CommandMaster y) {
 		try {
+			this.socket = x;
 			inputreader = new InputStreamReader(socket.getInputStream());
 			reader = new BufferedReader(inputreader);
+			this.CmdM = y;
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -26,8 +29,9 @@ public class ThreadServerListen extends Thread {
 	@Override
 	public void run() {
 		try {
-			System.out.println("Dotarlem tu");
 			Cmd = reader.readLine();
+			CmdM.setCommand(getCmd());
+		//	System.out.println("ustawilem");
 		}
 		catch (Exception e) {
 			System.out.println(e);

@@ -6,6 +6,6 @@ public class ThreadListen extends Thread {
 	public Server serwer;
 	@Override
 	public void run() {
-		serwer.listen();
+		serwer.listen2();
 	}
 }
