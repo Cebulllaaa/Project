@@ -37,7 +37,7 @@ public class ClientTemporaryConnection extends Thread {
 	private int port;
 	private BoardFrame listener;
 
-	public ClientTemporaryConnection(String host, int port, BoardFrame listener) {
+	public ClientTemporaryConnection(String host, int port) {
 		this.host = host;
 		this.port = port;
 	}
@@ -46,6 +46,7 @@ public class ClientTemporaryConnection extends Thread {
 	public void run() {
 		try {
 			while (true) {
+				Thread.sleep(2000);
 				connect();
 			}
 		}
@@ -70,6 +71,8 @@ public class ClientTemporaryConnection extends Thread {
 
 			fetchInstruction();
 			decodeInstruction();
+
+			listener.print();
 
 		}
 		finally {
@@ -123,6 +126,10 @@ public class ClientTemporaryConnection extends Thread {
 	private void fetchInstruction() throws InterruptedException {
 		while (!in.hasNextLine()) Thread.sleep(50);
 		serverMsg = in.nextLine().split(regexDelim); // instrukcja: instructionID;argumenty
+
+		for (String line : serverMsg) {
+			System.out.println(line);
+		}
 
 	}
 
@@ -305,6 +312,10 @@ public class ClientTemporaryConnection extends Thread {
 	public void setChange(int chPiece, int newPiecePos) {
 		changedPiece = chPiece;
 		newPosOfChangedPiece = newPiecePos;
+	}
+
+	public void setListener(BoardFrame frame) {
+		listener = frame;
 	}
 
 	public int[][] getPieces() {

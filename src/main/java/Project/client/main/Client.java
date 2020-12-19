@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import Project.client.GUI.BoardFrame;
 import Project.client.connection.ClientConnection;
+import Project.client.connection.ClientTemporaryConnection;
 import Project.client.exceptions.GameEndedException;
 import Project.client.exceptions.PlayerNotAllowedException;
 import Project.common.exceptions.WrongGameTypeException;
@@ -13,10 +15,11 @@ import Project.common.game.GameType;
 public class Client {
 
 //	private static final String programName = "Client";
-	private static ClientConnection connectionToServer;
+	private static ClientTemporaryConnection connectionToServer;
 	private static int id;
 	private static GameType gameType;
 	private static int[][] pieces;
+	private static BoardFrame frame;
 
 	public static void main(String[] args) throws InterruptedException {
 		if (args.length != 2) {
@@ -26,24 +29,27 @@ public class Client {
 
 //		Client client = new Client();
 
-		connectionToServer = new ClientConnection(); //this);
+		connectionToServer = new ClientTemporaryConnection(args[0], Integer.parseInt(args[1])); //this);
+		frame = new BoardFrame();
 
-		try {
+		connectionToServer.setListener(frame);
+		frame.setConnection(connectionToServer);
+
+		//Thread t = new Thread(frame);
+
+		connectionToServer.start();
+		//t.start();
+
+		/*try {
 			System.out.println(args[0]);
-			connectionToServer.connect(args[0], Integer.parseInt(args[1]));
-			id = connectionToServer.getId();
+			//connectionToServer.connect(args[0], Integer.parseInt(args[1]));
+			id = connectionToServer.getID();
 			gameType = connectionToServer.getGameType();
 			pieces = connectionToServer.getPieces();
 
 			show();
 
-			while(true) {
-				connectionToServer.read();
-				show();
-				// TODO: do something
-				connectionToServer.write();
-				// or: connectionToServer.endGame();
-			}
+			//
 
 		}
 		catch (WrongGameTypeException wgtx) {
@@ -80,7 +86,7 @@ public class Client {
 			for (int j=0; j < pieces[i].length; j++) {
 				System.out.println(connectionToServer.getPieces());
 			}
-		}
+		}*/
 
 	}
 
