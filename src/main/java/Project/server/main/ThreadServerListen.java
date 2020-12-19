@@ -19,7 +19,7 @@ public class ThreadServerListen extends Thread {
 		}
 		catch(Exception e) {
 			System.out.println(e);
-		}
+		} 
 		
 	}
 	public String getCmd() {
