@@ -35,8 +35,7 @@ public class Server_1_2_Simulation {
 		ThreadListenClient client6 = new ThreadListenClient();
 		client6.port_serwer = port_serwer;
 		
-		ThreadConnectionServer serverconnection = new ThreadConnectionServer();
-		serverconnection.serwer =serwer;
+		ThreadConnectionServer serverconnection = new ThreadConnectionServer(serwer);
 		
 		serverconnection.start();
 		client1.start();

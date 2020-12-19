@@ -61,9 +61,8 @@ public class Servertest {
 		ThreadListenClient client6 = new ThreadListenClient();
 		client6.port_serwer = port_serwer;
 		
-		ThreadConnectionServer serverconnection = new ThreadConnectionServer();
+		ThreadConnectionServer serverconnection = new ThreadConnectionServer(serwer);
 		serwer.command_ms.setCommand(test);
-		serverconnection.serwer =serwer;
 		
 		serverconnection.start();
 		client1.start();
@@ -124,8 +123,7 @@ public class Servertest {
 		ThreadListenClient client7 = new ThreadListenClient();
 		client7.port_serwer = port_serwer;
 		
-		ThreadConnectionServer serverconnection = new ThreadConnectionServer();
-		serverconnection.serwer =serwer;
+		ThreadConnectionServer serverconnection = new ThreadConnectionServer(serwer);
 		serverconnection.start();
 		
 		client1.start();
@@ -216,8 +214,7 @@ public class Servertest {
 			write = new ThreadWriteClient();
 			write.port = port_serwer;
 			write.command=test;
-			serverconnection = new ThreadConnectionServer();
-			serverconnection.serwer =serwer;
+			serverconnection = new ThreadConnectionServer(serwer);
 			serverconnection.start();
 			
 			

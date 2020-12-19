@@ -58,8 +58,7 @@ public class FastGameSimulation {
 	}
 	public void estabilishConnection() {
 		if(!started) {
-			serverconnection = new ThreadConnectionServer();
-			serverconnection.serwer =server;
+			serverconnection = new ThreadConnectionServer(server);
 			serverconnection.start();
 			send_id();
 			server.command_ms.activiti=ServerActivities.SEND_GAME_INFORMATION;
@@ -81,10 +80,6 @@ public class FastGameSimulation {
 			if(correctmove) {
 				server.command_ms.game.increase_Queue();
 			}
-			serverconnection = new ThreadConnectionServer();
-			server.connection_iterator=0;
-			serverconnection.serwer =server;
-			serverconnection.start();
 			server.command_ms.activiti=ServerActivities.SEND_BOARD;
 			send_board();
 			server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
