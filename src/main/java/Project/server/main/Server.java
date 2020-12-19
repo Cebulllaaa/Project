@@ -71,6 +71,7 @@ public class Server {
 				client_socket = socket.accept();
 				command_ms.CommandMenu();
 				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
+					ThreadServerListen listen = new ThreadServerListen();
 					
 				}
 				else {

@@ -1,5 +1,5 @@
 package Project.server.main;
 
-public class ThreadServerListen {
+public class ThreadServerListen extends Thread {
 
 }
