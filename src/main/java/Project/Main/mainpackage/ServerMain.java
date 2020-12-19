@@ -40,7 +40,16 @@ public class ServerMain
     	cmd = scan.nextLine();
     	connection = new ThreadConnectionServer(server);
     	connection.start();
-    	System.out.println("Aby skonczyc wpuszczanie graczy i wyslac im informacje wcisnij cokolwiek");
+server.command_ms.activiti = ServerActivities.LISTEN;
+server.command_ms.setCommand("");
+while(server.command_ms.getCommand().isEmpty()) {
+	
+}
+cmd = server.command_ms.getCommand();
+//if (cmd == "-1") {
+server.command_ms.activiti = ServerActivities.SEND_ID;
+//}
+	System.out.println("Aby skonczyc wpuszczanie graczy i wyslac im informacje wcisnij cokolwiek");
     	cmd = scan.nextLine();
    
     	if(server.command_ms.game.Players.size() <2) {

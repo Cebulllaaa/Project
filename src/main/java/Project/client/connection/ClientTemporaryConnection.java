@@ -15,7 +15,7 @@ import Project.common.game.GameType;
 
 public class ClientTemporaryConnection extends Thread {
 
-	private int clientId = 0;
+	private int clientId = -1;
 //	private int copyId;
 	private GameType gameType;
 	private int numOfPlayers = 0;
@@ -68,6 +68,8 @@ public class ClientTemporaryConnection extends Thread {
 		try {
 			in = new Scanner(clientSocket.getInputStream());
 			out = new PrintWriter(clientSocket.getOutputStream());
+out.println(clientId);
+out.flush();
 
 			fetchInstruction();
 			decodeInstruction();
