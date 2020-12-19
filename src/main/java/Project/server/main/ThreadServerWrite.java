@@ -21,6 +21,7 @@ public class ThreadServerWrite extends Thread{
 		writer.print(command);
 		writer.flush();
 		writer.close();
+	//	System.out.println("napisal");
 	}
 	
 }
