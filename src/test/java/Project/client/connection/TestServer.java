@@ -12,20 +12,29 @@ import Project.common.game.GameType;
 
 public class TestServer implements Runnable {
 
-	private Socket clientSocket;
-	private ServerSocket serverSocket;
-	private Scanner in;
-	private PrintWriter out;
-	private int repeat;
-	private int id;
-	private int playersCount;
-	private GameType gameType;
-	private int[] pieces;
+	protected Socket clientSocket;
+	protected ServerSocket serverSocket;
+	protected Scanner in;
+	protected PrintWriter out;
+	protected int repeat;
+	protected int id;
+	protected int playersCount;
+	protected int gameCode;
+	protected int[] pieces;
 
-	public TestServer(int id, int playersCount, GameType gameType, int[] pieces, int moves) throws IOException {
+	public TestServer(int id, int playersCount, GameType gameType, int[] pieces, int moves) throws IOException, WrongGameTypeException {
 		this.id = id;
 		this.playersCount = playersCount;
-		this.gameType = gameType;
+		this.gameCode = GameHelperMethods.getGameCode(gameType);
+		this.pieces = pieces;
+		repeat = moves;
+		serverSocket = new ServerSocket(8080);
+	}
+
+	public TestServer(int id, int playersCount, int gameCode, int[] pieces, int moves) throws IOException, WrongGameTypeException {
+		this.id = id;
+		this.playersCount = playersCount;
+		this.gameCode = gameCode;
 		this.pieces = pieces;
 		repeat = moves;
 		serverSocket = new ServerSocket(8080);
@@ -34,7 +43,7 @@ public class TestServer implements Runnable {
 	public void run() {
 		try {
 			listen();
-			acceptClient(id, playersCount, gameType, pieces);
+			acceptClient();
 
 			for (int i=0; i < repeat; i++) {
 				pieces[i % pieces.length]++;
@@ -56,7 +65,7 @@ public class TestServer implements Runnable {
 		out = new PrintWriter(clientSocket.getOutputStream());
 	}
 
-	public void acceptClient(int id, int playersCount, GameType gameType, int[] pieces) throws WrongGameTypeException {
+	public void acceptClient() {
 		out.print("1;");
 		out.print(id);
 		out.println();
@@ -66,7 +75,7 @@ public class TestServer implements Runnable {
 		out.print("2;");
 		out.print(playersCount);
 		out.print(";");
-		out.print(GameHelperMethods.getGameCode(gameType));
+		out.print(gameCode);
 		out.println();
 
 		out.flush();
