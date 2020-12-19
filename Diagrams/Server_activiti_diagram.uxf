@@ -28,7 +28,7 @@
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>210</x>
+      <x>240</x>
       <y>120</y>
       <w>20</w>
       <h>20</h>
@@ -39,7 +39,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
+      <x>250</x>
       <y>120</y>
       <w>100</w>
       <h>30</h>
@@ -50,7 +50,7 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>300</x>
+      <x>330</x>
       <y>110</y>
       <w>110</w>
       <h>40</h>
@@ -61,7 +61,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>400</x>
+      <x>430</x>
       <y>120</y>
       <w>400</w>
       <h>30</h>
@@ -72,7 +72,7 @@
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>780</x>
+      <x>810</x>
       <y>240</y>
       <w>40</w>
       <h>40</h>
@@ -83,7 +83,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
+      <x>600</x>
       <y>240</y>
       <w>230</w>
       <h>40</h>
@@ -95,7 +95,7 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>340</x>
+      <x>370</x>
       <y>240</y>
       <w>240</w>
       <h>40</h>
@@ -107,7 +107,7 @@ Message form : 1;argument; </panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
+      <x>480</x>
       <y>270</y>
       <w>30</w>
       <h>120</h>
@@ -118,7 +118,7 @@ Message form : 1;argument; </panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>310</x>
+      <x>340</x>
       <y>370</y>
       <w>360</w>
       <h>50</h>
@@ -130,7 +130,7 @@ Message form : 2;argument;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
+      <x>480</x>
       <y>410</y>
       <w>30</w>
       <h>120</h>
@@ -141,7 +141,7 @@ Message form : 2;argument;argument;</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>310</x>
+      <x>340</x>
       <y>510</y>
       <w>360</w>
       <h>50</h>
@@ -153,7 +153,7 @@ Message form : 3;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
+      <x>480</x>
       <y>550</y>
       <w>340</w>
       <h>70</h>
@@ -164,7 +164,7 @@ Message form : 3;</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>770</x>
+      <x>800</x>
       <y>580</y>
       <w>40</w>
       <h>40</h>
@@ -175,7 +175,7 @@ Message form : 3;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
+      <x>810</x>
       <y>610</y>
       <w>30</w>
       <h>130</h>
@@ -186,7 +186,7 @@ Message form : 3;</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>700</x>
+      <x>730</x>
       <y>720</y>
       <w>190</w>
       <h>40</h>
@@ -198,7 +198,7 @@ Message form : 4;arguments;</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>560</x>
+      <x>590</x>
       <y>720</y>
       <w>40</w>
       <h>40</h>
@@ -209,7 +209,7 @@ Message form : 4;arguments;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
+      <x>620</x>
       <y>730</y>
       <w>130</w>
       <h>30</h>
@@ -220,7 +220,7 @@ Message form : 4;arguments;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
+      <x>600</x>
       <y>750</y>
       <w>290</w>
       <h>100</h>
@@ -232,7 +232,7 @@ Message form : 4;arguments;</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>460</x>
+      <x>490</x>
       <y>830</y>
       <w>240</w>
       <h>40</h>
@@ -244,7 +244,7 @@ Message form : 6;argument</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>300</x>
       <y>720</y>
       <w>310</w>
       <h>40</h>
@@ -256,7 +256,7 @@ Message form : 6;argument</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>0</x>
+      <x>30</x>
       <y>700</y>
       <w>280</w>
       <h>70</h>
@@ -268,7 +268,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>120</x>
+      <x>150</x>
       <y>0</y>
       <w>700</w>
       <h>720</h>
@@ -279,7 +279,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
+      <x>840</x>
       <y>240</y>
       <w>220</w>
       <h>40</h>
@@ -291,7 +291,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1010</x>
+      <x>1040</x>
       <y>240</y>
       <w>230</w>
       <h>40</h>
@@ -302,7 +302,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1120</x>
+      <x>1150</x>
       <y>270</y>
       <w>30</w>
       <h>120</h>
@@ -313,7 +313,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1110</x>
+      <x>1140</x>
       <y>370</y>
       <w>40</w>
       <h>40</h>
@@ -324,7 +324,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
+      <x>890</x>
       <y>370</y>
       <w>270</w>
       <h>40</h>
@@ -336,7 +336,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>720</x>
+      <x>750</x>
       <y>370</y>
       <w>150</w>
       <h>50</h>
@@ -347,7 +347,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
+      <x>810</x>
       <y>410</y>
       <w>30</w>
       <h>190</h>
@@ -358,7 +358,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1120</x>
+      <x>1150</x>
       <y>400</y>
       <w>150</w>
       <h>200</h>
@@ -370,7 +370,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>1040</x>
+      <x>1070</x>
       <y>580</y>
       <w>170</w>
       <h>40</h>
@@ -381,7 +381,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
+      <x>370</x>
       <y>840</y>
       <w>140</w>
       <h>30</h>
@@ -392,7 +392,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>330</x>
+      <x>360</x>
       <y>840</y>
       <w>20</w>
       <h>20</h>
@@ -403,7 +403,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>800</x>
+      <x>830</x>
       <y>590</y>
       <w>260</w>
       <h>30</h>
@@ -414,7 +414,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>780</x>
+      <x>810</x>
       <y>110</y>
       <w>40</w>
       <h>40</h>
@@ -425,7 +425,7 @@ Message form : 5;argument;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>790</x>
+      <x>820</x>
       <y>140</y>
       <w>30</w>
       <h>120</h>

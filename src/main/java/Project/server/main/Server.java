@@ -15,7 +15,6 @@ public class Server {
 	public static int port;
 	public int connection_iterator;
 	public ThreadServerListen listen;
-	public boolean eternal_conecction = false;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
@@ -51,9 +50,7 @@ public class Server {
 		//	System.out.println("jest komenda przed " + command_ms.getCommand());
 		//	System.out.println("Przed akceptacja ");
 			try {
-				if(!eternal_conecction) {
 					client_socket = socket.accept();
-				}
 				//		System.out.println("Zaakceptowal");
 				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
 					listen = new ThreadServerListen(client_socket, command_ms);

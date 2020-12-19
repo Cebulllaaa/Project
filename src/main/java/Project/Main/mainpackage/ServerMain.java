@@ -42,7 +42,7 @@ public class ServerMain
     	connection.start();
     	System.out.println("Aby skonczyc wpuszczanie graczy i wyslac im informacje wcisnij cokolwiek");
     	cmd = scan.nextLine();
-    	server.eternal_conecction =true;
+   
     	if(server.command_ms.game.Players.size() <2) {
     		System.out.println("przyjeto za mala ilosc graczy");
     		System.out.println(server.command_ms.game.Players.size());
@@ -62,12 +62,10 @@ public class ServerMain
     	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
     	scan.nextLine();
     	
-    	System.out.println(server.command_ms.getCommand());
     	server.command_ms.activiti = ServerActivities.SEND_START_GAME;
        	System.out.println("Aby skonczyc wysylanie informacji o starcie gry wcisnij cokolwiek");
     	scan.nextLine();
 	
-		System.out.println(server.command_ms.getCommand());
     	server.command_ms.game.create_Queue();
     	in_game();
 
@@ -82,7 +80,6 @@ public class ServerMain
     		server.command_ms.activiti=ServerActivities.SEND_BOARD;
         	System.out.println("Aby skonczyc wysylanie informacji o tablicy wcisnij cokolwiek");
         	sc.nextLine();
-    		System.out.println(server.command_ms.getCommand());
     		server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
         	System.out.println("Aby skonczyc wysylanie informacji o turze wcisnij cokolwiek");
         	sc.nextLine();
