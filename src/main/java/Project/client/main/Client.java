@@ -29,7 +29,7 @@ public class Client {
 		connectionToServer = new ClientConnection(); //this);
 
 		try {
-			System.out.print(args[0]);
+			System.out.println(args[0]);
 			connectionToServer.connect(args[0], Integer.parseInt(args[1]));
 			id = connectionToServer.getId();
 			gameType = connectionToServer.getGameType();

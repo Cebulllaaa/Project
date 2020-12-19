@@ -42,16 +42,20 @@ public class ClientConnection {
 	 *    id klienta, typ gry (int), liczbe wszystkich graczy
 	 *    w grze (musi byc znana na poczatku), listy pozycji pionkow kolejnych graczy
 	 */
-	public void connect(String host, int port) throws IOException, PlayerNotAllowedException, WrongGameTypeException, InterruptedException {
+	public void connect(String host, int port) throws IOException, PlayerNotAllowedException, WrongGameTypeException, GameEndedException {
 		clientSocket = new Socket(host, port);
 
 		in = new Scanner(clientSocket.getInputStream());
 		out = new PrintWriter(clientSocket.getOutputStream());
 //Thread.sleep(100);
 		while (!in.hasNextLine()) ;
+		System.out.println(in.nextLine());
+		throw new GameEndedException("EndGame"); /*
 		serverMsg = in.nextLine().split(regexDelim); // setID: 1;idGracza
+		for (int i=0; i<serverMsg.length; i++) {
+			System.out.println(serverMsg[i]);
+		}
 
-		while (!in.hasNextLine()) ;
 		clientId = Integer.parseInt(serverMsg[1]);
 
 		if (clientId == clientNotAllowedCode) {
@@ -60,6 +64,9 @@ public class ClientConnection {
 
 		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // daneGry: 2;liczbaGraczy;gameType
+		for (int i=0; i<serverMsg.length; i++) {
+			System.out.println(serverMsg[i]);
+		}
 
 		try {
 			gameType = GameHelperMethods.getGameType( Integer.parseInt(serverMsg[2]) );
@@ -69,15 +76,22 @@ public class ClientConnection {
 
 			while (!in.hasNextLine()) ;
 			serverMsg = in.nextLine().split(regexDelim); // startGame: 3;
+			for (int i=0; i<serverMsg.length; i++) {
+				System.out.println(serverMsg[i]);
+			}
 
+			while (!in.hasNextLine()) ;
 			serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
+			for (int i=0; i<serverMsg.length; i++) {
+				System.out.println(serverMsg[i]);
+			}
 			pieces = new int[numOfPlayers][numOfPlayerPieces];
 			setPieces();
 
 		}
 		catch (WrongGameTypeException wgtx) {
 			throw new WrongGameTypeException("Error: Server sent wrong type of game");
-		}
+		}*/
 
 	}
 
@@ -145,6 +159,9 @@ public class ClientConnection {
 
 		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
+		for (int i=0; i<serverMsg.length; i++) {
+			System.out.println(serverMsg[i]);
+		}
 		setPieces();
 
 	}
