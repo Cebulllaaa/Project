@@ -21,12 +21,12 @@ public class Server {
 	public CommandMaster command_ms;
 	
 	public int type_Game;
-	SendActivities com_activiti;
+	ServerActivities com_activiti;
 	
 	public Server(int x) {
 		this.port=x;
 		type_Game = choose_Type();
-		com_activiti = SendActivities.SEND_ID;
+		com_activiti = ServerActivities.SEND_ID;
 		command_ms = new  CommandMaster(type_Game,com_activiti);
 		connection_iterator=0;
 		
@@ -70,8 +70,13 @@ public class Server {
 			try {
 				client_socket = socket.accept();
 				command_ms.CommandMenu();
-				ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
-				write.run();
+				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
+					
+				}
+				else {
+					ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+					write.run();
+				}
 				}
 			catch(IOException e) {
 				System.out.println(e);

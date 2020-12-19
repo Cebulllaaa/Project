@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import Project.Server.test.ThreadConnectionServer;
 import Project.Server.test.ThreadListenClient;
-import Project.server.main.SendActivities;
+import Project.server.main.ServerActivities;
 import Project.server.main.Server;
 
 public class Server_1_5_Simulation {
@@ -75,7 +75,7 @@ public class Server_1_5_Simulation {
 			client6 = new ThreadListenClient();
 			client6.port_serwer = port_serwer;
 			
-			serwer.command_ms.activiti=SendActivities.SEND_GAME_INFORMATION;
+			serwer.command_ms.activiti=ServerActivities.SEND_GAME_INFORMATION;
 			
 			client1.start();
 			client2.start();
@@ -104,7 +104,7 @@ public class Server_1_5_Simulation {
 			client6 = new ThreadListenClient();
 			client6.port_serwer = port_serwer;
 			
-			serwer.command_ms.activiti=SendActivities.SEND_START_GAME;
+			serwer.command_ms.activiti=ServerActivities.SEND_START_GAME;
 			cmd = "3;";
 			
 			client1.start();
@@ -143,7 +143,7 @@ public class Server_1_5_Simulation {
 			client6 = new ThreadListenClient();
 			client6.port_serwer = port_serwer;
 			
-			serwer.command_ms.activiti=SendActivities.SEND_BOARD;
+			serwer.command_ms.activiti=ServerActivities.SEND_BOARD;
 			cmd = "4;TODO;";
 			
 			client1.start();
@@ -182,7 +182,7 @@ public class Server_1_5_Simulation {
 			
 /*ETAP 5 WYSLANIE CZYJA JEST KOLEJ */
 			serwer.command_ms.game.create_Queue();
-			serwer.command_ms.activiti=SendActivities.SEND_WHOSE_TURN;
+			serwer.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
 			String cmd0 = "5;";
 			
 			

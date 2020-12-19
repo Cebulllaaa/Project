@@ -13,7 +13,7 @@ import Project.Server.test.ThreadConnectionServer;
 import Project.Server.test.ThreadListen;
 import Project.Server.test.ThreadListenClient;
 import Project.Server.test.ThreadWriteClient;
-import Project.server.main.SendActivities;
+import Project.server.main.ServerActivities;
 import Project.server.main.Server;
 /*Jest to klasa która, symuluje  gre, (2 zostanie ona zakonczona w 2 ruchach )
  * jej zadaniem jest sprawdzic czy na poziomie komunikacyjnym serwera wszystko dziala 
@@ -63,20 +63,20 @@ public class FastGameSimulation {
 			serverconnection.serwer =server;
 			serverconnection.start();
 			send_id();
-			server.command_ms.activiti=SendActivities.SEND_GAME_INFORMATION;
+			server.command_ms.activiti=ServerActivities.SEND_GAME_INFORMATION;
 			send_game_info();
-			server.command_ms.activiti=SendActivities.SEND_START_GAME;
+			server.command_ms.activiti=ServerActivities.SEND_START_GAME;
 			send_start_info();
-			server.command_ms.activiti=SendActivities.SEND_BOARD;
+			server.command_ms.activiti=ServerActivities.SEND_BOARD;
 			send_board();
-			server.command_ms.activiti=SendActivities.SEND_WHOSE_TURN;
+			server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
 			server.command_ms.game.create_Queue();
 			send_whose_turn();
 			System.out.println(server.command_ms.game.Queue.get(server.command_ms.game.in_Queue));
 			server.connection_iterator=1;
 		}
 		else {
-			//listen_client();
+			listen_client();
 			correctmove = true; //TODO
 			if(correctmove) {
 				server.command_ms.game.increase_Queue();
@@ -85,15 +85,15 @@ public class FastGameSimulation {
 			server.connection_iterator=0;
 			serverconnection.serwer =server;
 			serverconnection.start();
-			server.command_ms.activiti=SendActivities.SEND_BOARD;
+			server.command_ms.activiti=ServerActivities.SEND_BOARD;
 			send_board();
-			server.command_ms.activiti=SendActivities.SEND_WHOSE_TURN;
+			server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
 			send_whose_turn();
 			System.out.println(server.command_ms.game.Queue.get(server.command_ms.game.in_Queue));
 			//listen_client();
-			server.command_ms.activiti=SendActivities.SEND_BOARD;
+			server.command_ms.activiti=ServerActivities.SEND_BOARD;
 			send_board();
-			server.command_ms.activiti=SendActivities.SEND_END_GAME;
+			server.command_ms.activiti=ServerActivities.SEND_END_GAME;
 			server.command_ms.game.set_winner(1);
 			send_end_info();
 		}
@@ -272,6 +272,18 @@ public class FastGameSimulation {
 		assertEquals(cmd,client6.command);
 	}
 	public void listen_client() {
+		try {
+			client1.client_socket.close();
+			client2.client_socket.close();
+			client3.client_socket.close();
+			client4.client_socket.close();
+			client5.client_socket.close();
+			client6.client_socket.close();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		
 		System.out.println("Nie dzialam");
 		String test = "Answer";
 		listen = new ThreadListen();

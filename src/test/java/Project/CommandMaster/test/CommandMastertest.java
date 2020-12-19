@@ -8,7 +8,7 @@ import org.junit.Test;
 import Project.common.game.Game;
 import Project.common.game.TrylmaGame;
 import Project.server.main.CommandMaster;
-import Project.server.main.SendActivities;
+import Project.server.main.ServerActivities;
 
 
 
@@ -18,7 +18,7 @@ public class CommandMastertest {
 	@Test
 	public void ConstructorTest() {
 		game = new TrylmaGame();
-		SendActivities activity = SendActivities.SEND_ID;
+		ServerActivities activity = ServerActivities.SEND_ID;
 		CommandMaster command_ms = new CommandMaster(1,activity);
 		assertEquals(true,command_ms.before_start);
 		assertEquals(game.getClass(),command_ms.game.getClass());
@@ -28,7 +28,7 @@ public class CommandMastertest {
 	@Test
 	public void setgetTest() {
 		game = new TrylmaGame();
-		SendActivities activity = SendActivities.SEND_ID;
+		ServerActivities activity = ServerActivities.SEND_ID;
 		CommandMaster command_ms = new CommandMaster(1,activity);
 		String test = "TEST";
 		String test2 = "New test";
@@ -42,7 +42,7 @@ public class CommandMastertest {
 	
 	@Test
 	public void setIDcommandTest() {
-		SendActivities activity = SendActivities.SEND_ID;
+		ServerActivities activity = ServerActivities.SEND_ID;
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		command_ms.CommandMenu();
 		
@@ -76,7 +76,7 @@ public class CommandMastertest {
 	
 	@Test
 	public void sendGameInfotest() {
-		SendActivities activity = SendActivities.SEND_GAME_INFORMATION;
+		ServerActivities activity = ServerActivities.SEND_GAME_INFORMATION;
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		command_ms.CommandMenu();
 		 
@@ -121,7 +121,7 @@ public class CommandMastertest {
 	}
 	@Test
 	public void sendStartInfoTest() {
-		SendActivities activity = SendActivities.SEND_START_GAME;
+		ServerActivities activity = ServerActivities.SEND_START_GAME;
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		command_ms.CommandMenu();
 		String cmd = "3;";
@@ -131,7 +131,7 @@ public class CommandMastertest {
 	
 	@Test
 	public void sendBoardTest() {
-		SendActivities activity = SendActivities.SEND_BOARD;
+		ServerActivities activity = ServerActivities.SEND_BOARD;
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		command_ms.CommandMenu();
 		String cmd = "4;TODO;";
@@ -142,7 +142,7 @@ public class CommandMastertest {
 	@Test
 	public void sendTurntest() {
 
-		SendActivities activity = SendActivities.SEND_WHOSE_TURN;
+		ServerActivities activity = ServerActivities.SEND_WHOSE_TURN;
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		String cmd0 = "5;";
 		
@@ -212,7 +212,7 @@ public class CommandMastertest {
 	}
 	@Test
 	public void sendEndInfoTest() {
-		SendActivities activity = SendActivities.SEND_END_GAME;
+		ServerActivities activity = ServerActivities.SEND_END_GAME;
 		CommandMaster command_ms = new CommandMaster(1, activity);
 		int x = 4;
 		command_ms.game.set_winner(x);

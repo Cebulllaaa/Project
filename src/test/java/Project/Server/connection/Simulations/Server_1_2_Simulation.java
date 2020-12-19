@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import Project.Server.test.ThreadConnectionServer;
 import Project.Server.test.ThreadListenClient;
-import Project.server.main.SendActivities;
+import Project.server.main.ServerActivities;
 import Project.server.main.Server;
 /**Symulacja sprawdza czy wszystko dziala poprawnie na poziomie komunikacyjnym do 2 instukcji komunikacyjnej */
 public class Server_1_2_Simulation {
@@ -75,7 +75,7 @@ public class Server_1_2_Simulation {
 			client6 = new ThreadListenClient();
 			client6.port_serwer = port_serwer;
 			
-			serwer.command_ms.activiti=SendActivities.SEND_GAME_INFORMATION;
+			serwer.command_ms.activiti=ServerActivities.SEND_GAME_INFORMATION;
 			
 			client1.start();
 			client2.start();

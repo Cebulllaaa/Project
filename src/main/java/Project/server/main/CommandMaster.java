@@ -13,10 +13,10 @@ public class CommandMaster {
 		public  boolean before_start;
 		public Game game;
 		public boolean success;
-		public SendActivities activiti;
+		public ServerActivities activiti;
 		private int gametype;
 	
-		public CommandMaster(int x, SendActivities y) {
+		public CommandMaster(int x, ServerActivities y) {
 			this.command = "";
 			this.gametype=x;
 			before_start = true;
@@ -35,7 +35,7 @@ public class CommandMaster {
 		}
 		
 		public synchronized void CommandMenu() {
-			if(activiti.equals(SendActivities.SEND_ID)){
+			if(activiti.equals(ServerActivities.SEND_ID)){
 				success = game.add_Player();
 				if(success) {
 					setIDcommand(command);
@@ -44,23 +44,23 @@ public class CommandMaster {
 					setCommand("1;-1;");
 				}
 			}
-			else if(activiti.equals(SendActivities.SEND_GAME_INFORMATION)) {
+			else if(activiti.equals(ServerActivities.SEND_GAME_INFORMATION)) {
 				sendGameInfo();
 			}
-			else if(activiti.equals(SendActivities.SEND_START_GAME)) {
+			else if(activiti.equals(ServerActivities.SEND_START_GAME)) {
 				sendStartInfo();
 				
 			}
-			else if(activiti.equals(SendActivities.SEND_BOARD)) {
+			else if(activiti.equals(ServerActivities.SEND_BOARD)) {
 				sendBoard();
 			}
-			else if(activiti.equals(SendActivities.SEND_WHOSE_TURN)) {
+			else if(activiti.equals(ServerActivities.SEND_WHOSE_TURN)) {
 				sendTurn();
 			}
-			else if(activiti.equals(SendActivities.SEND_END_GAME)) {
+			else if(activiti.equals(ServerActivities.SEND_END_GAME)) {
 				sendEndInfo();
 			}
-			else if(activiti.equals(SendActivities.WRITE_TEST)) {
+			else if(activiti.equals(ServerActivities.WRITE_TEST)) {
 				
 			}
 			else {
