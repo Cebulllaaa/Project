@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import Project.Server.test.ThreadConnectionServer;
-import Project.Server.test.ThreadListen;
 import Project.Server.test.ThreadListenClient;
 import Project.Server.test.ThreadWriteClient;
 import Project.server.main.ServerActivities;
@@ -30,7 +29,6 @@ public class FastGameSimulation {
 	ThreadListenClient client4;
 	ThreadListenClient client5;
 	ThreadListenClient client6;
-	ThreadListen listen;
 	ThreadWriteClient write;
 	String test = "Answer";
 @Test

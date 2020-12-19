@@ -41,32 +41,11 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	public void listen2() {
-		command_ms.setCommand("");
-		int c;
-		while(command_ms.getCommand().isEmpty()) {
-			try {
-				try {
-					client_socket = socket.accept();
-					}
-				catch (IOException e) {
-					System.out.println(e);
-				}
-				inputreader = new InputStreamReader(client_socket.getInputStream());
-				reader = new BufferedReader(inputreader);
-				command_ms.setCommand(reader.readLine());
-			
-			}
-			catch(IOException e) {
-				System.out.println(e);
-			}
-		}
-	}
 	public int choose_Type() {
 		//Na chwile obecna wymagany jest tylko wariant gry "chiñskie warcaby "
 		return 1;
 	}
-	public void write() {
+	public void estabilish_connection() {
 		while(connection_iterator <1) {
 		//	System.out.println("jest komenda przed " + command_ms.getCommand());
 		//	System.out.println("Przed akceptacja ");

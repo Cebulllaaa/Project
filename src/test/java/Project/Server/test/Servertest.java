@@ -37,57 +37,6 @@ public class Servertest {
 	}
 	
 	@Test
-	public void listenServertest() {
-		int port = 6003;
-		Server serwer = new Server(port); 
-		serwer.create_Server();
-		ThreadListen listen;
-		ThreadWriteClient write;
-		String test = "TEST";
-		String test2 = "Some Command";
-		String test3 = "Other Command";
-		try {
-			listen = new ThreadListen();
-			listen.serwer = serwer;
-			write = new ThreadWriteClient();
-			write.port = port;
-			write.command=test;
-			listen.start();
-			write.start();
-			write.join();
-			listen.join();
-			assertEquals (test,serwer.command_ms.getCommand()); 
-			
-			listen = new ThreadListen();
-			listen.serwer=serwer;
-			write = new ThreadWriteClient();
-			write.port = port;
-			write.command = test2;
-			listen.start();
-			write.start();
-			write.join();
-			listen.join();
-			assertFalse(test.equals(serwer.command_ms.getCommand()));
-			assertEquals(test2,serwer.command_ms.getCommand());
-			
-			listen = new ThreadListen();
-			listen.serwer=serwer;
-			write = new ThreadWriteClient();
-			write.port = port;
-			write.command = test3;
-			listen.start();
-			write.start();
-			write.join();
-			listen.join();
-			assertFalse(test.equals(serwer.command_ms.getCommand()));
-			assertEquals(test3,serwer.command_ms.getCommand());
-			assertFalse(test2.equals(serwer.command_ms.getCommand()));
-		}
-		catch(Exception e) {
-			System.out.println(e);
-		}
-	}  
-	@Test
 	public void testServerWriter() {
 		int port_serwer = 6006;
 		Server serwer  = new Server(port_serwer);

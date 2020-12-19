@@ -6,7 +6,7 @@ public class ThreadConnectionServer extends Thread{
 	public Server serwer;
 	@Override
 	public void run() {
-		serwer.write();
+		serwer.estabilish_connection();
 	}
 
 }
