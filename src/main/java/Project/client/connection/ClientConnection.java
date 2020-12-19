@@ -49,8 +49,8 @@ public class ClientConnection {
 		out = new PrintWriter(clientSocket.getOutputStream());
 //Thread.sleep(100);
 		while (!in.hasNextLine()) ;
-		System.out.println(in.nextLine());
-		throw new GameEndedException("EndGame"); /*
+//		System.out.println(in.nextLine());
+		//throw new GameEndedException("EndGame");
 		serverMsg = in.nextLine().split(regexDelim); // setID: 1;idGracza
 		for (int i=0; i<serverMsg.length; i++) {
 			System.out.println(serverMsg[i]);
@@ -91,7 +91,7 @@ public class ClientConnection {
 		}
 		catch (WrongGameTypeException wgtx) {
 			throw new WrongGameTypeException("Error: Server sent wrong type of game");
-		}*/
+		}
 
 	}
 

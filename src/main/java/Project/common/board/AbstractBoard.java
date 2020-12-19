@@ -10,6 +10,8 @@ public abstract class AbstractBoard {
 	 */
 	public AbstractFieldArrayFactory fieldArrayFactory;
 
+	//public Fields
+
 	/**
 	 * sprawdzenie, czy zmiana pozycji pionka z field1 na field2
 	 * nie narusza zasad
