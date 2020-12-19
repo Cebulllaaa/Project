@@ -38,23 +38,35 @@ public class ServerMain
     	System.out.println("Aby skonczyc wpuszczanie graczy i wyslac im informacje wcisnij cokolwiek");
     	scan = new Scanner(System.in);
     	cmd = scan.nextLine();
+    	System.out.println("Rozpoczynam przyjmowanie nowych graczy");
     	connection = new ThreadConnectionServer(server);
     	connection.start();
-    	
     	cmd = scan.nextLine();
+    	if(server.command_ms.game.Players.size() <2) {
+    		System.out.println("przyjeto za mala ilosc graczy");
+    		System.exit (0);
+    	}
+    	if(server.command_ms.game.Players.size() >6) {
+    		System.out.println("przyjeto za duza ilosc graczy");
+    		System.exit (0);
+    	}
+    	if(server.command_ms.game.Players.size()  == 5) {
+    		System.out.println("Gra nie jest przeznaczona dla 5 graczy");
+    		System.exit (0);
+    	}
+    	System.out.println("Rozpoczynam przesylanie informacji odnosnie gry");
     	server.command_ms.activiti = ServerActivities.SEND_GAME_INFORMATION;
     	server.command_ms.activiti=ServerActivities.SEND_START_GAME;
     	server.command_ms.game.create_Queue();
     	in_game();
-    	server.command_ms.activiti=ServerActivities.SEND_BOARD;
-    	server.command_ms.game.create_Queue();
-    	server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
+
     	
     	
    
     }
     public void in_game() {
     	while(true) {
+    		System.out.println("Rozpoczynam gre");
     		server.command_ms.activiti=ServerActivities.SEND_BOARD;
     		server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
     		server.command_ms.activiti=ServerActivities.LISTEN;
@@ -73,6 +85,8 @@ public class ServerMain
     	}
     }
     public void end_game() {
+    	System.out.println("Koncze gre");
     	server.command_ms.activiti=ServerActivities.SEND_END_GAME;
+    	server.connection_iterator=1;
     }
 }
