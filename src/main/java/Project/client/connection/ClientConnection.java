@@ -146,13 +146,13 @@ public class ClientConnection {
 	}
 
 	private int numberOfMyPieces() throws WrongGameTypeException {
-		try {
-			return GameHelperMethods.getNumberOfPieces(gameType);
-		}
-		catch (WrongGameTypeException wgtx) {
+//		try {
+		return GameHelperMethods.getNumberOfPieces(gameType);
+/*		}
+		catch (WrongGameTypeException wgtx) { // unreachable
 			throw new WrongGameTypeException("Error: Server sent wrong type of game");
 		}
-
+*/
 	}
 
 	public int getId() {
