@@ -17,6 +17,7 @@ public class ThreadWriteClient  extends Thread{
 		writer.print(command);
 		writer.flush(); 
 		writer.close();
+		System.out.println("napisalem " + command);
 		}
 		catch (Exception e) {
 			System.out.println(e);

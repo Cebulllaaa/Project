@@ -54,7 +54,7 @@ public class Server {
 				inputreader = new InputStreamReader(client_socket.getInputStream());
 				reader = new BufferedReader(inputreader);
 				command_ms.setCommand(reader.readLine());
-				System.out.println(command_ms.getCommand());
+			
 			}
 			catch(IOException e) {
 				System.out.println(e);
@@ -67,14 +67,23 @@ public class Server {
 	}
 	public void write() {
 		while(connection_iterator <1) {
+			System.out.println("Przed akceptacja ");
 			try {
 				client_socket = socket.accept();
-				command_ms.CommandMenu();
+				System.out.println("Zaakceptowal");
+				System.out.println(command_ms.activiti);
 				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
-					ThreadServerListen listen = new ThreadServerListen();
+					System.out.println("dotad git");
+					//ThreadServerListen listen = new ThreadServerListen(client_socket);
+					//listen.run();
+					inputreader = new InputStreamReader(client_socket.getInputStream());
+					reader = new BufferedReader(inputreader);
+					command_ms.setCommand(reader.readLine());
+					System.out.println(command_ms.getCommand());
 					
 				}
 				else {
+					command_ms.CommandMenu();
 					ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 					write.run();
 				}
