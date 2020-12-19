@@ -44,6 +44,7 @@ public class ServerMain
     	cmd = scan.nextLine();
     	if(server.command_ms.game.Players.size() <2) {
     		System.out.println("przyjeto za mala ilosc graczy");
+    		System.out.println(server.command_ms.game.Players.size());
     		System.exit (0);
     	}
     	if(server.command_ms.game.Players.size() >6) {
@@ -56,21 +57,39 @@ public class ServerMain
     	}
     	System.out.println("Rozpoczynam przesylanie informacji odnosnie gry");
     	server.command_ms.activiti = ServerActivities.SEND_GAME_INFORMATION;
+       	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
+    	scan.nextLine();
+		System.out.println(server.command_ms.getCommand());
     	server.command_ms.activiti=ServerActivities.SEND_START_GAME;
+       	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
+    	scan.nextLine();
+		System.out.println(server.command_ms.getCommand());
     	server.command_ms.game.create_Queue();
-    	in_game();
+    	//in_game();
 
     	
     	
    
     }
     public void in_game() {
+		System.out.println("Rozpoczynam gre");
+    	Scanner sc = new Scanner(System.in);
     	while(true) {
-    		System.out.println("Rozpoczynam gre");
     		server.command_ms.activiti=ServerActivities.SEND_BOARD;
+        	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
+        	sc.nextLine();
+    		System.out.println(server.command_ms.getCommand());
     		server.command_ms.activiti=ServerActivities.SEND_WHOSE_TURN;
+        	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
+        	sc.nextLine();
+    		System.out.println(server.command_ms.getCommand());
     		server.command_ms.activiti=ServerActivities.LISTEN;
+    		server.command_ms.setCommand("");
+        	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
+        	sc.nextLine();
     		while(server.command_ms.getCommand().isEmpty()) {
+    	    	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
+            	sc.nextLine();
     			
     		}
     		// sprawdzamy czy poprawny ruch TODO
@@ -87,6 +106,8 @@ public class ServerMain
     public void end_game() {
     	System.out.println("Koncze gre");
     	server.command_ms.activiti=ServerActivities.SEND_END_GAME;
+    	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
     	server.connection_iterator=1;
+    	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
     }
 }

@@ -13,33 +13,33 @@ import Project.common.game.GameType;
 public class Client {
 
 //	private static final String programName = "Client";
-	private ClientConnection connectionToServer;
-	private int id;
-	private GameType gameType;
-	private int[][] pieces;
+	private static ClientConnection connectionToServer;
+	private static int id;
+	private static GameType gameType;
+	private static int[][] pieces;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		if (args.length != 2) {
 			System.err.println("Pass the server ip and socket as the command line argument");
 			System.exit(1);
 		}
 
-		Client client = new Client();
-		client.running(args[0], Integer.parseInt(args[1]));
+//		Client client = new Client();
 
-	}
-
-	private void running(String host, int port) {
 		connectionToServer = new ClientConnection(); //this);
 
 		try {
-			connectionToServer.connect(host, port);
+			System.out.print(args[0]);
+			connectionToServer.connect(args[0], Integer.parseInt(args[1]));
 			id = connectionToServer.getId();
 			gameType = connectionToServer.getGameType();
 			pieces = connectionToServer.getPieces();
 
+			show();
+
 			while(true) {
 				connectionToServer.read();
+				show();
 				// TODO: do something
 				connectionToServer.write();
 				// or: connectionToServer.endGame();
@@ -70,8 +70,18 @@ public class Client {
 
 	}
 
-	public void notifyClient() {
-		//
+	public static void show() {
+		System.out.println(connectionToServer.getId());
+		System.out.println(connectionToServer.getGameType());
+		System.out.println(connectionToServer.getNumOfPlayerPieces());
+		System.out.println(connectionToServer.getTotalNumOfPieces());
+		int[][] pieces = connectionToServer.getPieces();
+		for (int i=0; i<pieces.length; i++) {
+			for (int j=0; j < pieces[i].length; j++) {
+				System.out.println(connectionToServer.getPieces());
+			}
+		}
+
 	}
 
 }

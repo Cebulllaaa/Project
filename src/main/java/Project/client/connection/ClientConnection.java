@@ -42,20 +42,23 @@ public class ClientConnection {
 	 *    id klienta, typ gry (int), liczbe wszystkich graczy
 	 *    w grze (musi byc znana na poczatku), listy pozycji pionkow kolejnych graczy
 	 */
-	public void connect(String host, int port) throws IOException, PlayerNotAllowedException, WrongGameTypeException {
+	public void connect(String host, int port) throws IOException, PlayerNotAllowedException, WrongGameTypeException, InterruptedException {
 		clientSocket = new Socket(host, port);
 
 		in = new Scanner(clientSocket.getInputStream());
 		out = new PrintWriter(clientSocket.getOutputStream());
-
+//Thread.sleep(100);
+		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // setID: 1;idGracza
 
+		while (!in.hasNextLine()) ;
 		clientId = Integer.parseInt(serverMsg[1]);
 
 		if (clientId == clientNotAllowedCode) {
 			throw new PlayerNotAllowedException("There are enough many players in this game");
 		}
 
+		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // daneGry: 2;liczbaGraczy;gameType
 
 		try {
@@ -64,6 +67,7 @@ public class ClientConnection {
 
 			numOfPlayerPieces = numberOfMyPieces();
 
+			while (!in.hasNextLine()) ;
 			serverMsg = in.nextLine().split(regexDelim); // startGame: 3;
 
 			serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
@@ -77,8 +81,14 @@ public class ClientConnection {
 
 	}
 
+	private void readNextLine() {
+		
+	}
+
 	public void endConnection() throws IOException {
-		clientSocket.close();
+		if (clientSocket != null) {
+			clientSocket.close();
+		}
 	}
 
 	/*
@@ -123,6 +133,7 @@ public class ClientConnection {
 	 * listy pozycji pionkow kolejnych graczy
 	 */
 	public void read() throws GameEndedException {
+		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // endGame: 6;idZwyciezcy lub whoseTurn: 5;idWykonujacegoRuch
 
 		boolean gameEnded = (Integer.parseInt(serverMsg[0]) == 6);
@@ -132,6 +143,7 @@ public class ClientConnection {
 
 		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
 
+		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
 		setPieces();
 
