@@ -1,6 +1,7 @@
 package Project.client.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.plaf.basic.BasicBorders;
 
 import Project.client.connection.ClientTemporaryConnection;
 import Project.common.board.AbstractBoard;
@@ -27,13 +30,23 @@ public class BoardFrame extends JFrame implements Runnable {
 	private String authors;
 	private String howToUse;
 	private JTextArea dialogText;
+	private FieldButton[] buttons;
+	private int whereFrom = 0;
+	private int whereTo = 0;
+	private int pressed = -1;
 
-	public BoardFrame() {
-		setLayout(new GridLayout(5, 5));
+	public BoardFrame(AbstractBoard ab) {
+//		super();
+		board = ab;
+
+		int n = board.getEdgeLength();
+
+		setLayout(new GridLayout(3 * n - 2, 3 * n - 2));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		initMenuBar();
 		initHelpDialog();
+		initButtons();
 
 	}
 
@@ -62,7 +75,7 @@ public class BoardFrame extends JFrame implements Runnable {
 				+ "and next click on empty field.\nThis will move the peg on that field.\n"
 				+ "You should than press \"Make move\" item in the menu to upload your move.\n"
 				+ "You can also make no move and then you should only press \"Make move\"\n";
-		dialogText = new JTextArea(howToUse + authors, 6, 1);
+		dialogText = new JTextArea(howToUse + "\n" + authors, 6, 1);
 
 		dialogButton.addActionListener(new DialogButtonListener());
 
@@ -77,6 +90,27 @@ public class BoardFrame extends JFrame implements Runnable {
 		infoDialog.setLocationRelativeTo(null);
 
 	}
+
+	private void initButtons() {
+		buttons = new FieldButton[board.fields.length];
+
+		for (int i=0; i < buttons.length; i++) {
+			buttons[i] = new FieldButton("###");
+//			buttons[i].setBorder(new BasicBorders.ButtonBorder(getForeground(), getForeground(), null, null));
+			buttons[i].setField(board.fields[i], i);
+			buttons[i].addActionListener(new FieldsListener());
+
+			add(buttons[i]);
+
+		}
+
+	}
+
+/*	public void initPanel() {
+		for (int i=0; i < buttons.length; i++) {
+			add(buttons[i]);
+		}
+	}*/
 
 	public void run() {
 		while (more) {
@@ -132,7 +166,7 @@ public class BoardFrame extends JFrame implements Runnable {
 		}
 
 		private void makeMove() {
-			; // TODO
+			; // TODO: wyslij whereFrom i whereTo
 		}
 
 	}
@@ -141,6 +175,28 @@ public class BoardFrame extends JFrame implements Runnable {
 		public void actionPerformed(ActionEvent arg0) {
 			infoDialog.setVisible(false);
 		}
+	}
+
+	private class FieldsListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent arg0) {
+			FieldButton fb = (FieldButton)arg0.getSource();
+			int index = fb.getID();
+			// if (fb.getPiece() != Piece.NONE)
+			if (pressed == -1) {
+				pressed = index;
+				whereFrom = index;
+				fb.setBackground(Color.BLACK);
+			}
+			else {
+				buttons[pressed].chooseColor();
+				pressed = -1;
+				whereTo = index;
+				fb.setForeground(Color.BLACK);
+			}
+
+		}
+
 	}
 
 }
