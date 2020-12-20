@@ -26,8 +26,8 @@ public class ClientTemporaryConnection extends Thread {
 	private String[] serverMsg;
 	private int[][] pieces;
 	private boolean myTurn = false;
-	private int changedPiece;
-	private int newPosOfChangedPiece;
+	private int changedPiece = 0;
+	private int newPosOfChangedPiece = 0;
 	private final int servMsgPiecesStart = 1;
 	//private Client client;
 	//private final int inGameServMsgPiecStart = 2;
@@ -36,6 +36,7 @@ public class ClientTemporaryConnection extends Thread {
 	private String host;
 	private int port;
 	private BoardFrame listener;
+	private boolean isMoveMade = true;//false;
 
 	public ClientTemporaryConnection(String host, int port) {
 		this.host = host;
@@ -68,8 +69,10 @@ public class ClientTemporaryConnection extends Thread {
 		try {
 			in = new Scanner(clientSocket.getInputStream());
 			out = new PrintWriter(clientSocket.getOutputStream());
+if (clientId == -1) {
 out.println(clientId);
 out.flush();
+}
 
 			fetchInstruction();
 			decodeInstruction();
@@ -215,6 +218,15 @@ out.flush();
 	public void write() {
 //		out.print(false);
 //		out.print(regexDelim);
+try {
+	while (!isMoveMade) Thread.sleep(100);
+}
+catch (InterruptedException ix) {
+	;
+}
+		isMoveMade = false;
+		myTurn = false;
+
 		out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
 		out.print(regexDelim);
 
@@ -318,6 +330,10 @@ out.flush();
 
 	public void setListener(BoardFrame frame) {
 		listener = frame;
+	}
+
+	public void makeMove() {
+		isMoveMade = true;
 	}
 
 	public int[][] getPieces() {

@@ -43,6 +43,7 @@ public class BoardFrame extends JFrame implements Runnable {
 
 		setLayout(new GridLayout(3 * n - 2, 3 * n - 2));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+board.initPieces(6);
 
 		initMenuBar();
 		initHelpDialog();
@@ -94,6 +95,11 @@ public class BoardFrame extends JFrame implements Runnable {
 	private void initButtons() {
 		buttons = new FieldButton[board.fields.length];
 
+		int n = board.getEdgeLength();
+		JPanel p = new JPanel();
+				for (int i=buttons.length; i<(3*n-2)*(3*n-2); i++) {
+					add(p);
+				}
 		for (int i=0; i < buttons.length; i++) {
 			buttons[i] = new FieldButton("###");
 //			buttons[i].setBorder(new BasicBorders.ButtonBorder(getForeground(), getForeground(), null, null));
@@ -166,7 +172,8 @@ public class BoardFrame extends JFrame implements Runnable {
 		}
 
 		private void makeMove() {
-			; // TODO: wyslij whereFrom i whereTo
+			connection.setChange(whereFrom, whereTo);
+			connection.makeMove();
 		}
 
 	}

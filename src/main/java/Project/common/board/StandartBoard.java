@@ -33,7 +33,7 @@ public class StandartBoard extends AbstractBoard {
 
 	@Override
 	protected boolean checkNeighbouring(Field field1, Field field2) {
-		Field[] field1Neighbours = field1.getNeighbours();
+/*		Field[] field1Neighbours = field1.getNeighbours();
 		Queue<Field> queue = new LinkedList<Field>();
 		boolean[] searchedFields = new boolean[TOTAL_NUMBER_OF_FIELDS];
 
@@ -56,7 +56,7 @@ public class StandartBoard extends AbstractBoard {
 		}
 
 		return false;
-
+*/return true;
 	}
 
 	@Override
@@ -67,6 +67,11 @@ public class StandartBoard extends AbstractBoard {
 	@Override
 	protected boolean checkPosition(Field f1) {
 		return true; // TODO
+	}
+
+	@Override
+	public int checkWinner() {
+		return 0;
 	}
 
 }

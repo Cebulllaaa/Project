@@ -10,7 +10,22 @@ public abstract class AbstractBoard {
 	 */
 	public AbstractFieldArrayFactory fieldArrayFactory;
 
-	//public Fields
+	private int[] pieces;
+
+	public void initPieces(int numOfPlayers) {
+		int t = fieldArrayFactory.getTriangleSize();
+		int h = fieldArrayFactory.getHexagonSize();
+
+		pieces = new int[numOfPlayers * t];
+
+		for (int i=0; i < pieces.length; i++) {
+			Field field = fields[h+i];
+			pieces[i] = h + i;
+			field.setPieceOnField( field.getHomeType() );
+
+		}
+
+	}
 
 	/**
 	 * zwraca i-ty trojkat
@@ -31,6 +46,10 @@ public abstract class AbstractBoard {
 
 		return triangle;
 
+	}
+
+	public int[] getPiecesPositions() {
+		return pieces;
 	}
 
 	public int getEdgeLength() {
@@ -77,5 +96,7 @@ public abstract class AbstractBoard {
 	 * @return
 	 */
 	abstract protected boolean checkPosition(Field field1);
+
+	abstract public int checkWinner();
 
 }

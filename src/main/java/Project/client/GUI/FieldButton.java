@@ -26,6 +26,10 @@ public class FieldButton extends JButton {
 
 	}
 
+	public void setPiece(Piece piece) {
+		myField.setPieceOnField(piece);
+	}
+
 	public void chooseColor() {
 		switch (getHomeType()) {
 		case NONE:

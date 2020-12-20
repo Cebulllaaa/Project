@@ -46,6 +46,10 @@ public class Field {
 		field2.setNeighbour(field1);
 	}
 
+	public void setPieceOnField(Piece piece) {
+		pieceOnField = piece;
+	}
+
 	/**
 	 * adds a neighbour to the field
 	 * @param neighbour the new neighbour
