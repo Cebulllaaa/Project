@@ -263,7 +263,7 @@ out.flush();
 	}*/
 
 	private void setPieces() {
-		synchronized (pieces) {
+//		synchronized (pieces) {
 			pieces = new int[numOfPlayers][numOfPlayerPieces];
 
 			for (int i=0; i < pieces.length; i++) {
@@ -272,7 +272,7 @@ out.flush();
 				}
 			}
 
-		}
+//		}
 	}
 
 	private int numberOfMyPieces() throws WrongGameTypeException {
