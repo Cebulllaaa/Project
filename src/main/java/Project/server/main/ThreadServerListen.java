@@ -3,7 +3,7 @@ package Project.server.main;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
-
+/*Watek odpowiadajacy za nasluchiwanie przez serwer danych przychodzacych */
 public class ThreadServerListen extends Thread {
 	public Socket socket;
 	public BufferedReader reader;

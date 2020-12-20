@@ -24,7 +24,7 @@ public class Server {
 	
 	public int type_Game;
 	ServerActivities com_activiti;
-	
+	/**Konstruktor serwera */
 	public Server(int x) {
 		this.port=x;
 		type_Game = choose_Type();
@@ -33,6 +33,7 @@ public class Server {
 		connection_iterator=0;
 		
 	}
+	/**Funkcja tworzaca nowe gniazdo serwera*/
 	public void create_Server() {
 		try {
 			socket = new ServerSocket(this.port);
@@ -42,10 +43,12 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+	/*Funkcja wybierajaca typ gry */
 	public int choose_Type() {
 		//Na chwile obecna wymagany jest tylko wariant gry "chiñskie warcaby "
 		return 1;
 	}
+	/**Funkcja odpowiadajaca za polaczenia z klientem */
 	public void estabilish_connection() {
 		while(connection_iterator <1) {
 		//	System.out.println("jest komenda przed " + command_ms.getCommand());

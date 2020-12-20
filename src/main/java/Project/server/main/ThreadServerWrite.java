@@ -2,7 +2,7 @@ package Project.server.main;
 
 import java.io.PrintWriter;
 import java.net.Socket;
-
+/*Watek sluzacy do wysylania przez serwer informacji do klienta */
 public class ThreadServerWrite extends Thread{
 	public Socket client_socket;
 	public PrintWriter writer;

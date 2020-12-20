@@ -35,7 +35,10 @@ public abstract class Game {
 	public abstract void create_Queue();
 	/**Funkcja dodajaca gracza */
 	public abstract boolean add_Player();
+	/**Funkcja zwiekszajaca pozycje w kolejce */
 	public abstract void  increase_Queue();
+	/**Funkcja zwracajaca zwyciezce */
 	public abstract int get_winner();
+	/*Funkcja ustalajaca zwyciezce */
 	public abstract void set_winner(int x);
 }

@@ -6,7 +6,7 @@ import Project.common.game.TrylmaGame;
 /**Klasa do zarzadzania komendami*/
 /**serwer przesyla po kolei:
 	 *   nr instrukcji
-	 *   argumenty*/
+	 *   argumenty oddzielone œrednikiem*/
 public class CommandMaster {
 	
 		private String command;
@@ -15,7 +15,7 @@ public class CommandMaster {
 		public boolean success;
 		public ServerActivities activiti;
 		private int gametype;
-	
+	/**Konstruktor dla CommandMaster*/
 		public CommandMaster(int x, ServerActivities y) {
 			this.command = "";
 			this.gametype=x;
@@ -25,15 +25,15 @@ public class CommandMaster {
 			this.activiti = y;
 			}
 		}
-	
+	/**Funkcja pobierajaca komende */
 		public synchronized String getCommand() {
 			return command;
 		}
-		
+	/** Funckaj ustawiajaca komende */
 		public synchronized void setCommand(String x) {
 			this.command = x;
 		}
-		
+	/**Publiczna funkcja do analizy ktora aktywnosc serwer powinien zrealizowac */	
 		public synchronized void CommandMenu() {
 			if(activiti.equals(ServerActivities.SEND_ID)){
 				success = game.add_Player();
