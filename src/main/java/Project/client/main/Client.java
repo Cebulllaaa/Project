@@ -38,6 +38,11 @@ public class Client {
 		//Thread t = new Thread(frame);
 
 		connectionToServer.start();
+
+		frame.setTitle("Chinese Checkers");
+		frame.setSize(640, 640);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 		//t.start();
 
 		/*try {
