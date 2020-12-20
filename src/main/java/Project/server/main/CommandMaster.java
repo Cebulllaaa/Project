@@ -66,19 +66,13 @@ public class CommandMaster {
 			else {
 				setCommand("-1;");
 				System.out.println("Cos poszlo nie tak");
+				System.out.println(activiti);
 			}
 		}
 		private synchronized void setIDcommand(String x) {
-			if(x.isEmpty()) {
-				setCommand("1;1;");
-			}
-			else {
-				int begin = x.indexOf(';');
-				int end = x.lastIndexOf(';');
-				String last_player_id = x.substring(begin+1, end);
 				try {
-					int last_player = Integer.parseInt(last_player_id);
-					String new_player_id = Integer.toString(last_player+1);
+					int id = game.Players.size();
+					String new_player_id = Integer.toString(id);
 					setCommand("1;"+new_player_id + ";");
 				}
 				catch(Exception e) {
@@ -86,7 +80,6 @@ public class CommandMaster {
 				}
 			}
 			
-		}
 		private void sendGameInfo() {
 			if(game.getClass().equals(TrylmaGame.class)) {
 				setCommand("2;");

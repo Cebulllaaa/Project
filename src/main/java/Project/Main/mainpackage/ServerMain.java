@@ -6,10 +6,6 @@ import Project.server.main.Server;
 import Project.server.main.ServerActivities;
 import Project.server.main.ThreadConnectionServer;
 
-/**
- * Hello world!
- *
- */
 public class ServerMain 
 {	
 
@@ -18,9 +14,18 @@ public class ServerMain
 	ThreadConnectionServer connection;
 	boolean end =false;
 	boolean correct_move = true;
+	static int number_of_players;
+	long debug = 0;
     public static void main( String[] args )
     {
-        port_server = Integer.parseInt(args[0]);
+    	try {
+    		port_server = Integer.parseInt(args[0]);
+    		number_of_players = Integer.parseInt(args[1]);
+    	}
+    	catch (NumberFormatException e) {
+    		System.out.println("Podano niewlasciwy argument");
+    		System.exit(0);
+    	}
        System.out.println("Rozpoczynanie tworzenia serwera");
        ServerMain main = new ServerMain();
        main.create_server();
@@ -39,19 +44,18 @@ public class ServerMain
     	scan = new Scanner(System.in);
     	cmd = scan.nextLine();
     	connection = new ThreadConnectionServer(server);
-    	connection.start();
-/*server.command_ms.activiti = ServerActivities.LISTEN;
-server.command_ms.setCommand("");
-while(server.command_ms.getCommand().isEmpty()) {
-	
-}
-cmd = server.command_ms.getCommand();
-//if (cmd == "-1") {
-server.command_ms.activiti = ServerActivities.SEND_ID;
-//}*/
-	System.out.println("Aby skonczyc wpuszczanie graczy i wyslac im informacje wcisnij cokolwiek");
-    	cmd = scan.nextLine();
-   
+		server.command_ms.activiti = ServerActivities.LISTEN;
+		connection.start();
+		
+    	while( server.command_ms.game.Players.size() < number_of_players) {
+    		System.out.println("");
+    	}
+    	
+    
+    	connection = new ThreadConnectionServer(server);
+		server.command_ms.activiti = ServerActivities.LISTEN;
+		connection.start();
+    	
     	if(server.command_ms.game.Players.size() <2) {
     		System.out.println("przyjeto za mala ilosc graczy");
     		System.out.println(server.command_ms.game.Players.size());
