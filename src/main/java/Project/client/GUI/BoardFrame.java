@@ -41,7 +41,7 @@ public class BoardFrame extends JFrame implements Runnable {
 
 		int n = board.getEdgeLength();
 
-		setLayout(new GridLayout(3 * n - 2, 3 * n - 2));
+		setLayout(new GridLayout(8 * n, 6 * n)); //((4*n) * 2, (3*n) * 2)
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 board.initPieces(6);
 
@@ -95,18 +95,55 @@ board.initPieces(6);
 	private void initButtons() {
 		buttons = new FieldButton[board.fields.length];
 
-		int n = board.getEdgeLength();
-		JPanel p = new JPanel();
+		/*int n = board.getEdgeLength();
 				for (int i=buttons.length; i<(3*n-2)*(3*n-2); i++) {
-					add(p);
-				}
+					add(new JPanel());
+				}*/
 		for (int i=0; i < buttons.length; i++) {
-			buttons[i] = new FieldButton("###");
+			buttons[i] = new FieldButton("##");
 //			buttons[i].setBorder(new BasicBorders.ButtonBorder(getForeground(), getForeground(), null, null));
 			buttons[i].setField(board.fields[i], i);
 			buttons[i].addActionListener(new FieldsListener());
 
-			add(buttons[i]);
+//			add(buttons[i]);
+
+		}
+
+		FieldOrganizer fo = new FieldOrganizer(buttons, board.getEdgeLength());
+		fo.organize();
+
+		addOrganized( fo.getOrganizedFields() );
+
+		//
+
+	}
+
+	private void addOrganized(FieldButton[][] orgFB) {
+		int width = (3 * board.getEdgeLength());
+		for (int i=0; i < orgFB.length; i++) {
+			FieldButton[] oneRow = orgFB[i];
+			int halfEmptyCount = (width - (i % 2) - oneRow.length) / 2;
+
+			for (int j=0; j < halfEmptyCount; j++) {
+				add(new JPanel());
+				add(new JPanel());
+			}
+
+			for (int j=0; j < oneRow.length; j++) {
+				if (i % 2 == 0) {
+					add(oneRow[j]);
+				}
+				add(new JPanel());
+				if (i % 2 != 0) {
+					add(oneRow[j]);
+				}
+
+			}
+
+			for (int j=0; j < halfEmptyCount + width; j++) {
+				add(new JPanel());
+				add(new JPanel());
+			}
 
 		}
 

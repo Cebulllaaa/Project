@@ -42,7 +42,7 @@ public class Client {
 		connectionToServer.start();
 
 		frame.setTitle("Chinese Checkers");
-		frame.setSize(640, 640);
+		frame.setSize(800, 800);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		//t.start();

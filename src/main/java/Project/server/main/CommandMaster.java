@@ -6,7 +6,7 @@ import Project.common.game.TrylmaGame;
 /**Klasa do zarzadzania komendami*/
 /**serwer przesyla po kolei:
 	 *   nr instrukcji
-	 *   argumenty oddzielone œrednikiem*/
+	 *   argumenty oddzielone ï¿½rednikiem*/
 public class CommandMaster {
 	
 		private String command;
@@ -94,7 +94,15 @@ public class CommandMaster {
 			setCommand("3;");
 		}
 		private void sendBoard() {
-			setCommand("4;TODO;");
+			String arrOfPositions = "4";
+			int[] positions = ((TrylmaGame)game).board.getPiecesPositions();
+
+			for (int i=0; i < positions.length; i++) {
+				arrOfPositions += ";" + Integer.toString(positions[i]);
+			}
+
+			setCommand(arrOfPositions); // <------------------------------------------------------!
+
 		}
 		
 		private void sendTurn() {
