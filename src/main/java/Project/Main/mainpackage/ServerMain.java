@@ -51,10 +51,6 @@ public class ServerMain
     		System.out.println("");
     	}
     	
-    
-    	connection = new ThreadConnectionServer(server);
-		server.command_ms.activiti = ServerActivities.LISTEN;
-		connection.start();
     	
     	if(server.command_ms.game.Players.size() <2) {
     		System.out.println("przyjeto za mala ilosc graczy");
@@ -69,6 +65,7 @@ public class ServerMain
     		System.out.println("Gra nie jest przeznaczona dla 5 graczy");
     		System.exit (0);
     	}
+    	
     	System.out.println("Przyjeto " + Integer.toString(server.command_ms.game.Players.size()) + " graczy");
     	
     	server.command_ms.activiti = ServerActivities.SEND_GAME_INFORMATION;
@@ -78,7 +75,7 @@ public class ServerMain
     	server.command_ms.activiti = ServerActivities.SEND_START_GAME;
        	System.out.println("Aby skonczyc wysylanie informacji o starcie gry wcisnij cokolwiek");
     	scan.nextLine();
-	
+    	server.command_ms.setStarted(true);
     	server.command_ms.game.create_Queue();
     	in_game();
 

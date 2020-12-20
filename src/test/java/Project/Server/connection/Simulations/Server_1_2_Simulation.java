@@ -22,6 +22,8 @@ public class Server_1_2_Simulation {
 		String cmd = "2;6;1;";
 		Server serwer  = new Server(port_serwer);
 		serwer.create_Server();
+		serwer.command_ms.setStarted(true);
+		serwer.command_ms.activiti=ServerActivities.SEND_ID;
 		ThreadListenClient client1 = new ThreadListenClient();
 		client1.port_serwer = port_serwer;
 		ThreadListenClient client2 = new ThreadListenClient();
@@ -53,13 +55,13 @@ public class Server_1_2_Simulation {
 			client5.join();
 			client6.join();
 			
-			/*
+			
 			System.out.println(client1.command);
 			System.out.println(client2.command);
 			System.out.println(client3.command);
 			System.out.println(client4.command);
 			System.out.println(client5.command);
-			System.out.println(client6.command);  */
+			System.out.println(client6.command);  
 			
 			client1 = new ThreadListenClient();
 			client1.port_serwer = port_serwer;

@@ -15,6 +15,7 @@ public class CommandMaster {
 		public boolean success;
 		public ServerActivities activiti;
 		private int gametype;
+		private boolean started ;
 	/**Konstruktor dla CommandMaster*/
 		public CommandMaster(int x, ServerActivities y) {
 			this.command = "";
@@ -23,6 +24,7 @@ public class CommandMaster {
 			if(x ==1) {
 			this.game =new TrylmaGame();
 			this.activiti = y;
+			started = false;
 			}
 		}
 	/**Funkcja pobierajaca komende */
@@ -38,7 +40,7 @@ public class CommandMaster {
 			if(activiti.equals(ServerActivities.SEND_ID)){
 				success = game.add_Player();
 				if(success) {
-					setIDcommand(command);
+					setIDcommand();
 				}
 				else {
 					setCommand("1;-1;");
@@ -69,7 +71,7 @@ public class CommandMaster {
 				System.out.println(activiti);
 			}
 		}
-		private synchronized void setIDcommand(String x) {
+		private synchronized void setIDcommand() {
 				try {
 					int id = game.Players.size();
 					String new_player_id = Integer.toString(id);
@@ -106,5 +108,11 @@ public class CommandMaster {
 			int winner = game.get_winner();
 			String winner_s = Integer.toString(winner);
 			setCommand(command + winner_s + ";");
+		}
+		public void setStarted(boolean x) {
+			this.started =x;
+		}
+		public boolean getStarted() {
+			return started;
 		}
 }

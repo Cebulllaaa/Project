@@ -58,6 +58,7 @@ public class FastGameSimulation {
 	}
 	public void estabilishConnection() {
 		if(!started) {
+			server.command_ms.setStarted(true);
 			serverconnection = new ThreadConnectionServer(server);
 			serverconnection.start();
 			send_id();

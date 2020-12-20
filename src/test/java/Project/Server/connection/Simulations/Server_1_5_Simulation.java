@@ -22,6 +22,7 @@ public class Server_1_5_Simulation {
 		Server serwer  = new Server(port_serwer);
 		serwer.create_Server();
 		String cmd;
+		serwer.command_ms.setStarted(true);
 		ThreadListenClient client1 = new ThreadListenClient();
 		client1.port_serwer = port_serwer;
 		ThreadListenClient client2 = new ThreadListenClient();
