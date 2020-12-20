@@ -2,6 +2,7 @@ package Project.Main.mainpackage;
 
 import java.util.Scanner;
 
+import Project.common.game.TrylmaGame;
 import Project.server.main.Server;
 import Project.server.main.ServerActivities;
 import Project.server.main.ThreadConnectionServer;
@@ -68,6 +69,15 @@ public class ServerMain
     	
     	System.out.println("Przyjeto " + Integer.toString(server.command_ms.game.Players.size()) + " graczy");
     	
+    	((TrylmaGame)server.command_ms.game).board.initPieces(server.command_ms.game.Players.size());
+    	try {
+    		Thread.sleep(20);
+    	}
+    	catch (InterruptedException ix) {
+			System.out.println(ix);
+		}
+    	//System.out.println("Done");
+
     	server.command_ms.activiti = ServerActivities.SEND_GAME_INFORMATION;
     	System.out.println("Aby skonczyc wysylanie informacji wcisnij cokolwiek");
     	scan.nextLine();
