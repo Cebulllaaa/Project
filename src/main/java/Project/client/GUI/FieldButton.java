@@ -71,37 +71,44 @@ public class FieldButton extends JButton {
 		switch (getPiece()) {
 		case NONE:
 //			setForeground(Color.GRAY);
-			setLabel(" ");
+			//setLabel(" ");
+			chooseColor();
 			break;
 
 		case BLUE:
 //			setForeground(Color.BLUE);
-			setLabel("B");
+			//setLabel("B");
+			setBackground(Color.BLUE.darker());
 			break;
 
 		case GREEN:
 //			setForeground(Color.GREEN);
-			setLabel("G");
+			//setLabel("G");
+			setBackground(Color.GREEN.darker());
 			break;
 
 		case ORANGE:
 //			setForeground(Color.ORANGE);
-			setLabel("O");
+			//setLabel("O");
+			setBackground(Color.ORANGE.darker());
 			break;
 
 		case RED:
 //			setForeground(Color.RED);
-			setLabel("R");
+			//setLabel("R");
+			setBackground(Color.RED.darker());
 			break;
 
 		case WHITE:
 //			setForeground(Color.WHITE);
-			setLabel("W");
+			//setLabel("W");
+			setBackground(Color.WHITE.darker());
 			break;
 
 		case YELLOW:
 //			setForeground(Color.YELLOW);
-			setLabel("Y");
+			//setLabel("Y");
+			setBackground(Color.YELLOW.darker());
 			break;
 
 		default:
