@@ -177,6 +177,9 @@ public class ClientTemporaryConnection extends Thread {
 
 	private void setTurn() {
 		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
+System.out.println(myTurn);
+System.out.println(clientId);
+System.out.println(serverMsg[1]);
 		isMoveMade = false;
 		write();
 	}
@@ -211,20 +214,28 @@ catch (InterruptedException ix) {
 }
 		isMoveMade = false;
 		myTurn = false;
-out = new PrintWriter(System.out);
+//out = new PrintWriter(System.out);
 		out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
+System.out.print(1);
 		out.print(regexDelim);
+System.out.print(regexDelim);
 
 		out.print(clientId);
 		out.print(regexDelim);
+System.out.print(clientId);
+System.out.print(regexDelim);
 
 		out.print(changedPiece);
 		out.print(regexDelim);
+System.out.print(changedPiece);
+System.out.print(regexDelim);
 
 		out.print(newPosOfChangedPiece);
+System.out.print(newPosOfChangedPiece);
 
 		out.println();
 		out.flush();
+System.out.println();
 
 	}
 

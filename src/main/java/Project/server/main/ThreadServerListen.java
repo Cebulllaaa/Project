@@ -31,7 +31,7 @@ public class ThreadServerListen extends Thread {
 		try {
 			Cmd = reader.readLine();
 			CmdM.setCommand(getCmd());
-		//	System.out.println("ustawilem");
+			System.out.println("ustawilem"); ///////////// <--- to odkomentowalem
 		}
 		catch (Exception e) {
 			System.out.println(e);

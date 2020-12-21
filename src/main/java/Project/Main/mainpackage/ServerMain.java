@@ -97,6 +97,16 @@ public class ServerMain
 		System.out.println("Rozpoczynam gre");
     	Scanner sc = new Scanner(System.in);
     	while(true) {
+    		/* to trzeba przeniesc do watku serwera
+    		 * - nie mozemy decydowac ktora komenda
+    		 *   ma byc wykonana w jednym watku, a wykonywac ja w drugim,
+    		 *   bo musimy miec pewnosc, ze ustalenie nastepnej
+    		 *   komendy nastapi po wykonaniu sie aktualnie wybranej
+    		 *   (tu kiedy zakomentujemy wszystkie System.out.println(...)
+    		 *      i sc.nextLine() to nowe komendy beda ustawiane za szybko
+    		 *      (np. od razu po ustawieniu SEND_BOARD ustawimy SEND_WHOSE_TURN
+    		 *         nie czekajac na wykonanie sie SEND_BOARD) )
+    		 */
     		server.command_ms.activiti=ServerActivities.SEND_BOARD;
         	System.out.println("Aby skonczyc wysylanie informacji o tablicy wcisnij cokolwiek");
         	sc.nextLine();
@@ -105,9 +115,16 @@ public class ServerMain
         	sc.nextLine();
     		System.out.println(server.command_ms.getCommand());
     		server.command_ms.activiti=ServerActivities.LISTEN;
-    		server.command_ms.setCommand("");
+System.out.println(server.command_ms.getCommand()); // <--- to dodalem
+    		//server.command_ms.setCommand(""); // <--- to zakomentowalem
+sc.nextLine(); // <---------------------------------------- to dodalem
     		while(server.command_ms.getCommand().isEmpty()) {
-    			
+    			try {
+    				Thread.sleep(20);
+    			}
+    			catch (InterruptedException ix) {
+					// TODO: handle exception
+				}
     		}
     		// sprawdzamy czy poprawny ruch TODO
     		if(correct_move) {
