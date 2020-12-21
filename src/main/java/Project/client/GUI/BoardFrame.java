@@ -41,7 +41,8 @@ public class BoardFrame extends JFrame implements Runnable {
 
 		int n = board.getEdgeLength();
 
-		setLayout(new GridLayout(8 * n, 6 * n)); //((4*n) * 2, (3*n) * 2)
+		//((4*(n-1) + 1) * 2, (3*n - 2) * 2) == ((4 * bokTrojkata + 1) * 2, (2 * bokTrojkata + bokSzesciokata) * 2)
+		setLayout(new GridLayout(8 * n - 6, 6 * n - 4));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 board.initPieces(6);
 
@@ -133,7 +134,9 @@ board.initPieces(6);
 				if (i % 2 == 0) {
 					add(oneRow[j]);
 				}
+
 				add(new JPanel());
+
 				if (i % 2 != 0) {
 					add(oneRow[j]);
 				}
