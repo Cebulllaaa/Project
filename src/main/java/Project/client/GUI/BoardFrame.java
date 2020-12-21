@@ -2,6 +2,7 @@ package Project.client.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,10 +15,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.plaf.basic.BasicBorders;
 
 import Project.client.connection.ClientTemporaryConnection;
 import Project.common.board.AbstractBoard;
+import Project.common.board.Piece;
+import Project.common.board.PieceHelperMethods;
 
 public class BoardFrame extends JFrame implements Runnable {
 
@@ -41,8 +43,11 @@ public class BoardFrame extends JFrame implements Runnable {
 
 		int n = board.getEdgeLength();
 
-		//((4*(n-1) + 1) * 2, (3*n - 2) * 2) == ((4 * bokTrojkata + 1) * 2, (2 * bokTrojkata + bokSzesciokata) * 2)
-		setLayout(new GridLayout(8 * n - 6, 6 * n - 4));
+		/*
+		 * (4*(n-1) * 2 + 1, (3*n - 2) * 2)
+		 *    == (4 * bokTrojkata * 2 + polowa przesuniecia, (2 * bokTrojkata + bokSzesciokata) * 2)
+		 */
+		setLayout(new GridLayout(8 * n - 5, 6 * n - 4));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 board.initPieces(6);
 
@@ -101,12 +106,11 @@ board.initPieces(6);
 					add(new JPanel());
 				}*/
 		for (int i=0; i < buttons.length; i++) {
-			buttons[i] = new FieldButton("##");
-//			buttons[i].setBorder(new BasicBorders.ButtonBorder(getForeground(), getForeground(), null, null));
+			buttons[i] = new FieldButton();
+			buttons[i].setForeground(Color.BLACK);
+			buttons[i].setFont(new Font(Font.SANS_SERIF, Font.BOLD, 0));
 			buttons[i].setField(board.fields[i], i);
 			buttons[i].addActionListener(new FieldsListener());
-
-//			add(buttons[i]);
 
 		}
 
@@ -114,8 +118,6 @@ board.initPieces(6);
 		fo.organize();
 
 		addOrganized( fo.getOrganizedFields() );
-
-		//
 
 	}
 
@@ -125,7 +127,7 @@ board.initPieces(6);
 			FieldButton[] oneRow = orgFB[i];
 			int halfEmptyCount = (width - (i % 2) - oneRow.length) / 2;
 
-			for (int j=0; j < halfEmptyCount; j++) {
+			for (int j=0; j < halfEmptyCount - (i % 2); j++) {
 				add(new JPanel());
 				add(new JPanel());
 			}
@@ -133,12 +135,14 @@ board.initPieces(6);
 			for (int j=0; j < oneRow.length; j++) {
 				if (i % 2 == 0) {
 					add(oneRow[j]);
+				//System.out.print(PieceHelperMethods.pieceToID(oneRow[j].getHomeType()));
 				}
 
 				add(new JPanel());
 
 				if (i % 2 != 0) {
 					add(oneRow[j]);
+				//System.out.print(PieceHelperMethods.pieceToID(oneRow[j].getPiece()));
 				}
 
 			}
@@ -147,16 +151,11 @@ board.initPieces(6);
 				add(new JPanel());
 				add(new JPanel());
 			}
+			System.out.println();
 
 		}
 
 	}
-
-/*	public void initPanel() {
-		for (int i=0; i < buttons.length; i++) {
-			add(buttons[i]);
-		}
-	}*/
 
 	public void run() {
 		while (more) {
@@ -202,12 +201,19 @@ board.initPieces(6);
 				showHelpDialog();
 			}
 			else if (arg0.getActionCommand() == "Make move") {
-				makeMove();
+				if (connection.isMyTurn()) {
+					makeMove();
+				}
+				else {
+					dialogText.setText("It's not your turn.");
+					infoDialog.setVisible(true);
+				}
 			}
 
 		}
 
 		private void showHelpDialog() {
+			dialogText.setText(howToUse + "\n" + authors);
 			infoDialog.setVisible(true);
 		}
 
@@ -229,17 +235,28 @@ board.initPieces(6);
 		public void actionPerformed(ActionEvent arg0) {
 			FieldButton fb = (FieldButton)arg0.getSource();
 			int index = fb.getID();
-			// if (fb.getPiece() != Piece.NONE)
 			if (pressed == -1) {
-				pressed = index;
-				whereFrom = index;
-				fb.setBackground(Color.BLACK);
+				if (fb.getPiece() != Piece.NONE) {
+					pressed = index;
+					whereFrom = index;
+					fb.setBackground(Color.BLACK);
+				}
+				else {
+					dialogText.setText("The filed is empty!");
+					infoDialog.setVisible(true);
+				}
 			}
 			else {
-				buttons[pressed].chooseColor();
-				pressed = -1;
-				whereTo = index;
-				fb.setForeground(Color.BLACK);
+				if (fb.getPiece() == Piece.NONE) {
+					buttons[pressed].chooseColor();
+					pressed = -1;
+					whereTo = index;
+					fb.setLabel("#");
+				}
+				else {
+					dialogText.setText("There is already a peg on that space");
+					infoDialog.setVisible(true);
+				}
 			}
 
 		}

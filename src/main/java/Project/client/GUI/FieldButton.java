@@ -15,14 +15,15 @@ public class FieldButton extends JButton {
 	private Field myField;
 	private int myID;
 
-	public FieldButton(String str) {
+	/*public FieldButton(String str) {
 		super(str);
-	}
+	}*/
 
 	public void setField(Field field, int id) {
 		myField = field;
 		myID = id;
 		chooseColor();
+		choosePiece();
 
 	}
 
@@ -69,31 +70,38 @@ public class FieldButton extends JButton {
 	public void choosePiece() {
 		switch (getPiece()) {
 		case NONE:
-			setForeground(Color.GRAY);
+//			setForeground(Color.GRAY);
+			setLabel(" ");
 			break;
 
 		case BLUE:
-			setForeground(Color.BLUE);
+//			setForeground(Color.BLUE);
+			setLabel("B");
 			break;
 
 		case GREEN:
-			setForeground(Color.GREEN);
+//			setForeground(Color.GREEN);
+			setLabel("G");
 			break;
 
 		case ORANGE:
-			setForeground(Color.ORANGE);
+//			setForeground(Color.ORANGE);
+			setLabel("O");
 			break;
 
 		case RED:
-			setForeground(Color.RED);
+//			setForeground(Color.RED);
+			setLabel("R");
 			break;
 
 		case WHITE:
-			setForeground(Color.WHITE);
+//			setForeground(Color.WHITE);
+			setLabel("W");
 			break;
 
 		case YELLOW:
-			setForeground(Color.YELLOW);
+//			setForeground(Color.YELLOW);
+			setLabel("Y");
 			break;
 
 		default:

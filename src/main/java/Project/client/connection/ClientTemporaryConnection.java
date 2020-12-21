@@ -69,15 +69,16 @@ public class ClientTemporaryConnection extends Thread {
 		try {
 			in = new Scanner(clientSocket.getInputStream());
 			out = new PrintWriter(clientSocket.getOutputStream());
-if (clientId == -1) {
-out.println(clientId);
-out.flush();
-}
+
+			if (clientId == -1) {
+				out.println(clientId);
+				out.flush();
+			}
 
 			fetchInstruction();
 			decodeInstruction();
 
-			listener.print();
+			// listener.print();
 
 		}
 		finally {
@@ -276,13 +277,15 @@ catch (InterruptedException ix) {
 
 	private void setPieces() {
 //		synchronized (pieces) {
-			pieces = new int[numOfPlayers][numOfPlayerPieces];
+		pieces = new int[numOfPlayers][numOfPlayerPieces];
 
-			for (int i=0; i < pieces.length; i++) {
-				for (int j=0; j < pieces[i].length; j++) {
-					pieces[i][j] = Integer.parseInt(serverMsg[i * numOfPlayerPieces + j + servMsgPiecesStart]);
-				}
+		for (int i=0; i < pieces.length; i++) {
+			for (int j=0; j < pieces[i].length; j++) {
+				pieces[i][j] = Integer.parseInt(serverMsg[i * numOfPlayerPieces + j + servMsgPiecesStart]);
 			}
+		}
+
+		//listener
 
 //		}
 	}
