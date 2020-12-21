@@ -157,7 +157,7 @@ board.initPieces(6);
 
 	}
 
-	public void run() {
+	public void run() {/*
 		while (more) {
 			try {
 				Thread.sleep(1000);					
@@ -168,7 +168,7 @@ board.initPieces(6);
 				System.out.println(ix);
 			}
 		}
-	}
+	*/}
 
 	public void setNewPieces() {
 		int[][] positions = connection.getPieces();

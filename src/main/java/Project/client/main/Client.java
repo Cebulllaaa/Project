@@ -16,7 +16,6 @@ import Project.common.game.GameType;
 
 public class Client {
 
-//	private static final String programName = "Client";
 	private static ClientTemporaryConnection connectionToServer;
 	private static int id;
 	private static GameType gameType;

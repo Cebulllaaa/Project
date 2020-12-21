@@ -43,6 +43,9 @@ public class ClientTemporaryConnection extends Thread {
 		this.port = port;
 	}
 
+	/**
+	 * metoda powtarzajaca laczenie sie z serwerem az do konca gry
+	 */
 	@Override
 	public void run() {
 		try {
@@ -60,7 +63,25 @@ public class ClientTemporaryConnection extends Thread {
 	 * na poczatku komunikacji:
 	 *    serwer przesyla po kolei:
 	 *    id klienta, typ gry (int), liczbe wszystkich graczy
-	 *    w grze (musi byc znana na poczatku), listy pozycji pionkow kolejnych graczy
+	 *    w grze (musi byc znana na poczatku),
+	 * w trakcie gry:
+	 *    listy pozycji pionkow kolejnych graczy, id gracza, ktorego jest kolej
+	 * na koniec:
+	 *    id gracza ktory wygral
+	 */
+
+	/**
+	 * metoda wykonujaca pojedyncze polaczenie z serwerem:
+	 *    jesli potrzeba, to wysyla dane;
+	 *    pobiera komende;
+	 *    dekoduje komende;
+	 *    jesli potrzeba, to wysyla dane;
+	 *    konczy polaczenie
+	 * @throws IOException
+	 * @throws PlayerNotAllowedException
+	 * @throws WrongGameTypeException
+	 * @throws GameEndedException
+	 * @throws InterruptedException
 	 */
 	public void connect() throws IOException, PlayerNotAllowedException, WrongGameTypeException,
 	GameEndedException, InterruptedException {
@@ -84,59 +105,17 @@ public class ClientTemporaryConnection extends Thread {
 		finally {
 			endConnection();
 		}
-//Thread.sleep(100);
-/*
-		for (int i=0; i<serverMsg.length; i++) {
-			System.out.println(serverMsg[i]);
-		}
-
-		clientId = Integer.parseInt(serverMsg[1]);
-
-		if (clientId == clientNotAllowedCode) {
-			throw new PlayerNotAllowedException("There are enough many players in this game");
-		}
-
-		while (!in.hasNextLine()) ;
-		serverMsg = in.nextLine().split(regexDelim); // daneGry: 2;liczbaGraczy;gameType
-		for (int i=0; i<serverMsg.length; i++) {
-			System.out.println(serverMsg[i]);
-		}
-
-		try {
-			gameType = GameHelperMethods.getGameType( Integer.parseInt(serverMsg[2]) );
-			numOfPlayers = Integer.parseInt(serverMsg[1]);
-
-			numOfPlayerPieces = numberOfMyPieces();
-
-			while (!in.hasNextLine()) ;
-			serverMsg = in.nextLine().split(regexDelim); // startGame: 3;
-			for (int i=0; i<serverMsg.length; i++) {
-				System.out.println(serverMsg[i]);
-			}
-
-			while (!in.hasNextLine()) ;
-			serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
-			for (int i=0; i<serverMsg.length; i++) {
-				System.out.println(serverMsg[i]);
-			}
-			pieces = new int[numOfPlayers][numOfPlayerPieces];
-			setPieces();
-
-		}
-		catch (WrongGameTypeException wgtx) {
-			throw new WrongGameTypeException("Error: Server sent wrong type of game");
-		}*/
 
 	}
 
 	private void fetchInstruction() throws InterruptedException {
 		while (!in.hasNextLine()) Thread.sleep(50);
 		serverMsg = in.nextLine().split(regexDelim); // instrukcja: instructionID;argumenty
-
+/*
 		for (String line : serverMsg) {
 			System.out.println(line);
 		}
-
+*/
 	}
 
 	/**
@@ -155,23 +134,23 @@ public class ClientTemporaryConnection extends Thread {
 			setGameData();
 			break;
 
-		case 3:
+		case 3: // startGame: 3;
 			startGame();
 			break;
 
-		case 4:
+		case 4: // updateBoard: 4;[lista polaczen kolejnych pionkow]
 			setPieces();
 			break;
 
-		case 5:
+		case 5: // setTurn: 5;idGraczaKtoregoJestKolej
 			setTurn();
 			break;
 
-		case 6:
+		case 6: // endGame: 6;idZwyciezcy
 			endGame();
 			break;
 
-		default:
+		default: // nie ma miejsc: -1;
 			throw new PlayerNotAllowedException("There are enough many players in this game");
 		}
 	}
@@ -198,6 +177,8 @@ public class ClientTemporaryConnection extends Thread {
 
 	private void setTurn() {
 		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
+		isMoveMade = false;
+		write();
 	}
 
 	public void endConnection() throws IOException {
@@ -216,6 +197,9 @@ public class ClientTemporaryConnection extends Thread {
 	 * id gracza ktory ma wykonac ruch,
 	 * roznice pozycji jego pionkow
 	 */
+	/**
+	 * wysylanie informacji o ruchu do serwera
+	 */
 	public void write() {
 //		out.print(false);
 //		out.print(regexDelim);
@@ -227,7 +211,7 @@ catch (InterruptedException ix) {
 }
 		isMoveMade = false;
 		myTurn = false;
-
+out = new PrintWriter(System.out);
 		out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
 		out.print(regexDelim);
 
