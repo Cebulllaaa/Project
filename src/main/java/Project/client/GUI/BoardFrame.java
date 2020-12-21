@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 
 import Project.client.connection.ClientTemporaryConnection;
 import Project.common.board.AbstractBoard;
+import Project.common.board.Field;
 import Project.common.board.Piece;
 import Project.common.board.PieceHelperMethods;
 
@@ -151,7 +152,6 @@ board.initPieces(6);
 				add(new JPanel());
 				add(new JPanel());
 			}
-			System.out.println();
 
 		}
 
@@ -168,6 +168,24 @@ board.initPieces(6);
 				System.out.println(ix);
 			}
 		}
+	}
+
+	public void setNewPieces() {
+		int[][] positions = connection.getPieces();
+
+		for (int i=0; i < buttons.length; i++) {
+			buttons[i].setPiece( Piece.NONE );
+		}
+
+		for (int i=0; i < positions.length; i++) {
+			for (int j=0; j < positions[i].length; j++) {
+				Piece piece = PieceHelperMethods.idToPiece(i + 1);
+				FieldButton but = buttons[positions[i][j]];
+				but.setPiece(piece);
+				but.choosePiece();
+			}
+		}
+
 	}
 
 	public void signalise(Exception x) {
@@ -252,6 +270,7 @@ board.initPieces(6);
 					pressed = -1;
 					whereTo = index;
 					fb.setLabel("#");
+					repaint();
 				}
 				else {
 					dialogText.setText("There is already a peg on that space");

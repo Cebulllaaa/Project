@@ -276,7 +276,6 @@ catch (InterruptedException ix) {
 	}*/
 
 	private void setPieces() {
-//		synchronized (pieces) {
 		pieces = new int[numOfPlayers][numOfPlayerPieces];
 
 		for (int i=0; i < pieces.length; i++) {
@@ -285,19 +284,13 @@ catch (InterruptedException ix) {
 			}
 		}
 
-		//listener
+		listener.setNewPieces();
 
-//		}
 	}
 
 	private int numberOfMyPieces() throws WrongGameTypeException {
-//		try {
 		return GameHelperMethods.getNumberOfPieces(gameType);
-/*		}
-		catch (WrongGameTypeException wgtx) { // unreachable
-			throw new WrongGameTypeException("Error: Server sent wrong type of game");
-		}
-*/
+
 	}
 
 	public int getID() {
@@ -307,24 +300,6 @@ catch (InterruptedException ix) {
 	public GameType getGameType() {
 		return gameType;
 	}
-
-	/* zbyt niebezpieczne
-	public Scanner getIn() {
-		return in;
-	}
-	*/
-
-	/* zbyt niebezpieczne
-	public PrintWriter getOut() {
-		return out;
-	}
-	*/
-
-	/* zbyt niebezpieczne
-	public String[] getServerMesssage() {
-		return serverMsg;
-	}
-	*/
 
 	public void setChange(int chPiece, int newPiecePos) {
 		changedPiece = chPiece;
