@@ -1,0 +1,9 @@
+Project.client.connection
+Project.client.exceptions
+Project.client.GUI
+Project.client.main
+Project.common.board
+Project.common.exceptions
+Project.common.game
+Project.Main.mainpackage
+Project.server.main

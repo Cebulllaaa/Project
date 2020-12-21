@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-/**G³ówna klasa odpowiadjaca za dzia³anie serwera*/
+/**Glowna klasa odpowiadjaca za dzialanie serwera*/
 public class Server {
 	
 	public ServerSocket socket;
@@ -44,7 +44,7 @@ public class Server {
 	}
 	/*Funkcja wybierajaca typ gry */
 	public int choose_Type() {
-		//Na chwile obecna wymagany jest tylko wariant gry "chiñskie warcaby "
+		//Na chwile obecna wymagany jest tylko wariant gry "chinskie warcaby "
 		return 1;
 	}
 	/**Funkcja odpowiadajaca za polaczenia z klientem */

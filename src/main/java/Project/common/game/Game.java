@@ -1,7 +1,7 @@
 package Project.common.game;
 import java.util.ArrayList;
 
-/**Klasa abstrakcyjna zawierajaca podstawy do dowolnego trybu gry (w przypadku gdyby nale¿a³o rozszerzy apliakcje o nowe tryby */
+/**Klasa abstrakcyjna zawierajaca podstawy do dowolnego trybu gry (w przypadku gdyby nalezalo rozszerzy apliakcje o nowe tryby */
 public abstract class Game {
 	/**Lista Graczy w danej grze */
 	public ArrayList<Integer> Players;
