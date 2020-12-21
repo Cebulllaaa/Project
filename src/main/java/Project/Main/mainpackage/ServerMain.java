@@ -119,12 +119,12 @@ System.out.println(server.command_ms.getCommand()); // <--- to dodalem
     		//server.command_ms.setCommand(""); // <--- to zakomentowalem
 sc.nextLine(); // <---------------------------------------- to dodalem
     		while(server.command_ms.getCommand().isEmpty()) {
-    			try {
-    				Thread.sleep(20);
-    			}
-    			catch (InterruptedException ix) {
+    			try { // <--------------------------------- to dodalem
+    				Thread.sleep(20); // <----------------- to dodalem
+    			} // <------------------------------------- to dodalem
+    			catch (InterruptedException ix) { // <----- to dodalem
 					// TODO: handle exception
-				}
+				} // <------------------------------------- to dodalem
     		}
     		// sprawdzamy czy poprawny ruch TODO
     		if(correct_move) {
