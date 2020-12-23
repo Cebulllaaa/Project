@@ -41,6 +41,7 @@ public abstract class AbstractBoard {
 		for (Field field : fields) {
 			if (field.getHomeType() == type) {
 				triangle[j] = field;
+				j++;
 			}
 		}
 
