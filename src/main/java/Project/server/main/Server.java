@@ -61,6 +61,7 @@ public class Server {
 					//	System.out.println(command_ms.activiti);
 				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
 					listen = new ThreadServerListen(client_socket, command_ms);
+System.out.println("Bede czytal");
 					listen.run();
 				//	System.out.println("jest komenda " + command_ms.getCommand());
 					if(command_ms.getCommand().equals("-1")) {

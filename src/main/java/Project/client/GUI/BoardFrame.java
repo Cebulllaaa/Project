@@ -50,7 +50,7 @@ public class BoardFrame extends JFrame implements Runnable {
 		 */
 		setLayout(new GridLayout(8 * n - 5, 6 * n - 4));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//board.initPieces(6);
+board.initPieces(6);
 
 		initMenuBar();
 		initHelpDialog();
@@ -176,6 +176,7 @@ public class BoardFrame extends JFrame implements Runnable {
 		for (int i=0; i < buttons.length; i++) {
 			buttons[i].setPiece( Piece.NONE );
 System.out.println(buttons[i].getPiece());
+			buttons[i].choosePiece();
 		}
 
 		for (int i=0; i < positions.length; i++) {

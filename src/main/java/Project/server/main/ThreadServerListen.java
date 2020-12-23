@@ -29,6 +29,7 @@ public class ThreadServerListen extends Thread {
 	@Override
 	public void run() {
 		try {
+System.out.println("czytam");
 			Cmd = reader.readLine();
 			CmdM.setCommand(getCmd());
 			System.out.println("ustawilem"); ///////////// <--- to odkomentowalem
