@@ -50,39 +50,14 @@ public class Server {
 	/**Funkcja odpowiadajaca za polaczenia z klientem */
 	public void estabilish_connection() {
 		while(connection_iterator <1) {
-		//	System.out.println("jest komenda przed " + command_ms.getCommand());
-		//	System.out.println("Przed akceptacja ");
-		//	System.out.println(sended);
-		//	System.out.println("jest obecnie " + command_ms.game.Players.size() + " graczy");	
+	
 			try {
-				//System.out.println("Przed akceptacja ");
+				
 					client_socket = socket.accept();
-				//	System.out.println("Zaakceptowal");
-					//	System.out.println(command_ms.activiti);
-				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
-					listen = new ThreadServerListen(client_socket, command_ms);
-					listen.run();
-				//	System.out.println("jest komenda " + command_ms.getCommand());
-					if(command_ms.getCommand().equals("-1")) {
-			//			System.out.println("Odebralem prosbe o ID");
-						command_ms.activiti = ServerActivities.SEND_ID;
-					}
-				}
-				if (command_ms.activiti.equals(ServerActivities.SEND_ID)) {
-				//	System.out.println("Rozpoczynam pisanie ID");
-					command_ms.CommandMenu();
-					ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
-					write.run();
-				//	System.out.println("napisalem id " + command_ms.getCommand());
-					if(!command_ms.getStarted()) {
-						command_ms.activiti =ServerActivities.LISTEN;
-					}
-				}
-				else if (!command_ms.activiti.equals(ServerActivities.LISTEN)){
-					command_ms.CommandMenu();
-					ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
-					write.run();
-				}
+					System.out.println("Zaakceptowal");
+					ThreadConnectionServer connection = new ThreadConnectionServer(this,client_socket);
+					connection.run();
+			
 				}
 			catch(IOException e) {
 				System.out.println(e);

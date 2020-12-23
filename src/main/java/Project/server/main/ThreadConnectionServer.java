@@ -1,13 +1,18 @@
 package Project.server.main;
+
+import java.net.Socket;
+
 /*Watek odpowiadajacy za polaczenia serwera */
 public class ThreadConnectionServer extends Thread{
 	public Server serwer;
-	public ThreadConnectionServer (Server x) {
+	public Socket client_socket;
+	public ThreadConnectionServer (Server x, Socket y) {
 		this.serwer=x;
+		this.client_socket = y;
 	}
 	@Override
 	public void run() {
-		serwer.estabilish_connection();
+		System.out.println("dzialam");
 	}
 
 }

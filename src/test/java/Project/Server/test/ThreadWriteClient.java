@@ -11,7 +11,7 @@ public class ThreadWriteClient  extends Thread{
 	@Override
 	public void run() {
 		try {
-		
+		System.out.println("uruchamiam sie");
 		Socket client_socket = new Socket("127.0.0.1",port);
 		PrintWriter writer = new PrintWriter(client_socket.getOutputStream(),true);
 		writer.print(command);
