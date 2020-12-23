@@ -276,6 +276,7 @@ System.out.println();
 		for (int i=0; i < pieces.length; i++) {
 			for (int j=0; j < pieces[i].length; j++) {
 				pieces[i][j] = Integer.parseInt(serverMsg[i * numOfPlayerPieces + j + servMsgPiecesStart]);
+System.out.println(pieces[i][j]);
 			}
 		}
 

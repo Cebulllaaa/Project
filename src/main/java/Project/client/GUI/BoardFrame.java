@@ -50,7 +50,7 @@ public class BoardFrame extends JFrame implements Runnable {
 		 */
 		setLayout(new GridLayout(8 * n - 5, 6 * n - 4));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-board.initPieces(6);
+//board.initPieces(6);
 
 		initMenuBar();
 		initHelpDialog();
@@ -175,6 +175,7 @@ board.initPieces(6);
 
 		for (int i=0; i < buttons.length; i++) {
 			buttons[i].setPiece( Piece.NONE );
+System.out.println(buttons[i].getPiece());
 		}
 
 		for (int i=0; i < positions.length; i++) {
@@ -182,7 +183,9 @@ board.initPieces(6);
 				Piece piece = PieceHelperMethods.idToPiece(i + 1);
 				FieldButton but = buttons[positions[i][j]];
 				but.setPiece(piece);
+System.out.println(but.getPiece());
 				but.choosePiece();
+System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 			}
 		}
 
@@ -260,7 +263,7 @@ board.initPieces(6);
 					fb.setBackground(Color.BLACK);
 				}
 				else {
-					dialogText.setText("The filed is empty!");
+					dialogText.setText("The space is empty!");
 					infoDialog.setVisible(true);
 				}
 			}
@@ -269,7 +272,8 @@ board.initPieces(6);
 					buttons[pressed].chooseColor();
 					pressed = -1;
 					whereTo = index;
-					fb.setLabel("#");
+					//fb.setLabel("#");
+					fb.setBackground(Color.PINK);
 					repaint();
 				}
 				else {
