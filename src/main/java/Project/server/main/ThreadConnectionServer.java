@@ -6,13 +6,19 @@ import java.net.Socket;
 public class ThreadConnectionServer extends Thread{
 	public Server serwer;
 	public Socket client_socket;
-	public ThreadConnectionServer (Server x, Socket y) {
+	public CommandMaster command_ms;
+	public int ID;
+	public ThreadConnectionServer (Server x, Socket y, CommandMaster z) {
 		this.serwer=x;
 		this.client_socket = y;
+		this.command_ms = z;
+		this.ID =command_ms.game.Players.size() +1;
 	}
 	@Override
 	public void run() {
-		System.out.println("dzialam");
+		//while(true) {
+			System.out.println("dzialam dla ID + " + ID);
+	//	}
 	}
 
 }

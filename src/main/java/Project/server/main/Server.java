@@ -50,14 +50,10 @@ public class Server {
 	/**Funkcja odpowiadajaca za polaczenia z klientem */
 	public void estabilish_connection() {
 		while(connection_iterator <1) {
-	
 			try {
-				
 					client_socket = socket.accept();
-					System.out.println("Zaakceptowal");
-					ThreadConnectionServer connection = new ThreadConnectionServer(this,client_socket);
-					connection.run();
-			
+					ThreadConnectionServer connection = new ThreadConnectionServer(this, client_socket, command_ms);
+					connection.start();
 				}
 			catch(IOException e) {
 				System.out.println(e);

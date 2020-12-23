@@ -5,7 +5,6 @@ import java.net.Socket;
 public class StartServerConnection  extends Thread{
 
 	public Server server;
-	public Socket client_socket;
 	public StartServerConnection (Server x) {
 		this.server=x;
 		
