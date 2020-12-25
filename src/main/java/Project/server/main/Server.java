@@ -50,13 +50,9 @@ public class Server {
 	/**Funkcja odpowiadajaca za polaczenia z klientem */
 	public void estabilish_connection() {
 		while(connection_iterator <1) {
-		//	System.out.println("jest komenda przed " + command_ms.getCommand());
-		//	System.out.println("Przed akceptacja ");
-		//	System.out.println(sended);
-		//	System.out.println("jest obecnie " + command_ms.game.Players.size() + " graczy");	
 			try {
-				//System.out.println("Przed akceptacja ");
 					client_socket = socket.accept();
+<<<<<<< HEAD
 				//	System.out.println("Zaakceptowal");
 					//	System.out.println(command_ms.activiti);
 				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
@@ -84,6 +80,10 @@ System.out.println("Bede czytal");
 					ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 					write.run();
 				}
+=======
+					ThreadConnectionServer connection = new ThreadConnectionServer(this, client_socket, command_ms);
+					connection.start();
+>>>>>>> branch 'Constant_connection' of https://github.com/Cebulllaaa/Project.git
 				}
 			catch(IOException e) {
 				System.out.println(e);
