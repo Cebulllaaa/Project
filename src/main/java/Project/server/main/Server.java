@@ -52,38 +52,8 @@ public class Server {
 		while(connection_iterator <1) {
 			try {
 					client_socket = socket.accept();
-<<<<<<< HEAD
-				//	System.out.println("Zaakceptowal");
-					//	System.out.println(command_ms.activiti);
-				if (command_ms.activiti.equals(ServerActivities.LISTEN)) {
-					listen = new ThreadServerListen(client_socket, command_ms);
-System.out.println("Bede czytal");
-					listen.run();
-				//	System.out.println("jest komenda " + command_ms.getCommand());
-					if(command_ms.getCommand().equals("-1")) {
-			//			System.out.println("Odebralem prosbe o ID");
-						command_ms.activiti = ServerActivities.SEND_ID;
-					}
-				}
-				if (command_ms.activiti.equals(ServerActivities.SEND_ID)) {
-				//	System.out.println("Rozpoczynam pisanie ID");
-					command_ms.CommandMenu();
-					ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
-					write.run();
-				//	System.out.println("napisalem id " + command_ms.getCommand());
-					if(!command_ms.getStarted()) {
-						command_ms.activiti =ServerActivities.LISTEN;
-					}
-				}
-				else if (!command_ms.activiti.equals(ServerActivities.LISTEN)){
-					command_ms.CommandMenu();
-					ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
-					write.run();
-				}
-=======
 					ThreadConnectionServer connection = new ThreadConnectionServer(this, client_socket, command_ms);
 					connection.start();
->>>>>>> branch 'Constant_connection' of https://github.com/Cebulllaaa/Project.git
 				}
 			catch(IOException e) {
 				System.out.println(e);

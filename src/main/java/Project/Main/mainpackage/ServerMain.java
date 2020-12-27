@@ -114,7 +114,6 @@ public class ServerMain
         	System.out.println("Aby skonczyc wysylanie informacji o turze wcisnij cokolwiek");
         	sc.nextLine();
     		System.out.println(server.command_ms.getCommand());
-server.command_ms.setCommand(""); // <--------------------- to dodalem
     		server.command_ms.activiti=ServerActivities.LISTEN;
 System.out.println(server.command_ms.getCommand()); // <--- to dodalem
     		//server.command_ms.setCommand(""); // <--- to zakomentowalem
