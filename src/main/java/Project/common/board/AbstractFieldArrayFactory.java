@@ -120,16 +120,22 @@ public abstract class AbstractFieldArrayFactory {
 			indexToConnect[i] = 0;
 		}
 
-		for (int i=1; i<n; i++) {
-			int firstIndexInRow = prevHexagon;
+		int firstIndexInRow = prevHexagon;
 
+		for (int i=1; i<n; i++) {
 			for (int j=0; j<6; j++) {
 				makeSingleRowInHexagon(prevToConnect, indexToConnect, prevHexagon, i, j);
 			}
 
 			prevHexagon += 6*i; // tyle pol bedzie dodane wliczajac ostatnie
 
-			Field.connectFields(wholeBoard[firstIndexInRow], wholeBoard[prevHexagon - 1]);
+			if (i > 1) {
+				Field.connectFieldsBefore(wholeBoard[firstIndexInRow], wholeBoard[prevHexagon - 1], 1, 3);
+				firstIndexInRow += 6 * (i-1);
+			}
+			else {
+				Field.connectFields(wholeBoard[firstIndexInRow], wholeBoard[prevHexagon - 1]);
+			}
 
 		}
 
@@ -141,11 +147,13 @@ public abstract class AbstractFieldArrayFactory {
 		Field tempField = new Field(fieldCounter, Piece.NONE, Piece.NONE);
 		fieldCounter++;
 
+		Field.connectFields(tempField, prevToConnect[j]);
+
 		if (j!=0) { // j!=0 -> to nie jest poczatek okrazenia
-			Field.connectFields(tempField, wholeBoard[index - 1]);
+			Field.connectFieldsBefore(tempField, wholeBoard[index - 1], 0);
+			// dolozenie nowego sasiada na samym poczatku
 		}
 
-		Field.connectFields(tempField, prevToConnect[j]);
 		wholeBoard[index] = tempField;
 
 		for (int k=1; k<i; k++) {
@@ -154,7 +162,7 @@ public abstract class AbstractFieldArrayFactory {
 
 			Field.connectFields(tempField, wholeBoard[indexToConnect[j] + k]);
 			Field.connectFields(tempField, wholeBoard[indexToConnect[j] + k - 1]);
-			Field.connectFields(tempField, wholeBoard[index + k - 1]);
+			Field.connectFieldsBefore(tempField, wholeBoard[index + k - 1], 0);
 
 			wholeBoard[index + k] = tempField;
 

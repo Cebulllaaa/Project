@@ -46,6 +46,39 @@ public class Field {
 		field2.setNeighbour(field1);
 	}
 
+	/**
+	 * adds each field as a neighbour to the other, setting the second field at the specified index in the first
+	 * @param fieldAppended the first field to connect
+	 * @param fieldInserted the second field to connect
+	 * @param insertingIndex index of the second field in the first field's neighbours
+	 * @throws TooManyNeighboursException thrown if there are already 6 neighbours
+	 *         at one of the fields or insertIndex is to big
+	 */
+	public static void connectFieldsBefore(Field fieldAppended, Field fieldInserted, int insertingIndex)
+			throws TooManyNeighboursException {
+		fieldAppended.setNeighbourBefore(fieldInserted, insertingIndex);
+		fieldInserted.setNeighbour(fieldAppended);
+	}
+
+	/**
+	 * adds each field as a neighbour to the other at the specified indices
+	 * @param field1 the first field to connect
+	 * @param field2 the second field to connect
+	 * @param index1 index of the first field in the second field's neighbours
+	 * @param index2 index of the second field in the first field's neighbours
+	 * @throws TooManyNeighboursException thrown if there are already 6 neighbours
+	 *         at one of the fields or any of the indices is to big
+	 */
+	public static void connectFieldsBefore(Field field1, Field field2, int index1, int index2)
+			throws TooManyNeighboursException {
+		field1.setNeighbourBefore(field2, index2);
+		field2.setNeighbourBefore(field1, index1);
+	}
+
+	/**
+	 * changes information about which piece stands on a field
+	 * @param piece new information about a stored piece
+	 */
 	public void setPieceOnField(Piece piece) {
 		pieceOnField = piece;
 	}
@@ -65,6 +98,41 @@ public class Field {
 			throw new TooManyNeighboursException(
 					"Error: you are trying to set more than 6 neighbours of the field."
 					);
+		}
+
+	}
+
+	/**
+	 * adds a neighbour to the field at a given index
+	 * @param neighbour the new neighbour
+	 * @param neighbourIndex index at which to add the neighbour
+	 * @throws TooManyNeighboursException thrown if there are already 6 neighbours or index is to big
+	 */
+	public void setNeighbourBefore(Field neighbour, int neighbourIndex) throws TooManyNeighboursException {
+		if (neighbourIndex >= 6) {
+			throw new TooManyNeighboursException("Error: there can be only 6 neighbours");
+		}
+		else if (neighboursCounter >= 6) {
+			throw new TooManyNeighboursException(
+					"Error: you are trying to set more than 6 neighbours of the field."
+					);
+		}
+		else {
+			moveNeighbours(neighbourIndex);
+			neighbours[ neighbourIndex ] = neighbour;
+			neighboursCounter++;
+
+		}
+
+	}
+
+	/**
+	 * increments indices of every neigbour which index is greater or equal to variable index
+	 * @param index lowest of the indices of the fields to move
+	 */
+	private void moveNeighbours(int index) {
+		for (int i = neighbours.length - 1; i > index; i--) {
+			neighbours[i] = neighbours[i-1];
 		}
 
 	}
@@ -128,6 +196,10 @@ public class Field {
 	 */
 	public Field oppositeField(Field field) throws FieldNotFoundException {
 		return neighbours[(findField(field) + (TOTAL_NUMBER_OF_NEIGHBOURS / 2)) % TOTAL_NUMBER_OF_NEIGHBOURS];
+	}
+
+	public int getNeigboursCount() {
+		return neighboursCounter;
 	}
 
 	/**

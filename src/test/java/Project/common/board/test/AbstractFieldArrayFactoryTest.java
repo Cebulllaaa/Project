@@ -3,6 +3,8 @@ package Project.common.board.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import Project.common.board.AbstractFieldArrayFactory;
@@ -14,17 +16,18 @@ public abstract class AbstractFieldArrayFactoryTest {
 	AbstractFieldArrayFactory afaf;
 	Field[] fields = null;
 
+	@Before
+	public void getNewFields() throws TooManyNeighboursException {
+		fields = afaf.getNewFieldArray();
+	}
+
 	@Test
 	public void createNewArrayOfFields() throws TooManyNeighboursException {
-		fields = afaf.getNewFieldArray();
 		assertEquals(afaf.getBoardSize(), fields.length);
 	}
 
 	@Test
 	public void connectionsInFields() throws TooManyNeighboursException {
-		Field[] fields = afaf.getNewFieldArray();
-
-		int n = afaf.getHexagonSize();
 		int e = afaf.getEdgeLength();
 		int s = 1;
 		for (int i=1; i < e-1; i++) {
@@ -55,6 +58,72 @@ public abstract class AbstractFieldArrayFactoryTest {
 			s += cir;
 
 		}
+
+	}
+
+	@Test
+	public void numberOfNeighbours() {
+		checkNumInHexagon();
+
+		for (int i=0; i<6; i++) {
+			checkNumInTriangle(i);
+		}
+
+	}
+
+	@Ignore
+	protected void checkNumInHexagon() {
+		int e = afaf.getEdgeLength();
+		int h = afaf.getHexagonSize();
+
+		for (int i=0; i<h; i++) {
+			int neighCount = fields[i].getNeigboursCount();
+			if ((h - i) % (e - 1) == 0 && h-i <= 6 * (e - 1)) {
+				assertEquals(5, neighCount);
+			}
+			else {
+				assertEquals(6, neighCount);
+			}
+
+		}
+
+	}
+
+	@Ignore
+	protected void checkNumInTriangle(int triangleNumber) {
+		int e = afaf.getEdgeLength();
+		int sumOfRows = 1;
+
+		Field[] triangle = getTriangle(triangleNumber);
+
+		assertEquals(2, triangle[0].getNeigboursCount());
+
+		for (int i=2; i <= e-1; i++) {
+			assertEquals(4, triangle[sumOfRows].getNeigboursCount());
+
+			for (int j=1; j < i-1; j++) {
+				assertEquals(6, triangle[sumOfRows + j].getNeigboursCount());
+			}
+
+			sumOfRows += i;
+			assertEquals(4, triangle[sumOfRows - 1].getNeigboursCount());
+
+		}
+
+	}
+
+	@Ignore
+	protected Field[] getTriangle(int triNum) {
+		int h = afaf.getHexagonSize();
+		int t = afaf.getTriangleSize();
+
+		Field[] triangle = new Field[t];
+
+		for (int i=0; i<t; i++) {
+			triangle[i] = fields[h + triNum * t + i];
+		}
+
+		return triangle;
 
 	}
 

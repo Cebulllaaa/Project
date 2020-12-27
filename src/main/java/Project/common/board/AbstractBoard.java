@@ -57,6 +57,18 @@ public abstract class AbstractBoard {
 		return fieldArrayFactory.getEdgeLength();
 	}
 
+	public int getTriangleSize() {
+		return fieldArrayFactory.getTriangleSize();
+	}
+
+	public int getHexagonSize() {
+		return fieldArrayFactory.getHexagonSize();
+	}
+
+	public int getBoardSize() {
+		return fieldArrayFactory.getBoardSize();
+	}
+
 	/**
 	 * sprawdzenie, czy zmiana pozycji pionka z field1 na field2
 	 * nie narusza zasad
