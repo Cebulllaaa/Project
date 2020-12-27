@@ -108,14 +108,23 @@ public class TrylmaGame extends Game{
 			return false;
 		}
 	}
-@Override
-public int get_winner() {
-	return winner;
-}
-@Override
-public void set_winner(int x) {
-	this.winner = x;
+	@Override
+	public int get_winner() {
+		return winner;
+	}
+	@Override
+	public void set_winner(int x) {
+		this.winner = x;
 	
-}
+	}
+	@Override
+	public String getMove() {
+		return move;
+	}
+	@Override
+	public void setMove(String x) {
+		this.move =x;
+	
+	}
 
 }
