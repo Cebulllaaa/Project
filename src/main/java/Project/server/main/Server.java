@@ -14,7 +14,6 @@ public class Server {
 	public Socket client_socket;
 	public static int port;
 	public int connection_iterator;
-	public ThreadServerListen listen;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;

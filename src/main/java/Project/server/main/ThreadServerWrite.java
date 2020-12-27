@@ -18,10 +18,9 @@ public class ThreadServerWrite extends Thread{
 	}
 	@Override
 	public void run() {
-		writer.print(command);
+		writer.println(command);
 		writer.flush();
-		writer.close();
-	//	System.out.println("napisal");
+		//System.out.println("napisal " + command);
 	}
 	
 }
