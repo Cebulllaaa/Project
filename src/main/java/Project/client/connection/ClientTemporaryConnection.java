@@ -13,7 +13,7 @@ import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
 import Project.common.game.GameType;
 
-public class ClientTemporaryConnection extends Thread {
+public class ClientTemporaryConnection extends Thread implements Connection {
 
 	private int clientId = -1;
 //	private int copyId;

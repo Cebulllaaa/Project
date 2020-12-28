@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import Project.client.connection.ClientTemporaryConnection;
+import Project.client.connection.Connection;
 import Project.common.board.AbstractBoard;
 import Project.common.board.Field;
 import Project.common.board.Piece;
@@ -27,7 +28,7 @@ public class BoardFrame extends JFrame implements Runnable {
 	private static final long serialVersionUID = 1;
 
 	private AbstractBoard board;
-	private ClientTemporaryConnection connection;
+	private Connection connection;
 	private boolean more = true;
 	private JDialog infoDialog;
 	private String authors;
@@ -196,7 +197,7 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 		more = false;
 	}
 
-	public void setConnection(ClientTemporaryConnection ctc) {
+	public void setConnection(Connection ctc) {
 		connection = ctc;
 	}
 

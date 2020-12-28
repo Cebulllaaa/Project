@@ -5,14 +5,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+import Project.client.GUI.BoardFrame;
 import Project.client.exceptions.GameEndedException;
 import Project.client.exceptions.PlayerNotAllowedException;
-import Project.client.main.Client;
 import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
 import Project.common.game.GameType;
 
-public class ClientConnection {
+public class ClientConnection extends Thread implements Connection {
 
 	private int clientId;
 	private GameType gameType;
@@ -31,10 +31,31 @@ public class ClientConnection {
 	//private final int inGameServMsgPiecStart = 2;
 	private final int clientNotAllowedCode = 7;
 	private final String regexDelim = ";";
+	private BoardFrame listener;
+	private boolean isMoveMade = true;
+	private String host;
+	private int port;
 
-	/*public ClientConnection(Client newClient) {
-		//client = newClient;
-	}*/
+	public ClientConnection(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
+
+	@Override
+	public void run() {
+		try {
+			connect(host, port);
+
+			while (true) {
+				read();
+				write();
+			}
+
+		}
+		catch (Exception x) {
+			listener.signalise(x);
+		}
+	}
 
 	/* zalozenie: serwer sie nie myli i przekaze zawsze odpowiednia liste wartosci
 	 * na poczatku komunikacji:
@@ -88,6 +109,8 @@ public class ClientConnection {
 			pieces = new int[numOfPlayers][numOfPlayerPieces];
 			setPieces();
 
+			isMoveMade = false;
+
 		}
 		catch (WrongGameTypeException wgtx) {
 			throw new WrongGameTypeException("Error: Server sent wrong type of game");
@@ -114,6 +137,12 @@ public class ClientConnection {
 	public void write() {
 //		out.print(false);
 //		out.print(regexDelim);
+		try {
+			while (!isMoveMade) Thread.sleep(100);
+		}
+		catch (InterruptedException ix) {
+			;
+		}
 		out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
 		out.print(regexDelim);
 
@@ -164,6 +193,8 @@ public class ClientConnection {
 		}
 		setPieces();
 
+		isMoveMade = false;
+
 	}
 
 	private void setPieces() {
@@ -172,6 +203,7 @@ public class ClientConnection {
 				pieces[i][j] = Integer.parseInt(serverMsg[i * numOfPlayerPieces + j + servMsgPiecesStart]);
 			}
 		}
+
 	}
 
 	private int numberOfMyPieces() throws WrongGameTypeException {
@@ -184,7 +216,7 @@ public class ClientConnection {
 */
 	}
 
-	public int getId() {
+	public int getID() {
 		return clientId;
 	}
 
@@ -229,6 +261,14 @@ public class ClientConnection {
 
 	public boolean isMyTurn() {
 		return myTurn;
+	}
+
+	public void makeMove() {
+		isMoveMade = true;
+	}
+
+	public void setListener(BoardFrame listeningFrame) {
+		listener = listeningFrame;
 	}
 
 }

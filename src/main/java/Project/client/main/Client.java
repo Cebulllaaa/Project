@@ -7,6 +7,7 @@ import java.util.Scanner;
 import Project.client.GUI.BoardFrame;
 import Project.client.connection.ClientConnection;
 import Project.client.connection.ClientTemporaryConnection;
+import Project.client.connection.Connection;
 import Project.client.exceptions.GameEndedException;
 import Project.client.exceptions.PlayerNotAllowedException;
 import Project.common.board.StandartBoard;
@@ -16,7 +17,7 @@ import Project.common.game.GameType;
 
 public class Client {
 
-	private static ClientTemporaryConnection connectionToServer;
+	private static Connection connectionToServer;
 	private static int id;
 	private static GameType gameType;
 	private static int[][] pieces;
@@ -28,7 +29,7 @@ public class Client {
 			System.exit(1);
 		}
 
-		connectionToServer = new ClientTemporaryConnection(args[0], Integer.parseInt(args[1])); //this);
+		connectionToServer = new ClientConnection(args[0], Integer.parseInt(args[1])); //this);
 		frame = new BoardFrame(new StandartBoard());
 
 		connectionToServer.setListener(frame);
