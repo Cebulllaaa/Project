@@ -16,10 +16,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import Project.client.connection.ClientTemporaryConnection;
 import Project.client.connection.Connection;
+import Project.client.exceptions.GameEndedException;
 import Project.common.board.AbstractBoard;
-import Project.common.board.Field;
 import Project.common.board.Piece;
 import Project.common.board.PieceHelperMethods;
 
@@ -51,7 +50,6 @@ public class BoardFrame extends JFrame implements Runnable {
 		 */
 		setLayout(new GridLayout(8 * n - 5, 6 * n - 4));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//board.initPieces(6);
 
 		initMenuBar();
 		initHelpDialog();
@@ -64,14 +62,19 @@ public class BoardFrame extends JFrame implements Runnable {
 		JMenu mGame = new JMenu("Game");
 		JMenuItem helpMenu = new JMenuItem("Help");
 		JMenuItem moveMenu = new JMenuItem("Make move");
+		JMenuItem playerMenu = new JMenuItem("Player info");
 
 		mBar.add(mGame);
 
 		mGame.add(helpMenu);
 		mGame.add(moveMenu);
+		mGame.add(playerMenu);
 
-		helpMenu.addActionListener(new LabelListener());
-		moveMenu.addActionListener(new LabelListener());
+		LabelListener labListener = new LabelListener();
+
+		helpMenu.addActionListener(labListener);
+		moveMenu.addActionListener(labListener);
+		playerMenu.addActionListener(labListener);
 
 		setJMenuBar(mBar);
 
@@ -90,7 +93,7 @@ public class BoardFrame extends JFrame implements Runnable {
 
 		dialogText.setEditable(false);
 
-		infoDialog = new JDialog(this, "Informations about the program", true);
+		infoDialog = new JDialog(this, "Informations about the game", true);
 		infoDialog.setSize(500, 200);
 		infoDialog.setResizable(false);
 		infoDialog.setLayout(new BorderLayout());
@@ -176,6 +179,7 @@ public class BoardFrame extends JFrame implements Runnable {
 
 		for (int i=0; i < buttons.length; i++) {
 			buttons[i].setPiece( Piece.NONE );
+			buttons[i].choosePiece();
 System.out.println(buttons[i].getPiece());
 		}
 
@@ -193,8 +197,17 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 	}
 
 	public void signalise(Exception x) {
-		System.out.println(x);
 		more = false;
+
+		if (x instanceof GameEndedException) {
+			dialogText.setText("The game has ended.\nPlayer " + x.getMessage() + " won.");
+		}
+		else {
+			dialogText.setText("An error has occured:\n" + x.getMessage());
+		}
+
+		infoDialog.setVisible(true);
+
 	}
 
 	public void setConnection(Connection ctc) {
@@ -219,10 +232,10 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 	private class LabelListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
-			if (arg0.getActionCommand() == "Help") {
+			if (arg0.getActionCommand().contentEquals("Help")) {
 				showHelpDialog();
 			}
-			else if (arg0.getActionCommand() == "Make move") {
+			else if (arg0.getActionCommand().contentEquals("Make move")) {
 				if (connection.isMyTurn()) {
 					makeMove();
 				}
@@ -231,12 +244,26 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 					infoDialog.setVisible(true);
 				}
 			}
+			else if (arg0.getActionCommand().contentEquals("Player info")) {
+				showPlayerInfo();
+			}
 
 		}
 
 		private void showHelpDialog() {
 			dialogText.setText(howToUse + "\n" + authors);
 			infoDialog.setVisible(true);
+		}
+
+		private void showPlayerInfo() {
+			String text;
+
+			text = "Player ID: " + Integer.toString(connection.getID())
+			+ "\nIs it your turn: " + ((connection.isMyTurn())?"yes":"no");
+
+			dialogText.setText(text);
+			infoDialog.setVisible(true);
+
 		}
 
 		private void makeMove() {
@@ -249,7 +276,13 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 	private class DialogButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			infoDialog.setVisible(false);
+
+			if (!more) {
+				System.exit(0);
+			}
+
 		}
+
 	}
 
 	private class FieldsListener implements ActionListener {

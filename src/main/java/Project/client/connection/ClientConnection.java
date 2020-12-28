@@ -27,7 +27,6 @@ public class ClientConnection extends Thread implements Connection {
 	private int changedPiece;
 	private int newPosOfChangedPiece;
 	private final int servMsgPiecesStart = 1;
-	//private Client client;
 	//private final int inGameServMsgPiecStart = 2;
 	private final int clientNotAllowedCode = 7;
 	private final String regexDelim = ";";
@@ -44,17 +43,23 @@ public class ClientConnection extends Thread implements Connection {
 	@Override
 	public void run() {
 		try {
-			connect(host, port);
+			try {
+				connect(host, port);
 
-			while (true) {
-				read();
-				write();
+				while (true) {
+					read();
+					write();
+				}
+			}
+			finally {
+				endConnection();
 			}
 
 		}
 		catch (Exception x) {
 			listener.signalise(x);
 		}
+
 	}
 
 	/* zalozenie: serwer sie nie myli i przekaze zawsze odpowiednia liste wartosci
@@ -71,10 +76,7 @@ public class ClientConnection extends Thread implements Connection {
 
 		out.println("-1");
 		out.flush();
-//Thread.sleep(100);
-		while (!in.hasNextLine()) ;
-//		System.out.println(in.nextLine());
-		//throw new GameEndedException("EndGame");
+
 		serverMsg = in.nextLine().split(regexDelim); // setID: 1;idGracza
 		for (int i=0; i<serverMsg.length; i++) {
 			System.out.println(serverMsg[i]);
@@ -86,7 +88,6 @@ public class ClientConnection extends Thread implements Connection {
 			throw new PlayerNotAllowedException("There are enough many players in this game");
 		}
 
-		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // daneGry: 2;liczbaGraczy;gameType
 		for (int i=0; i<serverMsg.length; i++) {
 			System.out.println(serverMsg[i]);
@@ -98,33 +99,18 @@ public class ClientConnection extends Thread implements Connection {
 
 			numOfPlayerPieces = numberOfMyPieces();
 
-			while (!in.hasNextLine()) ;
 			serverMsg = in.nextLine().split(regexDelim); // startGame: 3;
 			for (int i=0; i<serverMsg.length; i++) {
 				System.out.println(serverMsg[i]);
 			}
 
 			pieces = new int[numOfPlayers][numOfPlayerPieces];
-/*
-			while (!in.hasNextLine()) ;
-			serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
-			for (int i=0; i<serverMsg.length; i++) {
-				System.out.println(serverMsg[i]);
-			}
-			pieces = new int[numOfPlayers][numOfPlayerPieces];
-			setPieces();
 
-			isMoveMade = false;
-*/
 		}
 		catch (WrongGameTypeException wgtx) {
 			throw new WrongGameTypeException("Error: Server sent wrong type of game");
 		}
 
-	}
-
-	private void readNextLine() {
-		
 	}
 
 	public void endConnection() throws IOException {
@@ -140,9 +126,6 @@ public class ClientConnection extends Thread implements Connection {
 	 * listy pozycji pionkow kolejnych graczy
 	 */
 	public void write() {
-//		out.print(false);
-//		out.print(regexDelim);
-
 		if (myTurn) {
 			try {
 				while (!isMoveMade) Thread.sleep(100);
@@ -168,14 +151,7 @@ System.out.print(newPosOfChangedPiece);
 			out.println("-2");
 System.out.println("-2");
 		}
-/*		for (int[] playerPieces : pieces) {
-			for (int piece : playerPieces) {
-				out.print(regexDelim);
-				out.print(piece);
 
-			}
-		}
-*/
 		out.println();
 System.out.println();
 		out.flush();
@@ -189,14 +165,12 @@ System.out.println();
 	 * listy pozycji pionkow kolejnych graczy
 	 */
 	public void read() throws GameEndedException {
-		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
 		for (int i=0; i<serverMsg.length; i++) {
 			System.out.println(serverMsg[i]);
 		}
 		setPieces();
 
-		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // endGame: 6;idZwyciezcy lub whoseTurn: 5;idWykonujacegoRuch
 		for (int i=0; i<serverMsg.length; i++) {
 			System.out.println(serverMsg[i]);
@@ -225,13 +199,7 @@ System.out.println();
 	}
 
 	private int numberOfMyPieces() throws WrongGameTypeException {
-//		try {
 		return GameHelperMethods.getNumberOfPieces(gameType);
-/*		}
-		catch (WrongGameTypeException wgtx) { // unreachable
-			throw new WrongGameTypeException("Error: Server sent wrong type of game");
-		}
-*/
 	}
 
 	public int getID() {

@@ -1,5 +1,7 @@
 package Project.client.connection;
 
+import java.io.IOException;
+
 import Project.client.GUI.BoardFrame;
 import Project.common.game.GameType;
 
@@ -15,6 +17,6 @@ public interface Connection {
 	public void makeMove();
 	public void setListener(BoardFrame list);
 
-	public void start(); //
+	public void start(); // ma byc wywolywalny jako watek
 
 }

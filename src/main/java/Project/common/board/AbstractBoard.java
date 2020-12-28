@@ -17,13 +17,104 @@ public abstract class AbstractBoard {
 		int h = fieldArrayFactory.getHexagonSize();
 
 		pieces = new int[numOfPlayers * t];
+/*
+for (int i=0; i < pieces.length; i++) {
+	Field f = fields[h + i];
+	pieces[i] = h + i;
+	f.setPieceOnField(f.getHomeType());
+}
+*/
+		switch (numOfPlayers) {
+			case 2:
+				initTwoPlayers();
+				break;
 
-		for (int i=0; i < pieces.length; i++) {
-			Field field = fields[h+i];
-			pieces[i] = h + i;
+			case 3:
+				initThreePlayers();
+				break;
+
+			case 4:
+				initFourPlayers();
+				break;
+
+			case 6:
+				initSixPlayers();
+				break;
+
+		}
+
+	}
+
+	/**
+	 * ustawienie pionkow na planszy odpowiednie dla trybu dwoch graczy
+	 */
+	private void initTwoPlayers() {
+		int index = 0;
+
+		index = initPiecesInTriangle(0, index);
+		initPiecesInTriangle(3, index);
+
+	}
+
+	/**
+	 * ustawienie pionkow na planszy odpowiednie dla trybu trzech graczy
+	 */
+	private void initThreePlayers() {
+		int index = 0;
+
+		index = initPiecesInTriangle(0, index);
+		index = initPiecesInTriangle(2, index);
+		initPiecesInTriangle(4, index);
+
+	}
+
+	/**
+	 * ustawienie pionkow na planszy odpowiednie dla trybu czterech graczy
+	 */
+	private void initFourPlayers() {
+		int index = 0;
+
+		index = initPiecesInTriangle(0, index);
+		index = initPiecesInTriangle(1, index);
+		index = initPiecesInTriangle(3, index);
+		initPiecesInTriangle(4, index);
+
+	}
+
+	/**
+	 * ustawienie pionkow na planszy odpowiednie dla trybu szesciu graczy
+	 */
+	private void initSixPlayers() {
+		int index = 0;
+
+		index = initPiecesInTriangle(0, index);
+		index = initPiecesInTriangle(1, index);
+		index = initPiecesInTriangle(2, index);
+		index = initPiecesInTriangle(3, index);
+		index = initPiecesInTriangle(4, index);
+		initPiecesInTriangle(5, index);
+
+	}
+
+	/**
+	 * ustawienie pionkow w podanym trojkacie
+	 * @param triangleNumber numer trojkata, w ktorym sa ustawiane pionki
+	 * @param piecesIndex najnizszy wolny indeks w tablicy {@link AbstractBoard#pieces pieces}
+	 * @return nowy najnizszy wolny indeks w tablicy {@link AbstractBoard#pieces pieces}
+	 */
+	private int initPiecesInTriangle(int triangleNumber, int piecesIndex) {
+		int t = getTriangleSize();
+		int h = getHexagonSize();
+		int baseIndex = h + t * triangleNumber;
+
+		for (int i=0; i<t; i++) {
+			Field field = fields[baseIndex + i];
+			pieces[piecesIndex + i] = baseIndex + i;
 			field.setPieceOnField( field.getHomeType() );
 
 		}
+
+		return piecesIndex + t;
 
 	}
 
