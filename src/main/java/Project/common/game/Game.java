@@ -41,4 +41,10 @@ public abstract class Game {
 	public abstract int get_winner();
 	/*Funkcja ustalajaca zwyciezce */
 	public abstract void set_winner(int x);
+	/**Ruch gracza */
+	protected String move;
+	/**Funkcja zwracajaca ruch gracza */
+	public abstract String getMove();
+	/**Funkcja ustawiajaca ruch gracza */
+	public abstract void setMove(String x);
 }

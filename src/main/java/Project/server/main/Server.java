@@ -14,6 +14,7 @@ public class Server {
 	public Socket client_socket;
 	public static int port;
 	public int connection_iterator;
+	public ThreadConnectionServer connection;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
@@ -51,7 +52,7 @@ public class Server {
 		while(connection_iterator <1) {
 			try {
 					client_socket = socket.accept();
-					ThreadConnectionServer connection = new ThreadConnectionServer(this, client_socket, command_ms);
+					connection = new ThreadConnectionServer(this, client_socket, command_ms);
 					connection.start();
 				}
 			catch(IOException e) {

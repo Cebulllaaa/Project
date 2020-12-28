@@ -12,8 +12,9 @@ public class ThreadConnectionServer extends Thread{
 	public CommandMaster command_ms;
 	public BufferedReader reader;
 	public InputStreamReader inputreader;
-
+	public ThreadServerWrite write;
 	
+	public String move;
 	public int ID;
 	public ThreadConnectionServer (Server x, Socket y, CommandMaster z) {
 		this.serwer=x;
@@ -36,10 +37,57 @@ public class ThreadConnectionServer extends Thread{
 			if(command_ms.getCommand().equals("-1")) {
 				command_ms.activiti = ServerActivities.SEND_ID;
 				command_ms.CommandMenu();
-				ThreadServerWrite write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+				write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 				write.run();
+			}
+			/*Wysylanie do klienta informacji o grze */
+			while(!command_ms.activiti.equals(ServerActivities.SEND_GAME_INFORMATION) ) {
 				this.yield();
 			}
+			command_ms.CommandMenu();
+			write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+			write.run();
+			
+			/*Wysylanie do klienta informacji o starcie gry */
+			while(!command_ms.activiti.equals(ServerActivities.SEND_START_GAME) ) {
+				this.yield();
+			}
+			command_ms.CommandMenu();
+			write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+			write.run();
+			
+			/*Przebieg gry */
+			while(!command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) {
+				
+				/*Wyslanie tablicy */
+				while(!command_ms.activiti.equals(ServerActivities.SEND_BOARD) ) {
+					this.yield();
+				}
+				command_ms.CommandMenu();
+				write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+				write.run();
+				/*Wyslanie czyja kolej */
+				while(!command_ms.activiti.equals(ServerActivities.SEND_WHOSE_TURN) ) {
+					if(command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) {
+						break;
+					}
+					this.yield();
+				}
+				command_ms.CommandMenu();
+				write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+				write.run();
+				this.yield();
+				
+				/*Oczekiwanie na odpowiedz gracza */
+				move = reader.readLine();
+				if(!move.equals("-2")) {
+					command_ms.game.setMove(move);
+				}
+			
+			}
+			command_ms.CommandMenu();
+			write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+			write.run();
 			
 		}
 		catch(Exception e) {

@@ -93,7 +93,7 @@ public class CommandMaster {
 		private void sendStartInfo() {
 			setCommand("3;");
 		}
-		private void sendBoard() {
+		private void sendBoard() {  /*Nadal nie dziala 
 			String arrOfPositions = "4";
 			int[] positions = ((TrylmaGame)game).board.getPiecesPositions();
 
@@ -102,7 +102,8 @@ public class CommandMaster {
 			}
 
 			setCommand(arrOfPositions); // <------------------------------------------------------!
-
+			*/
+			setCommand("4;");
 		}
 		
 		private void sendTurn() {
