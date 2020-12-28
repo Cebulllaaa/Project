@@ -23,7 +23,7 @@ public class ConnectionTest {
 
 	@Test(timeout = 1000, expected = IOException.class)
 	public void testNotConnected() throws Exception {
-		client = new ClientConnection();
+	//	client = new ClientConnection();
 		client.connect("localhost", 8080);
 	}
 
@@ -190,7 +190,7 @@ public class ConnectionTest {
 		LinkedList<String> sentLines = new LinkedList<String>();
 
 		try {
-			client = new ClientConnection();
+	//		client = new ClientConnection();
 			testing = new Thread(readingServer);
 
 			testing.start();
@@ -245,7 +245,7 @@ public class ConnectionTest {
 
 	@Ignore
 	protected void initConnection() throws Exception {
-		client = new ClientConnection();
+	//	client = new ClientConnection();
 		testing = new Thread(server);
 
 		testing.start();
