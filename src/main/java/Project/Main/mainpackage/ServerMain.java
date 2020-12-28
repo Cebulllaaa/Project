@@ -51,6 +51,7 @@ public class ServerMain {
 	public void ingame() {
 		
 		try {
+//			while (true) {
 			System.out.println("Wysylam tablice");
 			server.command_ms.activiti =ServerActivities.SEND_BOARD;
 			stc.join(100);
@@ -59,6 +60,9 @@ public class ServerMain {
 			server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
 			stc.join(100);
 			System.out.println(server.command_ms.getCommand());
+
+			System.out.println(server.command_ms.game.getMove());
+//			}
 		}
 		catch(Exception e) {
 			System.out.println(e);

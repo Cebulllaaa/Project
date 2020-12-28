@@ -104,6 +104,8 @@ public class ClientConnection extends Thread implements Connection {
 				System.out.println(serverMsg[i]);
 			}
 
+			pieces = new int[numOfPlayers][numOfPlayerPieces];
+/*
 			while (!in.hasNextLine()) ;
 			serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
 			for (int i=0; i<serverMsg.length; i++) {
@@ -113,7 +115,7 @@ public class ClientConnection extends Thread implements Connection {
 			setPieces();
 
 			isMoveMade = false;
-
+*/
 		}
 		catch (WrongGameTypeException wgtx) {
 			throw new WrongGameTypeException("Error: Server sent wrong type of game");
@@ -147,12 +149,17 @@ public class ClientConnection extends Thread implements Connection {
 			;
 		}
 		out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
+System.out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
 		out.print(regexDelim);
+System.out.print(regexDelim);
 
 		out.print(changedPiece);
+System.out.print(changedPiece);
 		out.print(regexDelim);
+System.out.print(regexDelim);
 
 		out.print(newPosOfChangedPiece);
+System.out.print(newPosOfChangedPiece);
 
 /*		for (int[] playerPieces : pieces) {
 			for (int piece : playerPieces) {
@@ -163,6 +170,7 @@ public class ClientConnection extends Thread implements Connection {
 		}
 */
 		out.println();
+System.out.println();
 		out.flush();
 
 	}
@@ -180,7 +188,17 @@ public class ClientConnection extends Thread implements Connection {
 	 */
 	public void read() throws GameEndedException {
 		while (!in.hasNextLine()) ;
+		serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
+		for (int i=0; i<serverMsg.length; i++) {
+			System.out.println(serverMsg[i]);
+		}
+		setPieces();
+
+		while (!in.hasNextLine()) ;
 		serverMsg = in.nextLine().split(regexDelim); // endGame: 6;idZwyciezcy lub whoseTurn: 5;idWykonujacegoRuch
+		for (int i=0; i<serverMsg.length; i++) {
+			System.out.println(serverMsg[i]);
+		}
 
 		boolean gameEnded = (Integer.parseInt(serverMsg[0]) == 6);
 		if (gameEnded) {
@@ -188,13 +206,6 @@ public class ClientConnection extends Thread implements Connection {
 		}
 
 		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
-
-		while (!in.hasNextLine()) ;
-		serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
-		for (int i=0; i<serverMsg.length; i++) {
-			System.out.println(serverMsg[i]);
-		}
-		setPieces();
 
 		isMoveMade = false;
 
@@ -206,6 +217,8 @@ public class ClientConnection extends Thread implements Connection {
 				pieces[i][j] = Integer.parseInt(serverMsg[i * numOfPlayerPieces + j + servMsgPiecesStart]);
 			}
 		}
+
+		listener.setNewPieces();
 
 	}
 
