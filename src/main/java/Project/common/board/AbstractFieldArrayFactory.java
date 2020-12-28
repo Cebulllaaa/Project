@@ -76,7 +76,12 @@ public abstract class AbstractFieldArrayFactory {
 			 */
 			Field.connectFields(triangle[prevTriangSize - 1 - i], triangle[prevTriangSize - 1]);
 
-			Field.connectFields(triangle[prevTriangSize - 2], triangle[prevTriangSize - 1]);
+			if (i <= 2) {
+				Field.connectFields(triangle[prevTriangSize - 2], triangle[prevTriangSize - 1]);
+			}
+			else {
+				Field.connectFieldsBefore(triangle[prevTriangSize - 2], triangle[prevTriangSize - 1], 0);
+			}
 
 		}
 
@@ -95,9 +100,15 @@ public abstract class AbstractFieldArrayFactory {
 		 * a obecnym wynosi odpowiednio i-1 oraz i
 		 */
 		Field.connectFields(triangle[prevTriangSize + j - i + 1], triangle[prevTriangSize + j]);
-		Field.connectFields(triangle[prevTriangSize + j - i], triangle[prevTriangSize + j]);
 
-		Field.connectFields(triangle[prevTriangSize + j], triangle[prevTriangSize + j - 1]);
+		if (j == 1) {
+			Field.connectFieldsBefore(triangle[prevTriangSize + j - i], triangle[prevTriangSize + j], 2);
+			Field.connectFields(triangle[prevTriangSize + j], triangle[prevTriangSize + j - 1]);
+		}
+		else {
+			Field.connectFields(triangle[prevTriangSize + j - i], triangle[prevTriangSize + j]);
+			Field.connectFieldsBefore(triangle[prevTriangSize + j - 1], triangle[prevTriangSize + j], 0);
+		}
 //		Field.connectFields(triangle[prevTriangSize + j], triangle[prevTriangSize + j + 1]);
 
 	}
@@ -134,7 +145,7 @@ public abstract class AbstractFieldArrayFactory {
 				firstIndexInRow += 6 * (i-1);
 			}
 			else {
-				Field.connectFields(wholeBoard[firstIndexInRow], wholeBoard[prevHexagon - 1]);
+				Field.connectFieldsBefore(wholeBoard[prevHexagon - 1], wholeBoard[firstIndexInRow], 0);
 			}
 
 		}
@@ -150,7 +161,7 @@ public abstract class AbstractFieldArrayFactory {
 		Field.connectFields(tempField, prevToConnect[j]);
 
 		if (j!=0) { // j!=0 -> to nie jest poczatek okrazenia
-			Field.connectFieldsBefore(tempField, wholeBoard[index - 1], 0);
+			Field.connectFieldsBefore(wholeBoard[index - 1], tempField, 0);
 			// dolozenie nowego sasiada na samym poczatku
 		}
 
@@ -162,7 +173,7 @@ public abstract class AbstractFieldArrayFactory {
 
 			Field.connectFields(tempField, wholeBoard[indexToConnect[j] + k]);
 			Field.connectFields(tempField, wholeBoard[indexToConnect[j] + k - 1]);
-			Field.connectFieldsBefore(tempField, wholeBoard[index + k - 1], 0);
+			Field.connectFieldsBefore(wholeBoard[index + k - 1], tempField, 0);
 
 			wholeBoard[index + k] = tempField;
 
@@ -192,9 +203,18 @@ public abstract class AbstractFieldArrayFactory {
 		int lastRow = ((n-1)*n)/2;
 
 		for (int j=0; j<n; j++) {
-			Field.connectFields(fieldsToJoin[fieldCounter], outerTriangles[i][lastRow + j]);
-			fieldCounter++;
-			Field.connectFields(fieldsToJoin[fieldCounter], outerTriangles[i][lastRow + j]);
+			if (j == 0) {
+				Field.connectFields(fieldsToJoin[fieldCounter + 1], outerTriangles[i][lastRow + j]);
+				Field.connectFieldsBefore(fieldsToJoin[fieldCounter], outerTriangles[i][lastRow + j], 0);
+				fieldCounter++;
+
+			}
+			else {
+				Field.connectFields(fieldsToJoin[fieldCounter], outerTriangles[i][lastRow + j]);
+				fieldCounter++;
+				Field.connectFields(fieldsToJoin[fieldCounter], outerTriangles[i][lastRow + j]);
+
+			}
 
 		}
 

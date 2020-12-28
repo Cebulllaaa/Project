@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import Project.common.board.AbstractFieldArrayFactory;
 import Project.common.board.Field;
+import Project.common.exceptions.FieldNotFoundException;
 import Project.common.exceptions.TooManyNeighboursException;
 
 public abstract class AbstractFieldArrayFactoryTest {
@@ -124,6 +125,35 @@ public abstract class AbstractFieldArrayFactoryTest {
 		}
 
 		return triangle;
+
+	}
+
+	@Test
+	public void testNeighboursOrder() throws FieldNotFoundException {
+		for (int i=0; i<6; i++) {
+			testStartingInTriangle(i);
+		}
+
+	}
+
+	@Ignore
+	protected void testStartingInTriangle(int triNum) throws FieldNotFoundException {
+		int e = afaf.getEdgeLength();
+		int t = afaf.getTriangleSize();
+		int h = afaf.getHexagonSize();
+		int pathLength = 1;
+		Field prevField = fields[h + t * triNum];
+		Field currField = prevField.getNeighbours()[1];
+
+		while (currField != null) {
+			Field tempField = currField;
+			currField = currField.oppositeField(prevField);
+			prevField = tempField;
+			pathLength++;
+
+		}
+
+		assertEquals(3*e - 2, pathLength);
 
 	}
 
