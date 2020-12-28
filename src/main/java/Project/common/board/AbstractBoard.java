@@ -10,7 +10,7 @@ public abstract class AbstractBoard {
 	 */
 	public AbstractFieldArrayFactory fieldArrayFactory;
 
-	private int[] pieces;
+	private int[] pieces = null;
 
 	public void initPieces(int numOfPlayers) {
 		int t = fieldArrayFactory.getTriangleSize();

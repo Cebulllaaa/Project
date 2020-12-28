@@ -28,7 +28,7 @@ public class TrylmaGame extends Game{
 	public void create_Board() {
 		try {
 			board = new StandartBoard();
-			board.initPieces(Players.size());
+			// na poczatku board.pieces jest ustawiony na null
 		}
 		catch (ApplicationErrorException aex) {
 			System.out.println(aex.getMessage());

@@ -1,5 +1,6 @@
 package Project.server.main;
 
+import Project.common.board.AbstractBoard;
 import Project.common.game.Game;
 import Project.common.game.TrylmaGame;
 
@@ -93,15 +94,22 @@ public class CommandMaster {
 		private void sendStartInfo() {
 			setCommand("3;");
 		}
-		private void sendBoard() {  //Nadal nie dziala 
+		private void sendBoard() {
+			// Teraz dziala
 			String arrOfPositions = "4";
-			int[] positions = ((TrylmaGame)game).board.getPiecesPositions();
+			AbstractBoard gameBoard = game.board;
+			int[] positions = gameBoard.getPiecesPositions();
+
+			if (positions == null) {
+				gameBoard.initPieces(game.Players.size());
+				positions = gameBoard.getPiecesPositions();
+			}
 
 			for (int i=0; i < positions.length; i++) {
 				arrOfPositions += ";" + Integer.toString(positions[i]);
 			}
 
-			setCommand(arrOfPositions); // <------------------------------------------------------!
+			setCommand(arrOfPositions);
 			
 			//setCommand("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;");
 		}

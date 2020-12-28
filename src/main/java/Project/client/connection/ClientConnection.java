@@ -147,20 +147,20 @@ public class ClientConnection extends Thread implements Connection {
 			try {
 				while (!isMoveMade) Thread.sleep(100);
 			}
-		catch (InterruptedException ix) {
-			;
-		}
-		out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
+			catch (InterruptedException ix) {
+				;
+			}
+			out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
 System.out.print(1); // wyslanie 1;pozycja_poczatkowa;pozycja_koncowa
-		out.print(regexDelim);
+			out.print(regexDelim);
 System.out.print(regexDelim);
 
-		out.print(changedPiece);
+			out.print(changedPiece);
 System.out.print(changedPiece);
-		out.print(regexDelim);
+			out.print(regexDelim);
 System.out.print(regexDelim);
 
-		out.print(newPosOfChangedPiece);
+			out.print(newPosOfChangedPiece);
 System.out.print(newPosOfChangedPiece);
 
 		}
@@ -182,11 +182,6 @@ System.out.println();
 
 	}
 
-/*	public void quitGame() {
-		out.print(true);
-		out.flush();
-	}
-*/
 	/*
 	 * w trakcie komunikacji:
 	 * serwer przesyla:
@@ -246,24 +241,6 @@ System.out.println();
 	public GameType getGameType() {
 		return gameType;
 	}
-
-	/* zbyt niebezpieczne
-	public Scanner getIn() {
-		return in;
-	}
-	*/
-
-	/* zbyt niebezpieczne
-	public PrintWriter getOut() {
-		return out;
-	}
-	*/
-
-	/* zbyt niebezpieczne
-	public String[] getServerMesssage() {
-		return serverMsg;
-	}
-	*/
 
 	public void setChange(int chPiece, int newPiecePos) {
 		changedPiece = chPiece;
