@@ -42,6 +42,7 @@ public class ServerMain {
 		stc.join(100);
 		
 		this.ingame();
+		this.endgame();
 		
 		}
 		catch(Exception e) {
@@ -51,21 +52,50 @@ public class ServerMain {
 	public void ingame() {
 		
 		try {
-//			while (true) {
+		//	while (true) {
 			System.out.println("Wysylam tablice");
 			server.command_ms.activiti =ServerActivities.SEND_BOARD;
 			stc.join(100);
 			
 			System.out.println("Wysylam Czyja kolej");
+			server.command_ms.game.setMove("");
 			server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
 			stc.join(100);
 			System.out.println(server.command_ms.getCommand());
-
+			while(server.command_ms.game.getMove().equals("")) {
+				stc.join(1);
+				}
 			System.out.println(server.command_ms.game.getMove());
-//			}
+			/*
+			 * Sprawdzamy czy getMove() jest poprawny
+			 * Jezeli jest poprawny to
+			 * server.command_ms.game.increase_Queue();
+			 * Funkcja sprawdzajaca czy ktos wygral jezeli tak to wyjdz z petli i ustaw zwyciezce
+			 * server.command_ms.game.set_winner(int ID_zwyciezcy);
+			 */
+			//}
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
+	}
+	public void endgame() {
+		server.command_ms.game.set_winner(1);
+		System.out.println("Koniec gry wygral " + server.command_ms.game.get_winner());
+		server.command_ms.activiti =ServerActivities.SEND_BOARD;
+		try {
+		stc.join(100);
+		}
+		catch(InterruptedException e) {
+			System.out.println(e);
+		}
+		server.command_ms.activiti =ServerActivities.SEND_END_GAME;
+		try {
+			stc.join(100);
+		}
+		catch(InterruptedException e) {
+			System.out.println(e);
+		}
+		System.exit(0);
 	}
 }
