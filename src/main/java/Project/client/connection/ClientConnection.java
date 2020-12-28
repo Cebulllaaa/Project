@@ -142,9 +142,11 @@ public class ClientConnection extends Thread implements Connection {
 	public void write() {
 //		out.print(false);
 //		out.print(regexDelim);
-		try {
-			while (!isMoveMade) Thread.sleep(100);
-		}
+
+		if (myTurn) {
+			try {
+				while (!isMoveMade) Thread.sleep(100);
+			}
 		catch (InterruptedException ix) {
 			;
 		}
@@ -161,6 +163,11 @@ System.out.print(regexDelim);
 		out.print(newPosOfChangedPiece);
 System.out.print(newPosOfChangedPiece);
 
+		}
+		else {
+			out.println("-2");
+System.out.println("-2");
+		}
 /*		for (int[] playerPieces : pieces) {
 			for (int piece : playerPieces) {
 				out.print(regexDelim);
