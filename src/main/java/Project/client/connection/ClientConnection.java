@@ -68,6 +68,9 @@ public class ClientConnection extends Thread implements Connection {
 
 		in = new Scanner(clientSocket.getInputStream());
 		out = new PrintWriter(clientSocket.getOutputStream());
+
+		out.println("-1");
+		out.flush();
 //Thread.sleep(100);
 		while (!in.hasNextLine()) ;
 //		System.out.println(in.nextLine());
