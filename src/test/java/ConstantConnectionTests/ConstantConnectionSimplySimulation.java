@@ -109,12 +109,12 @@ public class ConstantConnectionSimplySimulation {
 		server.command_ms.activiti =ServerActivities.SEND_BOARD;
 		stc.join(100);
 		
-		assertEquals("4;",client1.command);
-		assertEquals("4;",client2.command);
-		assertEquals("4;",client3.command);
-		assertEquals("4;",client4.command);
-		assertEquals("4;",client5.command);
-		assertEquals("4;",client6.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client1.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client2.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client3.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client4.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client5.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client6.command);
 		
 		server.command_ms.game.create_Queue();
 		server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
@@ -136,12 +136,12 @@ public class ConstantConnectionSimplySimulation {
 		server.command_ms.activiti =ServerActivities.SEND_BOARD;
 		stc.join(100);
 		
-		assertEquals("4;",client1.command);
-		assertEquals("4;",client2.command);
-		assertEquals("4;",client3.command);
-		assertEquals("4;",client4.command);
-		assertEquals("4;",client5.command);
-		assertEquals("4;",client6.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client1.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client2.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client3.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client4.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client5.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client6.command);
 		
 		server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
 		stc.join(100);
@@ -157,12 +157,12 @@ public class ConstantConnectionSimplySimulation {
 		server.command_ms.activiti =ServerActivities.SEND_BOARD;
 		stc.join(100);
 		
-		assertEquals("4;",client1.command);
-		assertEquals("4;",client2.command);
-		assertEquals("4;",client3.command);
-		assertEquals("4;",client4.command);
-		assertEquals("4;",client5.command);
-		assertEquals("4;",client6.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client1.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client2.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client3.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client4.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client5.command);
+		assertEquals("4;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;",client6.command);
 		
 		server.command_ms.game.set_winner(1);
 		server.command_ms.activiti =ServerActivities.SEND_END_GAME;
