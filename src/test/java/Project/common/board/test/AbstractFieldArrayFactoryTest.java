@@ -154,6 +154,8 @@ public abstract class AbstractFieldArrayFactoryTest {
 		}
 
 		assertEquals(3*e - 2, pathLength);
+		assertEquals(fields[h + t * ((triNum + 2) % 6)], prevField);
+		// sprawdzenie, czy koniec jest wierzcholkiem nastepnego trojkata
 
 	}
 
