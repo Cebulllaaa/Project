@@ -1,6 +1,9 @@
 package Project.common.game;
 import java.util.ArrayList;
 
+import Project.common.board.AbstractBoard;
+import Project.common.board.StandartBoard;
+
 /**Klasa abstrakcyjna zawierajaca podstawy do dowolnego trybu gry (w przypadku gdyby nalezalo rozszerzy apliakcje o nowe tryby */
 public abstract class Game {
 	/**Lista Graczy w danej grze */
@@ -47,4 +50,5 @@ public abstract class Game {
 	public abstract String getMove();
 	/**Funkcja ustawiajaca ruch gracza */
 	public abstract void setMove(String x);
+	public AbstractBoard board;
 }

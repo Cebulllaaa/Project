@@ -10,7 +10,7 @@ public class TrylmaGame extends Game{
 	/**Zmienna okreslajaca ktore miejsce w kolejce wykona nastepny ruch*/
 	
 	
-	public StandartBoard board;
+	
 	
 	public TrylmaGame() {
 		possibilities = new ArrayList<Integer>();
@@ -28,6 +28,7 @@ public class TrylmaGame extends Game{
 	public void create_Board() {
 		try {
 			board = new StandartBoard();
+			board.initPieces(Players.size());
 		}
 		catch (ApplicationErrorException aex) {
 			System.out.println(aex.getMessage());
