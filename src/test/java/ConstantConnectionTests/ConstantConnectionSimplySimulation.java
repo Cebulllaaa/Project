@@ -37,7 +37,7 @@ public class ConstantConnectionSimplySimulation {
 	public void first_test() {
 		try {
 		port = 6000;
-		server = new Server(port);
+		server = new Server(port,6);
 		server.create_Server();
 		stc = new StartServerConnection(server);
 		stc.start();

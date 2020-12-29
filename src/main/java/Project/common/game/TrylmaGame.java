@@ -68,9 +68,9 @@ public class TrylmaGame extends Game{
 	}
 
 	@Override
-	public void open_Waitingroom() {
-		// TODO 
-		
+	public void open_Waitingroom(int x) {
+		waitingroom = new TrylmaWaitingRoom();
+		waitingroom.createWaitingRoom(x);
 	}
 
 	@Override
@@ -100,13 +100,15 @@ public class TrylmaGame extends Game{
 	}
 /**Funkcja dodaje graczy do listy graczy */
 	@Override
-	public boolean add_Player() {
+	public int add_Player() {
 		if(Players.size() < max_Players) {
-		Players.add(Players.size()+1);
-		return true;
+		Players.add(waitingroom.free_slots.get(0));
+		int i = waitingroom.free_slots.get(0);
+		waitingroom.deletefromWaitingRoom(0);
+		return i;
 		}
 		else {
-			return false;
+			return -1;
 		}
 	}
 	@Override

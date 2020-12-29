@@ -15,6 +15,7 @@ public class Server {
 	public static int port;
 	public int connection_iterator;
 	public ThreadConnectionServer connection;
+	private int number_of_players;
 	/** Skladnia komendy podczas odbioru powinna zawierac informacje , od ktorego klienta pochodzi, jak funkcje
 	 * nalezy wywolac oraz argumenty odzdzielone ; . Natomiast podczas wysylania powinna zawierac informacje
 	 * ktorego klienta dotyczy , jaka funkcje powinien wykonac klient oraz argumenty oddzielone ;
@@ -24,11 +25,12 @@ public class Server {
 	public int type_Game;
 	ServerActivities com_activiti;
 	/**Konstruktor serwera */
-	public Server(int x) {
+	public Server(int x, int y) {
 		this.port=x;
 		type_Game = choose_Type();
 		com_activiti = ServerActivities.SEND_ID;
-		command_ms = new  CommandMaster(type_Game,com_activiti);
+		this.number_of_players = y;
+		command_ms = new  CommandMaster(type_Game,com_activiti,number_of_players);
 		connection_iterator=0;
 		
 	}

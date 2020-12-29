@@ -28,7 +28,7 @@ public abstract class Game {
 	/**Funkcja aktualizujaca plansze */
 	public abstract void update_Board();
 	/**Funkcja otwierajaca i tworzaca poczekalnie */
-	public abstract void open_Waitingroom();
+	public abstract void open_Waitingroom(int x);
 	/**Funkcja zamykajaca poczekalnie (uruchamia sie keidy zabraknie w niej miejca lub wystarczajaca ilosc graczy zdecyduje 
 	 * ze chce zaczac gre)*/
 	public abstract void close_Waitingroom();
@@ -37,7 +37,7 @@ public abstract class Game {
 	/**Funkcja tworzaca kolejke graczy */
 	public abstract void create_Queue();
 	/**Funkcja dodajaca gracza */
-	public abstract boolean add_Player();
+	public abstract int add_Player();
 	/**Funkcja zwiekszajaca pozycje w kolejce */
 	public abstract void  increase_Queue();
 	/**Funkcja zwracajaca zwyciezce */
@@ -51,4 +51,6 @@ public abstract class Game {
 	/**Funkcja ustawiajaca ruch gracza */
 	public abstract void setMove(String x);
 	public AbstractBoard board;
+	/**Klasa odpowiedzialna za ID gra przyznawanie ID graczo mktorzy jeszcze nie dolaczyli*/
+	public WaitingRoom waitingroom;
 }

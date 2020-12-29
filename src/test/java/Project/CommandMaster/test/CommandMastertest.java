@@ -19,7 +19,7 @@ public class CommandMastertest {
 	public void ConstructorTest() {
 		game = new TrylmaGame();
 		ServerActivities activity = ServerActivities.SEND_ID;
-		CommandMaster command_ms = new CommandMaster(1,activity);
+		CommandMaster command_ms = new CommandMaster(1,activity,2);
 		assertEquals(true,command_ms.before_start);
 		assertEquals(game.getClass(),command_ms.game.getClass());
 		assertTrue(command_ms.getCommand().equals(""));
@@ -29,7 +29,7 @@ public class CommandMastertest {
 	public void setgetTest() {
 		game = new TrylmaGame();
 		ServerActivities activity = ServerActivities.SEND_ID;
-		CommandMaster command_ms = new CommandMaster(1,activity);
+		CommandMaster command_ms = new CommandMaster(1,activity,2);
 		String test = "TEST";
 		String test2 = "New test";
 		
@@ -43,7 +43,7 @@ public class CommandMastertest {
 	@Test
 	public void setIDcommandTest() {
 		ServerActivities activity = ServerActivities.SEND_ID;
-		CommandMaster command_ms = new CommandMaster(1, activity);
+		CommandMaster command_ms = new CommandMaster(1, activity,6);
 		command_ms.CommandMenu();
 		
 		assertTrue(command_ms.getCommand().equals("1;1;"));
@@ -77,7 +77,7 @@ public class CommandMastertest {
 	@Test
 	public void sendGameInfotest() {
 		ServerActivities activity = ServerActivities.SEND_GAME_INFORMATION;
-		CommandMaster command_ms = new CommandMaster(1, activity);
+		CommandMaster command_ms = new CommandMaster(1, activity,6);
 		command_ms.CommandMenu();
 		 
 		String cmd1 = "2;0;1;";
@@ -122,7 +122,7 @@ public class CommandMastertest {
 	@Test
 	public void sendStartInfoTest() {
 		ServerActivities activity = ServerActivities.SEND_START_GAME;
-		CommandMaster command_ms = new CommandMaster(1, activity);
+		CommandMaster command_ms = new CommandMaster(1, activity,2);
 		command_ms.CommandMenu();
 		String cmd = "3;";
 		
@@ -132,9 +132,9 @@ public class CommandMastertest {
 	@Test
 	public void sendBoardTest() {
 		ServerActivities activity = ServerActivities.SEND_BOARD;
-		CommandMaster command_ms = new CommandMaster(1, activity);
+		CommandMaster command_ms = new CommandMaster(1, activity,2);
 		command_ms.CommandMenu();
-		String cmd = "4;TODO;";
+		String cmd = "4";
 		
 		assertEquals(cmd,command_ms.getCommand());
 	}
@@ -143,9 +143,10 @@ public class CommandMastertest {
 	public void sendTurntest() {
 
 		ServerActivities activity = ServerActivities.SEND_WHOSE_TURN;
-		CommandMaster command_ms = new CommandMaster(1, activity);
+		CommandMaster command_ms = new CommandMaster(1, activity,2);
 		String cmd0 = "5;";
 		
+		command_ms.game.open_Waitingroom(6);
 		command_ms.game.add_Player();
 		command_ms.game.add_Player();
 		command_ms.game.add_Player();
@@ -208,12 +209,12 @@ public class CommandMastertest {
 		command_ms.CommandMenu();
 		//System.out.println(cmd1);
 		assertEquals(cmd1,command_ms.getCommand());
-		command_ms.game.increase_Queue();
+		command_ms.game.increase_Queue(); 
 	}
 	@Test
 	public void sendEndInfoTest() {
 		ServerActivities activity = ServerActivities.SEND_END_GAME;
-		CommandMaster command_ms = new CommandMaster(1, activity);
+		CommandMaster command_ms = new CommandMaster(1, activity,2);
 		int x = 4;
 		command_ms.game.set_winner(x);
 		String cmd = "6;4;";

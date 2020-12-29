@@ -24,7 +24,7 @@ public class ServerMain {
 	}
 	public void start() {
 		try {
-		server = new Server(port);
+		server = new Server(port,players);
 		server.create_Server();
 		stc = new StartServerConnection(server);
 		stc.start();
