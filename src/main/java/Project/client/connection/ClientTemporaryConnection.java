@@ -322,6 +322,10 @@ System.out.println(pieces[i][j]);
 		return numOfPlayerPieces;
 	}
 
+	public int getNumOfPlayers() {
+		return numOfPlayers;
+	}
+
 	public boolean isMyTurn() {
 		return myTurn;
 	}

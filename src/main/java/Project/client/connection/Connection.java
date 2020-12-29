@@ -10,6 +10,7 @@ public interface Connection {
 	public int getID();
 	public GameType getGameType();
 	public int getNumOfPlayerPieces();
+	public int getNumOfPlayers();
 	public int getTotalNumOfPieces();
 	public int[][] getPieces();
 	public boolean isMyTurn();

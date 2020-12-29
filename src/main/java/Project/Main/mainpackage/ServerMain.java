@@ -52,20 +52,22 @@ public class ServerMain {
 	public void ingame() {
 		
 		try {
-		//	while (true) {
-			System.out.println("Wysylam tablice");
-			server.command_ms.activiti =ServerActivities.SEND_BOARD;
-			stc.join(100);
+			int winnerID = 0;
+
+			do {
+				System.out.println("Wysylam tablice");
+				server.command_ms.activiti =ServerActivities.SEND_BOARD;
+				stc.join(100);
 			
-			System.out.println("Wysylam Czyja kolej");
-			server.command_ms.game.setMove("");
-			server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
-			stc.join(100);
-			System.out.println(server.command_ms.getCommand());
-			while(server.command_ms.game.getMove().equals("")) {
-				stc.join(1);
+				System.out.println("Wysylam Czyja kolej");
+				server.command_ms.game.setMove("");
+				server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
+				stc.join(100);
+				System.out.println(server.command_ms.getCommand());
+				while(server.command_ms.game.getMove().equals("")) {
+					stc.join(1);
 				}
-			System.out.println(server.command_ms.game.getMove());
+				System.out.println(server.command_ms.game.getMove());
 			/*
 			 * Sprawdzamy czy getMove() jest poprawny
 			 * Jezeli jest poprawny to
@@ -73,7 +75,22 @@ public class ServerMain {
 			 * Funkcja sprawdzajaca czy ktos wygral jezeli tak to wyjdz z petli i ustaw zwyciezce
 			 * server.command_ms.game.set_winner(int ID_zwyciezcy);
 			 */
-			//}
+				String receivedMove = server.command_ms.game.getMove();
+				String[] moveInParts = receivedMove.split(";");
+				int fromWhereIndex = Integer.parseInt(moveInParts[1]);
+				int whereToIndex = Integer.parseInt(moveInParts[2]);
+
+				if (server.command_ms.game.board.checkRules(fromWhereIndex, whereToIndex)) {
+					server.command_ms.game.board.makeMove(fromWhereIndex, whereToIndex);
+					winnerID = server.command_ms.game.board.checkWinner();
+					server.command_ms.game.increase_Queue();
+
+				}
+
+			} while (winnerID == 0);
+
+			server.command_ms.game.set_winner(winnerID);
+
 		}
 		catch(Exception e) {
 			System.out.println(e);

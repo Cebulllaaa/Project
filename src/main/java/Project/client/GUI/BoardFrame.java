@@ -21,8 +21,9 @@ import Project.client.exceptions.GameEndedException;
 import Project.common.board.AbstractBoard;
 import Project.common.board.Piece;
 import Project.common.board.PieceHelperMethods;
+import Project.common.game.GameHelperMethods;
 
-public class BoardFrame extends JFrame implements Runnable {
+public class BoardFrame extends JFrame /*implements Runnable*/ {
 
 	private static final long serialVersionUID = 1;
 
@@ -161,7 +162,7 @@ public class BoardFrame extends JFrame implements Runnable {
 
 	}
 
-	public void run() {/*
+/*	public void run() {
 		while (more) {
 			try {
 				Thread.sleep(1000);					
@@ -172,10 +173,12 @@ public class BoardFrame extends JFrame implements Runnable {
 				System.out.println(ix);
 			}
 		}
-	*/}
+	}*/
 
 	public void setNewPieces() {
 		int[][] positions = connection.getPieces();
+		int myID = connection.getID();
+		int numberOfPlayers = connection.getNumOfPlayers();
 
 		for (int i=0; i < buttons.length; i++) {
 			buttons[i].setPiece( Piece.NONE );
@@ -185,13 +188,17 @@ System.out.println(buttons[i].getPiece());
 
 		for (int i=0; i < positions.length; i++) {
 			for (int j=0; j < positions[i].length; j++) {
-				Piece piece = PieceHelperMethods.idToPiece(i + 1);
+				int index = i + 1; // = GameHelperMethods.idToPositionInArray(myID, numberOfPlayers);
+				Piece piece = PieceHelperMethods.idToPiece(index);
 				FieldButton but = buttons[positions[i][j]];
+
 				but.setPiece(piece);
 System.out.println(but.getPiece());
 				but.choosePiece();
 System.out.println(Integer.toString(i) + "," + Integer.toString(j));
+
 			}
+
 		}
 
 	}
@@ -214,7 +221,7 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 		connection = ctc;
 	}
 
-	public void print() {
+/*	public void print() {
 		System.out.println(connection.getID());
 		System.out.println(connection.getGameType());
 		System.out.println(connection.getNumOfPlayerPieces());
@@ -228,7 +235,7 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 			}
 		}
 	}
-
+*/
 	private class LabelListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
@@ -259,6 +266,7 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 			String text;
 
 			text = "Player ID: " + Integer.toString(connection.getID())
+			+ "\nPlayer color: " + PieceHelperMethods.idToPiece(connection.getID()).toString()
 			+ "\nIs it your turn: " + ((connection.isMyTurn())?"yes":"no");
 
 			dialogText.setText(text);
