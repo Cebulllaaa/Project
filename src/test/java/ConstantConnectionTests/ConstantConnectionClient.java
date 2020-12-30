@@ -38,7 +38,7 @@ public class ConstantConnectionClient extends Thread{
 				}
 				if(command.charAt(0) =='5'  ) {
 					if(Character.getNumericValue(command.charAt(2)) == ID) {
-						writer.println("Move");
+						writer.println("Move" + Integer.toString(ID));
 						writer.flush(); 
 					}
 					else {
