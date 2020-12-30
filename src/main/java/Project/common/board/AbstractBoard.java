@@ -322,7 +322,7 @@ for (int i=0; i < pieces.length; i++) {
 			Piece home = PieceHelperMethods.getHome(piece);
 
 			if (fieldOfPiece.getHomeType() == home) {
-				piecesAtHome[ownerID]++;
+				piecesAtHome[ownerID - 1]++;
 			}
 
 		}

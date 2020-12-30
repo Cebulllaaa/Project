@@ -148,8 +148,8 @@ System.out.print(newPosOfChangedPiece);
 
 		}
 		else {
-			out.println("-2");
-System.out.println("-2");
+			out.print("-2");
+System.out.print("-2");
 		}
 
 		out.println();

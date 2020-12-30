@@ -97,7 +97,7 @@ public class ServerMain {
 		}
 	}
 	public void endgame() {
-		server.command_ms.game.set_winner(1);
+		//server.command_ms.game.set_winner(1);
 		System.out.println("Koniec gry wygral " + server.command_ms.game.get_winner());
 		server.command_ms.activiti =ServerActivities.SEND_BOARD;
 		try {

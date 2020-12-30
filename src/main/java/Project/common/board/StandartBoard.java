@@ -74,7 +74,7 @@ public class StandartBoard extends AbstractBoard {
 				for (Field neighbour : neighbours) {
 					Field opposition = neighbour.oppositeField(currentField);
 
-					if ( neighbour.getPiece() != Piece.NONE && !searchedFields[ opposition.getFieldId() ]
+					if (opposition != null && neighbour.getPiece() != Piece.NONE && !searchedFields[ opposition.getFieldId() ]
 							&& opposition.getPiece() == Piece.NONE) {
 						if (field2 == opposition) {
 							return true;
