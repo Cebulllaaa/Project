@@ -177,7 +177,7 @@ public class BoardFrame extends JFrame /*implements Runnable*/ {
 
 	public void setNewPieces() {
 		int[][] positions = connection.getPieces();
-		int myID = connection.getID();
+		//int myID = connection.getID();
 		int numberOfPlayers = connection.getNumOfPlayers();
 
 		for (int i=0; i < buttons.length; i++) {
@@ -188,8 +188,9 @@ System.out.println(buttons[i].getPiece());
 
 		for (int i=0; i < positions.length; i++) {
 			for (int j=0; j < positions[i].length; j++) {
-				int index = i + 1; // = GameHelperMethods.idToPositionInArray(myID, numberOfPlayers);
-				Piece piece = PieceHelperMethods.idToPiece(index);
+//System.out.println(myID);
+				int pieceColor = GameHelperMethods.positionInArrayToId(i, numberOfPlayers);
+				Piece piece = PieceHelperMethods.idToPiece(pieceColor);
 				FieldButton but = buttons[positions[i][j]];
 
 				but.setPiece(piece);
