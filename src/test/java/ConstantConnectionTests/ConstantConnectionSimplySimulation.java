@@ -28,7 +28,7 @@ public class ConstantConnectionSimplySimulation {
 	Socket client1socket;
 	Socket client2socket;
 	Socket client3socket;
-	Socket client4socket;
+	Socket client4socket; 
 	Socket client5socket;
 	Socket client6socket;
 	Socket client7socket;
