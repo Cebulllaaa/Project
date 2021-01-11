@@ -28,7 +28,7 @@ import Project.common.game.GameHelperMethods;
  * @version 1.0
  *
  */
-public class BoardFrame extends JFrame /*implements Runnable*/ {
+public class BoardFrame extends JFrame implements ConnectionListener {
 
 	private static final long serialVersionUID = 1;
 

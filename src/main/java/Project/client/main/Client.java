@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import Project.client.GUI.BoardFrame;
 import Project.client.connection.ClientConnection;
-import Project.client.connection.ClientTemporaryConnection;
 import Project.client.connection.Connection;
 import Project.client.exceptions.GameEndedException;
 import Project.client.exceptions.PlayerNotAllowedException;

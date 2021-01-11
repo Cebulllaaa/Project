@@ -28,7 +28,7 @@ public class TestServer implements Runnable {
 		this.gameCode = GameHelperMethods.getGameCode(gameType);
 		this.pieces = pieces;
 		repeat = moves;
-		serverSocket = new ServerSocket(8080);
+		serverSocket = new ServerSocket(6000);
 	}
 
 	public TestServer(int id, int playersCount, int gameCode, int[] pieces, int moves) throws IOException, WrongGameTypeException {
@@ -42,8 +42,11 @@ public class TestServer implements Runnable {
 
 	public void run() {
 		try {
+System.out.println("listening");
 			listen();
+System.out.println("accepting");
 			acceptClient();
+System.out.println("after");
 
 			for (int i=0; i < repeat; i++) {
 				pieces[i % pieces.length]++;
@@ -55,7 +58,8 @@ public class TestServer implements Runnable {
 			closeConnection();
 		}
 		catch (Exception x) {
-			System.out.println(x.getMessage());
+			System.out.println(x);
+			System.out.println(x.getMessage() + " - " + Integer.toString(id));
 		}
 	}
 
@@ -103,6 +107,13 @@ public class TestServer implements Runnable {
 
 		out.flush();
 
+		try {
+			Thread.sleep(20);
+		}
+		catch (InterruptedException ix) {
+			;
+		}
+
 		out.print("4");
 		for (int i=0; i<pieces.length; i++) {
 			out.print(";");
@@ -111,6 +122,13 @@ public class TestServer implements Runnable {
 		out.println();
 
 		out.flush();
+
+		try {
+			Thread.sleep(20);
+		}
+		catch (InterruptedException ix) {
+			;
+		}
 
 	}
 
@@ -127,8 +145,12 @@ public class TestServer implements Runnable {
 	}
 
 	public void closeConnection() throws IOException {
-		serverSocket.close();
-		clientSocket.close();
+		if (serverSocket != null) {
+			serverSocket.close();
+		}
+		if (clientSocket != null) {
+			clientSocket.close();
+		}
 	}
 
 }

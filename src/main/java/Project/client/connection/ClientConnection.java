@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import Project.client.GUI.BoardFrame;
+import Project.client.GUI.ConnectionListener;
 import Project.client.exceptions.GameEndedException;
 import Project.client.exceptions.PlayerNotAllowedException;
 import Project.common.exceptions.WrongGameTypeException;
@@ -34,7 +35,7 @@ public class ClientConnection extends Thread implements Connection {
 	private final int servMsgPiecesStart = 1;
 	private final int clientNotAllowedCode = 7;
 	private final String regexDelim = ";";
-	private BoardFrame listener;
+	private ConnectionListener listener;
 	private boolean isMoveMade = true;
 	private String host;
 	private int port;
@@ -210,27 +211,39 @@ System.out.println();
 		}
 
 		boolean gameEnded = (Integer.parseInt(serverMsg[0]) == 6);
-		if (gameEnded) {
+
+		if (!gameEnded) {
+
+			myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
+
+			if (myTurn) {
+				listener.informAboutTurn();
+			}
+
+			isMoveMade = false;
+
+		}
+		else if (gameEnded) {
+System.out.println("game-Ended:");
+System.out.println(serverMsg[0]);
+System.out.println(serverMsg[1]);
+System.out.println(serverMsg[2]);
 			int winnerID = Integer.parseInt(serverMsg[1]);//
 			int remainingPlayers = Integer.parseInt(serverMsg[2]);//
 
 			if (remainingPlayers <= 1) { // jesli zostal 1 gracz to gra skonczona
 				throw new GameEndedException("The game has ended.\n");//serverMsg[1]);
 			}
-			else if (winnerID == clientId) {
-				listener.informAboutWinning(numOfPlayers - remainingPlayers);
-				serverMsg = in.nextLine().split(regexDelim);
+			else {
+				if (winnerID == clientId) {
+					listener.informAboutWinning(numOfPlayers - remainingPlayers);
+				}
+
+				read();
+
 			}
 
 		}
-
-		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
-
-		if (myTurn) {
-			listener.informAboutTurn();
-		}
-
-		isMoveMade = false;
 
 	}
 
@@ -331,7 +344,7 @@ System.out.println();
 	/**
 	 * ustawia obiekt sluchajacy informacji od serwera
 	 */
-	public void setListener(BoardFrame listeningFrame) {
+	public void setListener(ConnectionListener listeningFrame) {
 		listener = listeningFrame;
 	}
 

@@ -23,12 +23,24 @@ public class TestServerReading extends TestServer {
 	}
 
 	@Override
+	public void acceptClient() {
+		super.acceptClient();
+		receivedMessages.add(in.nextLine());
+	}
+	@Override
 	public void continueGame(int id, int[] pieces) {
 		out.print("5;");
 		out.print(id);
 		out.println();
 
 		out.flush();
+
+		try {
+			Thread.sleep(10);
+		}
+		catch (InterruptedException ix) {
+			;
+		}
 
 		out.print("4");
 		for (int i=0; i<pieces.length; i++) {
@@ -39,7 +51,16 @@ public class TestServerReading extends TestServer {
 
 		out.flush();
 
+		try {
+			Thread.sleep(10);
+		}
+		catch (InterruptedException ix) {
+			;
+		}
+
+		//for (int i=0; i < playersCount-2; i++ ) {
 		receivedMessages.add(in.nextLine());
+		//}
 
 	}
 
