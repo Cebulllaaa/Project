@@ -46,12 +46,7 @@ public class ConstantConnectionClient extends Thread{
 						writer.flush();
 					}
 				}
-				if(command.charAt(0) =='6'  ) {
-					game = false;
-				}
-				
 			}
-			System.out.println("koncze gre");
 		}
 		catch(Exception e) {
 			System.out.println(e);

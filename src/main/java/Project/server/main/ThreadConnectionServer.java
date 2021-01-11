@@ -57,7 +57,7 @@ public class ThreadConnectionServer extends Thread{
 			write.run();
 			
 			/*Przebieg gry */
-			while(!command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) {
+			while(command_ms.game.Players.size()>1) {
 				
 				/*Wyslanie tablicy */
 				while(!command_ms.activiti.equals(ServerActivities.SEND_BOARD) ) {
@@ -69,7 +69,12 @@ public class ThreadConnectionServer extends Thread{
 				/*Wyslanie czyja kolej */
 				while(!command_ms.activiti.equals(ServerActivities.SEND_WHOSE_TURN) ) {
 					if(command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) {
-						break;
+						command_ms.CommandMenu();
+						write = new ThreadServerWrite(client_socket,command_ms.getCommand());
+						write.run();
+						if(command_ms.game.Players.size()==1) {
+							break;
+						}
 					}
 					this.yield();
 				}
@@ -85,9 +90,6 @@ public class ThreadConnectionServer extends Thread{
 				}
 			
 			}
-			command_ms.CommandMenu();
-			write = new ThreadServerWrite(client_socket,command_ms.getCommand());
-			write.run();
 			
 		}
 		catch(Exception e) {

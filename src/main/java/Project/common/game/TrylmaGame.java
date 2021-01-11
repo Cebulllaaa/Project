@@ -129,5 +129,17 @@ public class TrylmaGame extends Game{
 		this.move =x;
 	
 	}
+	@Override
+	public void delete_player(int x) {
+		ArrayList<Integer> Players2 = new ArrayList<Integer>();;
+		for(int i=0 ; i < Players.size(); i++) {
+			if(x != Players.get(i)) {
+				Players2.add(Players.get(i));
+			}
+		}
+		Players = Players2 ;
+		create_Queue();
+		
+	}
 
 }

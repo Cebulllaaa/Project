@@ -8,6 +8,7 @@ public class ServerMain {
 	static int port;
 	static int players;
 	static ServerMain mainclass;
+	public int place =1;
 	private Server server;
 	private StartServerConnection stc;
 	public static void main(String[] args) {
@@ -42,7 +43,6 @@ public class ServerMain {
 		stc.join(100);
 		
 		this.ingame();
-		this.endgame();
 		
 		}
 		catch(Exception e) {
@@ -83,13 +83,14 @@ public class ServerMain {
 				if (server.command_ms.game.board.checkRules(fromWhereIndex, whereToIndex)) {
 					server.command_ms.game.board.makeMove(fromWhereIndex, whereToIndex);
 					winnerID = server.command_ms.game.board.checkWinner();
+					if(winnerID != 0) {
+						endgame();
+					}
 					server.command_ms.game.increase_Queue();
 
 				}
 
-			} while (winnerID == 0);
-
-			server.command_ms.game.set_winner(winnerID);
+			} while (server.command_ms.game.Players.size() >1);
 
 		}
 		catch(Exception e) {
@@ -98,7 +99,8 @@ public class ServerMain {
 	}
 	public void endgame() {
 		//server.command_ms.game.set_winner(1);
-		System.out.println("Koniec gry wygral " + server.command_ms.game.get_winner());
+		System.out.println("Gracz " + server.command_ms.game.get_winner() + " zajal " + place + "miejsce");
+		place = place +1;
 		server.command_ms.activiti =ServerActivities.SEND_BOARD;
 		try {
 		stc.join(100);

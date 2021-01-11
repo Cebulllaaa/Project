@@ -50,6 +50,7 @@ public abstract class Game {
 	public abstract String getMove();
 	/**Funkcja ustawiajaca ruch gracza */
 	public abstract void setMove(String x);
+	public abstract void delete_player(int x);
 	public AbstractBoard board;
 	/**Klasa odpowiedzialna za ID gra przyznawanie ID graczo mktorzy jeszcze nie dolaczyli*/
 	public WaitingRoom waitingroom;

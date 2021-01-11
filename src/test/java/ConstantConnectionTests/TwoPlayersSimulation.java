@@ -74,8 +74,8 @@ public class TwoPlayersSimulation {
 			stc.join(100);
 			//System.out.println("odczekalem");
 			
-			assertEquals("6;1;",client1.command);
-			assertEquals("6;1;",client2.command);
+			assertEquals("6;1;1;",client1.command);
+			assertEquals("6;1;1;",client2.command);
 			
 		}
 		catch(Exception e) {
