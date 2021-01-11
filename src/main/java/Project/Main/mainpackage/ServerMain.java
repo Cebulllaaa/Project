@@ -115,6 +115,6 @@ public class ServerMain {
 		catch(InterruptedException e) {
 			System.out.println(e);
 		}
-		System.exit(0);
+
 	} 
 }

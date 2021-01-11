@@ -212,7 +212,7 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 		more = false;
 
 		if (x instanceof GameEndedException) {
-			dialogText.setText("The game has ended.\nPlayer " + x.getMessage() + " won.");
+			dialogText.setText(x.getMessage());
 		}
 		else {
 			dialogText.setText("An error has occured:\n" + x.getMessage());
@@ -235,6 +235,15 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 	 */
 	public void informAboutTurn() {
 		dialogText.setText("It's your turn!");
+		infoDialog.setVisible(true);
+
+	}
+
+	/**
+	 * informuje gracza, ze skonczyl gre
+	 */
+	public void informAboutWinning(int positionInRanking) {
+		dialogText.setText("Congratulations!\nYou are " + Integer.toString(positionInRanking) + ".\n");
 		infoDialog.setVisible(true);
 
 	}

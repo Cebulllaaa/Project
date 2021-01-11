@@ -211,7 +211,17 @@ System.out.println();
 
 		boolean gameEnded = (Integer.parseInt(serverMsg[0]) == 6);
 		if (gameEnded) {
-			throw new GameEndedException(serverMsg[1]);
+			int winnerID = Integer.parseInt(serverMsg[1]);//
+			int remainingPlayers = Integer.parseInt(serverMsg[2]);//
+
+			if (remainingPlayers <= 1) { // jesli zostal 1 gracz to gra skonczona
+				throw new GameEndedException("The game has ended.\n");//serverMsg[1]);
+			}
+			else if (winnerID == clientId) {
+				listener.informAboutWinning(numOfPlayers - remainingPlayers);
+				serverMsg = in.nextLine().split(regexDelim);
+			}
+
 		}
 
 		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
