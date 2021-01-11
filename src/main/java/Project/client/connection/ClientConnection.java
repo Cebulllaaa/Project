@@ -12,6 +12,11 @@ import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
 import Project.common.game.GameType;
 
+/**
+ * klasa odpowiadajaca za komunikacje z serwerem
+ * @version 1.0
+ *
+ */
 public class ClientConnection extends Thread implements Connection {
 
 	private int clientId;
@@ -27,7 +32,6 @@ public class ClientConnection extends Thread implements Connection {
 	private int changedPiece;
 	private int newPosOfChangedPiece;
 	private final int servMsgPiecesStart = 1;
-	//private final int inGameServMsgPiecStart = 2;
 	private final int clientNotAllowedCode = 7;
 	private final String regexDelim = ";";
 	private BoardFrame listener;
@@ -35,11 +39,19 @@ public class ClientConnection extends Thread implements Connection {
 	private String host;
 	private int port;
 
+	/**
+	 * jedyny konsturktor klasy
+	 * @param host adres serwera
+	 * @param port numer portu
+	 */
 	public ClientConnection(String host, int port) {
 		this.host = host;
 		this.port = port;
 	}
 
+	/**
+	 * metoda do obslugi polaczenia w nowym watku
+	 */
 	@Override
 	public void run() {
 		try {
@@ -67,6 +79,16 @@ public class ClientConnection extends Thread implements Connection {
 	 *    serwer przesyla po kolei:
 	 *    id klienta, typ gry (int), liczbe wszystkich graczy
 	 *    w grze (musi byc znana na poczatku), listy pozycji pionkow kolejnych graczy
+	 */
+	/**
+	 * metoda laczaca klienta z serwerem
+	 * wykonuje inicjowanie tych pol, ktore sa zalezne od rodzaju gry
+	 * @param host adres serwera
+	 * @param port numer portu
+	 * @throws IOException wyrzucany, gdy wydarzy sie blad w polaczeniu
+	 * @throws PlayerNotAllowedException wyrzucany, gdy gra juz wystarczajaco duzo graczy
+	 * @throws WrongGameTypeException wyrzucany, gdy serwer przesle neprawidlowy kod gry
+	 * @throws GameEndedException wyrzucany, gdy ktorys z graczy osiagnie cel gry
 	 */
 	public void connect(String host, int port) throws IOException, PlayerNotAllowedException, WrongGameTypeException, GameEndedException {
 		clientSocket = new Socket(host, port);
@@ -113,6 +135,10 @@ public class ClientConnection extends Thread implements Connection {
 
 	}
 
+	/**
+	 * konczenie polaczenia
+	 * @throws IOException
+	 */
 	public void endConnection() throws IOException {
 		if (clientSocket != null) {
 			clientSocket.close();
@@ -124,6 +150,9 @@ public class ClientConnection extends Thread implements Connection {
 	 * klient przesyla:
 	 * informacje czy gra sie skonczyla (boolean), id gracza ktory ma wykonac ruch,
 	 * listy pozycji pionkow kolejnych graczy
+	 */
+	/**
+	 * metoda wysylajaca dane gry do serwera
 	 */
 	public void write() {
 		if (myTurn) {
@@ -164,6 +193,10 @@ System.out.println();
 	 * informacje czy gra sie skonczyla (boolean), id gracza ktory ma wykonac ruch,
 	 * listy pozycji pionkow kolejnych graczy
 	 */
+	/**
+	 * metoda odbierajaca dane od serwera
+	 * @throws GameEndedException
+	 */
 	public void read() throws GameEndedException {
 		serverMsg = in.nextLine().split(regexDelim); // newBoard: 4;[lista_pozycji_pionkow]
 		for (int i=0; i<serverMsg.length; i++) {
@@ -183,10 +216,17 @@ System.out.println();
 
 		myTurn = (Integer.parseInt(serverMsg[1]) == clientId);
 
+		if (myTurn) {
+			listener.informAboutTurn();
+		}
+
 		isMoveMade = false;
 
 	}
 
+	/**
+	 * metoda ustawiajaca pionki na planszy wedlug odebranych informacji
+	 */
 	private void setPieces() {
 		for (int i=0; i < pieces.length; i++) {
 			for (int j=0; j < pieces[i].length; j++) {
@@ -198,47 +238,89 @@ System.out.println();
 
 	}
 
+	/**
+	 * podaje liczbe pionkow gracza
+	 * @return liczba pionkow gracza
+	 * @throws WrongGameTypeException wyrzucany, gdy typ gry nie jest rozpoznawany (nie powinno byc tak nigdy_
+	 */
 	private int numberOfMyPieces() throws WrongGameTypeException {
 		return GameHelperMethods.getNumberOfPieces(gameType);
 	}
 
+	/**
+	 * getter clientID
+	 * @return clientID
+	 */
 	public int getID() {
 		return clientId;
 	}
 
+	/**
+	 * getter gameType
+	 * @return gameType
+	 */
 	public GameType getGameType() {
 		return gameType;
 	}
 
+	/**
+	 * metoda ustawiajaca informacje o zmianie na planszy, ktore maja byc wyslane
+	 */
 	public void setChange(int chPiece, int newPiecePos) {
 		changedPiece = chPiece;
 		newPosOfChangedPiece = newPiecePos;
 	}
 
+	/**
+	 * getter pieces
+	 * @return pieces
+	 */
 	public int[][] getPieces() {
 		return pieces;
 	}
 
+	/**
+	 * zwraca calkowita liczbe pionkow na planszy
+	 * @return calkowita liczba pionkow na planszy
+	 */
 	public int getTotalNumOfPieces() {
 		return numOfPlayers * numOfPlayerPieces;
 	}
 
+	/**
+	 * getter numOfPlayerPieces
+	 * @return numOfPlayerPieces
+	 */
 	public int getNumOfPlayerPieces() {
 		return numOfPlayerPieces;
 	}
 
+	/**
+	 * getter numOfPlayers
+	 * @return numOfPlayers
+	 */
 	public int getNumOfPlayers() {
 		return numOfPlayers;
 	}
 
+	/**
+	 * informuje, czy teraz rusza sie uzytkownik
+	 * @return myTurn
+	 */
 	public boolean isMyTurn() {
 		return myTurn;
 	}
 
+	/**
+	 * tymczasowo wlacza wysylanie informacji do serwera
+	 */
 	public void makeMove() {
 		isMoveMade = true;
 	}
 
+	/**
+	 * ustawia obiekt sluchajacy informacji od serwera
+	 */
 	public void setListener(BoardFrame listeningFrame) {
 		listener = listeningFrame;
 	}

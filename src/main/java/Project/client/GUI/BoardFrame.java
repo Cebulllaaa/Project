@@ -23,6 +23,11 @@ import Project.common.board.Piece;
 import Project.common.board.PieceHelperMethods;
 import Project.common.game.GameHelperMethods;
 
+/**
+ * klasa odpowiadajaca za interfejs uzytkownika
+ * @version 1.0
+ *
+ */
 public class BoardFrame extends JFrame /*implements Runnable*/ {
 
 	private static final long serialVersionUID = 1;
@@ -39,8 +44,11 @@ public class BoardFrame extends JFrame /*implements Runnable*/ {
 	private int whereTo = 0;
 	private int pressed = -1;
 
+	/**
+	 * jedyny konstruktor klasy
+	 * @param ab klasa planszy odpoiadajaca planowanemu typowi gry
+	 */
 	public BoardFrame(AbstractBoard ab) {
-//		super();
 		board = ab;
 
 		int n = board.getEdgeLength();
@@ -84,9 +92,9 @@ public class BoardFrame extends JFrame /*implements Runnable*/ {
 	private void initHelpDialog() {
 		JButton dialogButton = new JButton("Ok");
 		authors = "auhtors:\nBartosz Cybulski\nBartlomiej Krolikowski\n";
-		howToUse = "When it's your turn you can click on a field containing your peg\n"
-				+ "and next click on empty field.\nThis will move the peg on that field.\n"
-				+ "You should than press \"Make move\" item in the menu to upload your move.\n"
+		howToUse = "When it's your turn you can click on a space containing your peg\n"
+				+ "and next click on empty space.\nThis will move the peg on that space.\n"
+				+ "You should then press \"Make move\" item in the menu to upload your move.\n"
 				+ "You can also make no move and then you should only press \"Make move\"\n";
 		dialogText = new JTextArea(howToUse + "\n" + authors, 6, 1);
 
@@ -162,19 +170,9 @@ public class BoardFrame extends JFrame /*implements Runnable*/ {
 
 	}
 
-/*	public void run() {
-		while (more) {
-			try {
-				Thread.sleep(1000);					
-				print();
-			}
-			catch (InterruptedException ix) {
-				more = false;
-				System.out.println(ix);
-			}
-		}
-	}*/
-
+	/**
+	 * metoda ustawiajaca pionki na planszy kozystajac z {@link ClientConnection#getPieces() ClientConnection.getPieces()}
+	 */
 	public void setNewPieces() {
 		int[][] positions = connection.getPieces();
 		//int myID = connection.getID();
@@ -204,6 +202,12 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 
 	}
 
+	/**
+	 * metoda informujaca uzytkownika o problemach uniemozliwiajacych dalsza gre
+	 * informuje tez o sytuacji w ktorej ktorys z graczy konczy rozgrywke,
+	 * mimo ze nie musi to konczyc gry
+	 * @param x wyjatek przekazujacy informacje o problemie lub zwyciezcy
+	 */
 	public void signalise(Exception x) {
 		more = false;
 
@@ -218,25 +222,23 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 
 	}
 
+	/**
+	 * ustawia pole {@link BoardFrame#connection connection}
+	 * @param ctc obiekt odpowiedzialny za odbieranie i wysylanie informacji od i do serwera
+	 */
 	public void setConnection(Connection ctc) {
 		connection = ctc;
 	}
 
-/*	public void print() {
-		System.out.println(connection.getID());
-		System.out.println(connection.getGameType());
-		System.out.println(connection.getNumOfPlayerPieces());
-		System.out.println(connection.getTotalNumOfPieces());
-		int[][] pieces = connection.getPieces();
-		if (pieces != null) {
-			for (int i=0; i<pieces.length; i++) {
-				for (int j=0; j < pieces[i].length; j++) {
-					System.out.println(pieces[i][j]);
-				}
-			}
-		}
+	/**
+	 * informuje gracza, ze teraz jego kolej
+	 */
+	public void informAboutTurn() {
+		dialogText.setText("It's your turn!");
+		infoDialog.setVisible(true);
+
 	}
-*/
+
 	private class LabelListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent arg0) {
@@ -277,7 +279,12 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 
 		private void makeMove() {
 			connection.setChange(whereFrom, whereTo);
+
+			whereFrom = 0;
+			whereTo = 0;
+
 			connection.makeMove();
+
 		}
 
 	}
@@ -300,13 +307,25 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 			FieldButton fb = (FieldButton)arg0.getSource();
 			int index = fb.getID();
 			if (pressed == -1) {
-				if (fb.getPiece() != Piece.NONE) {
+				if (fb.getPiece() == PieceHelperMethods.idToPiece(connection.getID())) {
 					pressed = index;
+					buttons[whereFrom].choosePiece();
+					buttons[whereTo].choosePiece();
 					whereFrom = index;
 					fb.setBackground(Color.BLACK);
 				}
 				else {
-					dialogText.setText("The space is empty!");
+					String text;
+
+					if (fb.getPiece() == Piece.NONE) {
+						text = "The space is empty!";
+					}
+					else {
+						text = "Wrong peg.\nYour color is "
+								+ PieceHelperMethods.idToPiece(connection.getID()).toString();
+					}
+
+					dialogText.setText(text);
 					infoDialog.setVisible(true);
 				}
 			}
@@ -315,7 +334,6 @@ System.out.println(Integer.toString(i) + "," + Integer.toString(j));
 					buttons[pressed].chooseColor();
 					pressed = -1;
 					whereTo = index;
-					//fb.setLabel("#");
 					fb.setBackground(Color.PINK);
 					repaint();
 				}
