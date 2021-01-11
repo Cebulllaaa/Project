@@ -124,7 +124,6 @@ public class CommandMaster {
 			setCommand("6;");
 			int winner = game.get_winner();
 			
-			//game.delete_player(winner);
 			String winner_s = Integer.toString(winner);
 			setCommand(command + winner_s + ";" + (game.Queue.size() -1) + ";");
 		}

@@ -123,5 +123,6 @@ public class ServerMain {
 		}
 		j=1;
 		server.command_ms.game.delete_player(server.command_ms.game.get_winner());
+		server.command_ms.game.in_Queue =0;
 	} 
 }
