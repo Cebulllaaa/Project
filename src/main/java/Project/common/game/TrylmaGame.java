@@ -139,7 +139,11 @@ public class TrylmaGame extends Game{
 		}
 		Players = Players2 ;
 		create_Queue();
+		System.out.println("Nowa kolejka");
 		
+		for(int i = 0 ; i < Queue.size() ; i++) {
+			System.out.println(Queue.get(i));
+		}
 	}
 
 }

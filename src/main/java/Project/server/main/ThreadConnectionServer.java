@@ -90,6 +90,7 @@ public class ThreadConnectionServer extends Thread{
 				}
 			
 			}
+			System.out.println("SKonczylem ");
 			
 		}
 		catch(Exception e) {

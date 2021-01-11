@@ -198,10 +198,6 @@ public class ConstantConnectionSimplySimulation {
 				+ "86;87;88;89;90;91;92;93;94;95;96;97;98;99;100;101;102;103;104;105;106;107;108;"
 				+ "109;110;111;112;113;114;115;116;117;118;119;120",client6.command);
 		
-		System.out.println("kolejka wynosi ");
-		for(int i = 0 ; i<server.command_ms.game.Queue.size(); i++) {
-			System.out.println(server.command_ms.game.Queue.get(i));
-		}
 		server.command_ms.game.set_winner(1);
 		server.command_ms.activiti =ServerActivities.SEND_END_GAME;
 		stc.join(100);
@@ -212,14 +208,11 @@ public class ConstantConnectionSimplySimulation {
 		assertEquals("6;1;5;",client4.command);
 		assertEquals("6;1;5;",client5.command);
 		assertEquals("6;1;5;",client6.command);
+		server.command_ms.game.delete_player(server.command_ms.game.get_winner());
 		
 		server.command_ms.activiti =ServerActivities.SEND_BOARD;
 		stc.join(100);
-		
-		System.out.println("kolejka wynosi ");
-		for(int i = 0 ; i<server.command_ms.game.Queue.size(); i++) {
-			System.out.println(server.command_ms.game.Queue.get(i));
-		}
+
 		server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
 		stc.join(100);
 		
@@ -229,6 +222,38 @@ public class ConstantConnectionSimplySimulation {
 		assertEquals(server.command_ms.getCommand(),client4.command);
 		assertEquals(server.command_ms.getCommand(),client5.command);
 		assertEquals(server.command_ms.getCommand(),client6.command);
+		System.out.println("Przed " + server.command_ms.getCommand());
+		
+		server.command_ms.activiti =ServerActivities.SEND_BOARD;
+		stc.join(100);
+		
+		server.command_ms.game.set_winner(2);
+		server.command_ms.activiti =ServerActivities.SEND_END_GAME;
+		stc.join(100);
+		System.out.println("Po " + server.command_ms.getCommand());
+		
+		assertEquals("6;2;4;",client1.command);
+		assertEquals("6;2;4;",client2.command);
+		assertEquals("6;2;4;",client3.command);
+		assertEquals("6;2;4;",client4.command);
+		assertEquals("6;2;4;",client5.command);
+		assertEquals("6;2;4;",client6.command);
+		
+		server.command_ms.game.delete_player(server.command_ms.game.get_winner());
+		
+		server.command_ms.activiti =ServerActivities.SEND_BOARD;
+		stc.join(100);
+		
+		server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
+		stc.join(100);
+		
+		System.out.println(server.command_ms.getCommand());
+		assertEquals(server.command_ms.getCommand(),client2.command);
+		assertEquals(server.command_ms.getCommand(),client3.command);
+		assertEquals(server.command_ms.getCommand(),client4.command);
+		assertEquals(server.command_ms.getCommand(),client5.command);
+		assertEquals(server.command_ms.getCommand(),client6.command);
+		
 		
 		}
 		catch(Exception e) {		

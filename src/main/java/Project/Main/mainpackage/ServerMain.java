@@ -56,9 +56,6 @@ public class ServerMain {
 			int winnerID = 0;
 
 			do {
-				if(j ==1) {
-					System.out.println("Znowu sie uruchamiam");
-				}
 				System.out.println("Wysylam tablice");
 				server.command_ms.activiti =ServerActivities.SEND_BOARD;
 				stc.join(100);
@@ -68,6 +65,8 @@ public class ServerMain {
 				server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
 				stc.join(100);
 				System.out.println(server.command_ms.getCommand());
+				
+				System.out.println("Nasluchuje");
 				while(server.command_ms.game.getMove().equals("")) {
 					stc.join(1);
 				}
@@ -79,6 +78,7 @@ public class ServerMain {
 			 * Funkcja sprawdzajaca czy ktos wygral jezeli tak to wyjdz z petli i ustaw zwyciezce
 			 * server.command_ms.game.set_winner(int ID_zwyciezcy);
 			 */
+				System.out.println("Skonczylem nasluchiwa");
 				String receivedMove = server.command_ms.game.getMove();
 				String[] moveInParts = receivedMove.split(";");
 				int fromWhereIndex = Integer.parseInt(moveInParts[1]);
@@ -121,7 +121,7 @@ public class ServerMain {
 		catch(InterruptedException e) {
 			System.out.println(e);
 		}
-		
-
+		j=1;
+		server.command_ms.game.delete_player(server.command_ms.game.get_winner());
 	} 
 }
