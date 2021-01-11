@@ -11,6 +11,7 @@ public class ServerMain {
 	public int place =1;
 	private Server server;
 	private StartServerConnection stc;
+	int j = 0;
 	public static void main(String[] args) {
 		try {
 			port = Integer.parseInt(args[0]);
@@ -55,6 +56,9 @@ public class ServerMain {
 			int winnerID = 0;
 
 			do {
+				if(j ==1) {
+					System.out.println("Znowu sie uruchamiam");
+				}
 				System.out.println("Wysylam tablice");
 				server.command_ms.activiti =ServerActivities.SEND_BOARD;
 				stc.join(100);
@@ -84,6 +88,8 @@ public class ServerMain {
 					server.command_ms.game.board.makeMove(fromWhereIndex, whereToIndex);
 					winnerID = server.command_ms.game.board.checkWinner();
 					if(winnerID != 0) {
+						server.command_ms.game.set_winner(winnerID);
+						winnerID=0;
 						endgame();
 					}
 					server.command_ms.game.increase_Queue();
@@ -115,6 +121,7 @@ public class ServerMain {
 		catch(InterruptedException e) {
 			System.out.println(e);
 		}
+		
 
 	} 
 }
