@@ -54,7 +54,7 @@ public class ThreadConnectionServer extends Thread{
 			}
 			command_ms.CommandMenu();
 			write = new ThreadServerWrite(client_socket,command_ms.getCommand());
-			write.run();
+			write.run(); 
 			
 			/*Przebieg gry */
 			while(command_ms.game.Players.size()>1) {
