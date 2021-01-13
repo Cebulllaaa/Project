@@ -26,7 +26,7 @@ public class TrylmaGametest {
 		test_possibilities.add(4);
 		test_possibilities.add(6);
 		assertEquals(game.possibilities,test_possibilities);
-		assertEquals(0,game.in_Queue);
+		assertEquals(0, game.in_Queue);
 	}
 	@Test
 	public void decide_Turn_test() {
