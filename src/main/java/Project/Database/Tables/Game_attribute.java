@@ -2,12 +2,19 @@ package Project.Database.Tables;
 import javax.persistence.*;
 
 @Entity
-public class Game_table {
+@Table (name = "games_table")
+public class Game_attribute {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
 	private int number_of_players;
+	public Game_attribute(){
+		
+	}
+	public Game_attribute(int x) {
+		this.number_of_players =x;
+	}
+	
 	public void	setId(Integer x) {
 		this.id =x;
 	}
