@@ -14,14 +14,24 @@ public abstract class AbstractBoard {
 	 */
 	public AbstractFieldArrayFactory fieldArrayFactory;
 
+	private boolean[] hasWon;
 	private int[] pieces = null;
 	//private int numOfPlayers;
+
+	public AbstractBoard() {
+		hasWon = new boolean[6];
+		for (int i=0; i < hasWon.length; i++) {
+			hasWon[i] = false;
+		}
+
+	}
 
 	/**
 	 * poczatkowe ustawienie pionkow na planszy
 	 * @param numOfPlayers liczba graczy zaczynajacych gre
 	 */
 	public void initPieces(int numOfPlayers) {
+
 		int t = fieldArrayFactory.getTriangleSize();
 		int h = fieldArrayFactory.getHexagonSize();
 
@@ -328,7 +338,8 @@ for (int i=0; i < pieces.length; i++) {
 		}
 
 		for (int i=0; i<6; i++) {
-			if (piecesAtHome[i] == numOfPlayerPieces) {
+			if (piecesAtHome[i] == numOfPlayerPieces && !hasWon[i]) {
+				hasWon[i] = true;
 				return i + 1;
 			}
 		}

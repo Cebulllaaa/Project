@@ -67,8 +67,10 @@ public class ThreadConnectionServer extends Thread{
 				write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 				write.run();
 				/*Wyslanie czyja kolej */
-				while(!command_ms.activiti.equals(ServerActivities.SEND_WHOSE_TURN) ) {
-					if(command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) {
+//				while(!command_ms.activiti.equals(ServerActivities.SEND_WHOSE_TURN) ) {
+				while(!(command_ms.activiti.equals(ServerActivities.SEND_WHOSE_TURN) // <zm
+						|| command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) ) { // <zm
+/*					if(command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) {
 						command_ms.CommandMenu();
 						write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 						write.run();
@@ -76,8 +78,19 @@ public class ThreadConnectionServer extends Thread{
 							break;
 						}
 					}
-					this.yield();
+*/					this.yield();
 				}
+				if(command_ms.activiti.equals(ServerActivities.SEND_END_GAME)) { // <zm
+					command_ms.CommandMenu(); // <zm
+					write = new ThreadServerWrite(client_socket,command_ms.getCommand()); // <zm
+					write.run(); // <zm
+					if(command_ms.game.Players.size()==1) { // <zm
+						break; // <zm
+					} // <zm
+					else { // <zm
+						continue; // <zm
+					} // <zm
+				} // <zm
 				command_ms.CommandMenu();
 				write = new ThreadServerWrite(client_socket,command_ms.getCommand());
 				write.run();
