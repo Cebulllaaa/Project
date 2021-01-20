@@ -41,7 +41,7 @@ public class AddORfind_test {
 
     @Test
     public void testfindData(){
-    	Game_attribute game3=procedures.findById(1);
+    	Game_attribute game3=procedures.findById(2);
         assertNotNull(game3);
         assertEquals(6, game3.getnmb_players());  
     }

@@ -87,6 +87,7 @@ public class TwoPlayersSimulation {
 				stc.join(100);
 				server.command_ms.activiti =ServerActivities.SEND_WHOSE_TURN;
 				stc.join(100);
+				
 				/*Czesc dla Springa zapisywanie ruchu*/
 				prev_move =server.command_ms.game.getMove();
 				next_move =server.command_ms.game.getMove();
