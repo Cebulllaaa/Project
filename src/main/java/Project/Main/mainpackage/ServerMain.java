@@ -124,5 +124,24 @@ public class ServerMain {
 		j=1;
 		server.command_ms.game.delete_player(server.command_ms.game.get_winner());
 		server.command_ms.game.in_Queue =0;
-	} 
+	}
+
+	/*
+	 * zwraca String bedacy numerem pola, z ktorego przeniesiono pionek
+	 */
+	protected String get_prev_move() {
+		String receivedMove = server.command_ms.game.getMove();
+		String[] moveInParts = receivedMove.split(";");
+		return moveInParts[1];
+	}
+
+	/*
+	 * zwraca String bedacy numerem pola, na ktore przeniesiono pionek
+	 */
+	protected String get_next_move() {
+		String receivedMove = server.command_ms.game.getMove();
+		String[] moveInParts = receivedMove.split(";");
+		return moveInParts[2];
+	}
+
 }
