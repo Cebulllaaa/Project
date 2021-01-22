@@ -1,18 +1,23 @@
 package Project.Main.mainpackage;
 
+import Project.Database.SpringBoot_starter;
 import Project.server.main.Server;
 import Project.server.main.ServerActivities;
 import Project.server.main.StartServerConnection;
 
 public class ServerMain {
+	private static SpringBoot_starter boot;
 	static int port;
 	static int players;
 	static ServerMain mainclass;
 	public int place =1;
 	private Server server;
 	private StartServerConnection stc;
+	
 	int j = 0;
 	public static void main(String[] args) {
+		boot = new SpringBoot_starter();
+		boot.main(args);
 		try {
 			port = Integer.parseInt(args[0]);
 			players = Integer.parseInt(args[1]);
@@ -42,7 +47,7 @@ public class ServerMain {
 		server.command_ms.game.create_Queue();
 		server.command_ms.activiti =ServerActivities.SEND_START_GAME;
 		stc.join(100);
-		
+		boot.add_game(players);
 		this.ingame();
 		
 		}
