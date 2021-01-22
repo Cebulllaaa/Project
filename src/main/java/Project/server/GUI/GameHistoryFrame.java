@@ -22,9 +22,8 @@ import Project.client.GUI.FieldOrganizer;
 import Project.common.board.AbstractBoard;
 import Project.common.board.Piece;
 import Project.common.board.PieceHelperMethods;
-import Project.common.board.StandartBoard;
 import Project.common.exceptions.ApplicationErrorException;
-import Project.common.game.Game;
+import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
 import Project.common.game.GameType;
 
@@ -32,8 +31,7 @@ public class GameHistoryFrame extends JFrame {
 
 		private static final long serialVersionUID = 1;
 
-		//private Game game;
-		private Game_attribute game_attr;
+//		private Game_attribute game_attr;
 		private AbstractBoard board;
 		private boolean more = true;
 		private JDialog infoDialog;
@@ -47,20 +45,28 @@ public class GameHistoryFrame extends JFrame {
 		private int[][] positions;
 		private int numOfPlayers;
 		private int numOfPlayerPieces;
-		private GameType type;
+		private JPanel boardPanel;
+		private JPanel commandPanel;
 
 		/**
 		 * jedyny konstruktor klasy
-		 * @param ab klasa planszy odpoiadajaca planowanemu typowi gry
+		 * @param board - plansza zgodna z wyswietlanym typem gry
 		 */
-		public GameHistoryFrame(AbstractBoard board, Game_attribute gAttr) { //Game currentGame) {
-			//game = currentGame;
+		public GameHistoryFrame(AbstractBoard board) { //, Game_attribute gAttr) { //Game currentGame) {
 			this.board = board;
-			game_attr = gAttr;
-			type = board.getGameType();
+//			game_attr = gAttr;
 
-			numOfPlayers = game_attr.getnmb_players();
-			numOfPlayerPieces = board.getTriangleSize();
+			int[] allPieces = board.getPiecesPositions();
+
+			try {
+				numOfPlayerPieces = GameHelperMethods.getNumberOfPieces( board.getGameType() );
+			} catch (WrongGameTypeException wgtx) {
+				System.out.println(wgtx);
+				System.exit(1);
+			}
+
+			// allPieces.length == numOfPlayers * numOfPlayerPositions
+			numOfPlayers = allPieces.length / numOfPlayerPieces;
 			positions = new int[numOfPlayers][numOfPlayerPieces];
 
 			int n = board.getEdgeLength();
@@ -68,8 +74,8 @@ public class GameHistoryFrame extends JFrame {
 			setLayout(new BorderLayout());
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-			JPanel boardPanel = new JPanel();
-			JPanel commandPanel = new JPanel();
+			boardPanel = new JPanel();
+			commandPanel = new JPanel();
 
 			/*
 			 * (4*(n-1) * 2 + 1, (3*n - 2) * 2)
@@ -83,6 +89,7 @@ public class GameHistoryFrame extends JFrame {
 
 			initMenuBar();
 			initHelpDialog();
+			initCommandButtons();
 			initButtons();
 
 		}
@@ -91,8 +98,8 @@ public class GameHistoryFrame extends JFrame {
 			JMenuBar mBar = new JMenuBar();
 			JMenu mGame = new JMenu("Game");
 			JMenuItem helpMenu = new JMenuItem("Help");
-			JMenuItem moveMenu = new JMenuItem("Next move");
-			JMenuItem playerMenu = new JMenuItem("Previous move");
+			JMenuItem moveMenu = new JMenuItem("Next Move");
+			JMenuItem playerMenu = new JMenuItem("Previous Move");
 
 			mBar.add(mGame);
 
@@ -133,6 +140,17 @@ public class GameHistoryFrame extends JFrame {
 
 		}
 
+		private void initCommandButtons() {
+			JButton nextMove = new JButton("Next Move");
+			JButton previousMove = new JButton("Previous Move");
+
+			previousMove.addActionListener(new LabelListener());
+			nextMove.addActionListener(new LabelListener());
+
+			commandPanel.add(previousMove);
+			commandPanel.add(nextMove);
+		}
+
 		private void initButtons() {
 			buttons = new FieldButton[board.fields.length];
 
@@ -142,8 +160,6 @@ public class GameHistoryFrame extends JFrame {
 					}*/
 			for (int i=0; i < buttons.length; i++) {
 				buttons[i] = new FieldButton();
-//				buttons[i].setForeground(Color.BLACK);
-//				buttons[i].setFont(new Font(Font.SANS_SERIF, Font.BOLD, 0));
 				buttons[i].setField(board.fields[i], i);
 				buttons[i].addActionListener(new FieldsListener());
 
@@ -163,28 +179,28 @@ public class GameHistoryFrame extends JFrame {
 				int halfEmptyCount = (width - (i % 2) - oneRow.length) / 2;
 
 				for (int j=0; j < halfEmptyCount - (i % 2); j++) {
-					add(new JPanel());
-					add(new JPanel());
+					boardPanel.add(new JPanel());
+					boardPanel.add(new JPanel());
 				}
 
 				for (int j=0; j < oneRow.length; j++) {
 					if (i % 2 == 0) {
-						add(oneRow[j]);
+						boardPanel.add(oneRow[j]);
 					//System.out.print(PieceHelperMethods.pieceToID(oneRow[j].getHomeType()));
 					}
 
-					add(new JPanel());
+					boardPanel.add(new JPanel());
 
 					if (i % 2 != 0) {
-						add(oneRow[j]);
+						boardPanel.add(oneRow[j]);
 					//System.out.print(PieceHelperMethods.pieceToID(oneRow[j].getPiece()));
 					}
 
 				}
 
 				for (int j=0; j < halfEmptyCount + width; j++) {
-					add(new JPanel());
-					add(new JPanel());
+					boardPanel.add(new JPanel());
+					boardPanel.add(new JPanel());
 				}
 
 			}
@@ -222,7 +238,7 @@ public class GameHistoryFrame extends JFrame {
 
 		}
 
-		void decodePieces() {
+		private void decodePieces() {
 			int[] allPieces = board.getPiecesPositions();
 
 			for (int i=0; i < positions.length; i++) {
@@ -270,11 +286,11 @@ public class GameHistoryFrame extends JFrame {
 				if (arg0.getActionCommand().contentEquals("Help")) {
 					showHelpDialog();
 				}
-				else if (arg0.getActionCommand().contentEquals("Next move")) {
-					// show next move
+				else if (arg0.getActionCommand().contentEquals("Next Move")) {
+					showNextMove();
 				}
-				else if (arg0.getActionCommand().contentEquals("Previous move")) {
-					// show previous move
+				else if (arg0.getActionCommand().contentEquals("Previous Move")) {
+					showPreviousMove();
 				}
 
 			}
@@ -285,11 +301,28 @@ public class GameHistoryFrame extends JFrame {
 			}
 
 			private void showNextMove() {
-				// TODO
+				System.out.println("Next");
+				// TODO:
+				/*
+				 * MT_procedures mtp;
+				 * Move_attribute ma = mtp.getNextMove(); // w przyblizeniu
+				 * int moveFrom = Integer.toString(ma.previous_position);
+				 * int moveTo = Integer.toString(ma.next_position);
+				 * board.makeMove(moveFrom, moveTo);
+				 */
 			}
 
 			private void showPreviousMove() {
-				// TODO
+				System.out.println("Previous");
+				// TODO:
+				/*
+				 * MT_procedures mtp;
+				 * Move_attribute ma; // w przyblizeniu: ma jest juz zainicjowane i przechowuje obecny ruch
+				 * int moveFrom = Integer.toString(ma.previous_position);
+				 * int moveTo = Integer.toString(ma.next_position);
+				 * board.makeMove(moveTo, moveFrom); // wykonanie ruchu w odwrotnej kolejnosci
+				 * ma = mtp.getPreviousMove(); // w przyblizeniu
+				 */
 			}
 
 		}
@@ -309,10 +342,10 @@ public class GameHistoryFrame extends JFrame {
 		private class FieldsListener implements ActionListener {
 
 			public void actionPerformed(ActionEvent arg0) {
-				FieldButton fb = (FieldButton)arg0.getSource();
+/*				FieldButton fb = (FieldButton)arg0.getSource();
 				int index = fb.getID();
 				if (pressed == -1) {
-/*					if (fb.getPiece() == PieceHelperMethods.idToPiece(connection.getID())) {
+					if (fb.getPiece() == PieceHelperMethods.idToPiece(connection.getID())) {
 						pressed = index;
 						buttons[whereFrom].choosePiece();
 						buttons[whereTo].choosePiece();
@@ -333,7 +366,7 @@ public class GameHistoryFrame extends JFrame {
 						dialogText.setText(text);
 						infoDialog.setVisible(true);
 					}
-*/				}
+				}
 				else {
 					if (fb.getPiece() == Piece.NONE) {
 						buttons[pressed].chooseColor();
@@ -348,7 +381,7 @@ public class GameHistoryFrame extends JFrame {
 					}
 				}
 
-			}
+*/			}
 
 		}
 
