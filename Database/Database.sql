@@ -32,26 +32,6 @@ INSERT INTO `games_table` (`id`, `number_of_players`) VALUES
 	(1, 2);
 /*!40000 ALTER TABLE `games_table` ENABLE KEYS */;
 
--- Zrzut struktury tabela games_data.hibernate_sequence
-DROP TABLE IF EXISTS `hibernate_sequence`;
-CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
-  `next_not_cached_value` bigint(21) NOT NULL,
-  `minimum_value` bigint(21) NOT NULL,
-  `maximum_value` bigint(21) NOT NULL,
-  `start_value` bigint(21) NOT NULL COMMENT 'start value when sequences is created or value if RESTART is used',
-  `increment` bigint(21) NOT NULL COMMENT 'increment value',
-  `cache_size` bigint(21) unsigned NOT NULL,
-  `cycle_option` tinyint(1) unsigned NOT NULL COMMENT '0 if no cycles are allowed, 1 if the sequence should begin a new cycle when maximum_value is passed',
-  `cycle_count` bigint(21) NOT NULL COMMENT 'How many cycles have been done'
-) ENGINE=InnoDB SEQUENCE=1;
-
--- Zrzucanie danych dla tabeli games_data.hibernate_sequence: ~1 rows (około)
-DELETE FROM `hibernate_sequence`;
-/*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` (`next_not_cached_value`, `minimum_value`, `maximum_value`, `start_value`, `increment`, `cache_size`, `cycle_option`, `cycle_count`) VALUES
-	(1001, 1, 9223372036854775806, 1, 1, 1000, 0, 0);
-/*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
-
 -- Zrzut struktury tabela games_data.moves_table
 DROP TABLE IF EXISTS `moves_table`;
 CREATE TABLE IF NOT EXISTS `moves_table` (
