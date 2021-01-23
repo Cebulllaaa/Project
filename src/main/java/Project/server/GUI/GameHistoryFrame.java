@@ -270,6 +270,7 @@ public class GameHistoryFrame extends JFrame {
 
 		private void showNextMove() {
 			boolean notFoundYet = true;
+			int savedMoveID = moveID;
 
 			do {
 				moveID++;
@@ -278,7 +279,7 @@ public class GameHistoryFrame extends JFrame {
 				if ( oma.equals(Optional.empty()) ) {
 					dialogText.setText("This is the last move.");
 					infoDialog.setVisible(true);
-					moveID--;
+					moveID = savedMoveID;
 					break;
 
 				}
@@ -303,6 +304,7 @@ public class GameHistoryFrame extends JFrame {
 
 		private void showPreviousMove() {
 			boolean notFoundYet = true;
+			int savedMoveID = moveID;
 
 			if (firstMove) {
 				dialogText.setText("This is the first move.");
@@ -325,7 +327,7 @@ public class GameHistoryFrame extends JFrame {
 					firstMove = true;
 					dialogText.setText("This is the first move.");
 					infoDialog.setVisible(true);
-					moveID++;
+					moveID = savedMoveID - 1;
 					break;
 
 				}
