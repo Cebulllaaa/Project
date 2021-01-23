@@ -1,11 +1,10 @@
 package Project.server.GUI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Optional;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,373 +15,345 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import Project.Database.Tables.Game_attribute;
+import Project.Database.Procedures.GT_procedures;
+import Project.Database.Procedures.MT_procedures;
+import Project.Database.Tables.Move_attribute;
 import Project.client.GUI.FieldButton;
 import Project.client.GUI.FieldOrganizer;
 import Project.common.board.AbstractBoard;
 import Project.common.board.Piece;
 import Project.common.board.PieceHelperMethods;
-import Project.common.exceptions.ApplicationErrorException;
 import Project.common.exceptions.WrongGameTypeException;
 import Project.common.game.GameHelperMethods;
-import Project.common.game.GameType;
 
 public class GameHistoryFrame extends JFrame {
 
-		private static final long serialVersionUID = 1;
+	private static final long serialVersionUID = 1;
 
-//		private Game_attribute game_attr;
-		private AbstractBoard board;
-		private boolean more = true;
-		private JDialog infoDialog;
-		private String authors;
-		private String howToUse;
-		private JTextArea dialogText;
-		private FieldButton[] buttons;
-		private int whereFrom = 0;
-		private int whereTo = 0;
-		private int pressed = -1;
-		private int[][] positions;
-		private int numOfPlayers;
-		private int numOfPlayerPieces;
-		private JPanel boardPanel;
-		private JPanel commandPanel;
+	private MT_procedures mtp;
+	private Move_attribute move_attr;
+	private AbstractBoard board;
+	private boolean more = true;
+	private JDialog infoDialog;
+	private String authors;
+	private String howToUse;
+	private JTextArea dialogText;
+	private FieldButton[] buttons;
+	private int whereFrom = 0;
+	private int whereTo = 0;
+	private int[][] positions;
+	private int numOfPlayers;
+	private int numOfPlayerPieces;
+	private JPanel boardPanel;
+	private JPanel commandPanel;
+	private int gameID;
+	private int moveID;
+	private boolean firstMove = true;
 
-		/**
-		 * jedyny konstruktor klasy
-		 * @param board - plansza zgodna z wyswietlanym typem gry
+	/**
+	 * jedyny konstruktor klasy
+	 * @param board - plansza zgodna z wyswietlanym typem gry
+	 */
+	public GameHistoryFrame(AbstractBoard board, GT_procedures g_procedures,
+			MT_procedures m_procedures, int game) {
+		this.board = board;
+		mtp = m_procedures;
+		gameID = game;
+		move_attr = null;
+		moveID = 0;
+
+		int[] allPieces = board.getPiecesPositions();
+
+		try {
+			numOfPlayerPieces = GameHelperMethods.getNumberOfPieces( board.getGameType() );
+		} catch (WrongGameTypeException wgtx) {
+			System.out.println(wgtx);
+			System.exit(1);
+		}
+
+		// allPieces.length == numOfPlayers * numOfPlayerPositions
+		numOfPlayers = allPieces.length / numOfPlayerPieces;
+		positions = new int[numOfPlayers][numOfPlayerPieces];
+
+		int n = board.getEdgeLength();
+
+		setLayout(new BorderLayout());
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		boardPanel = new JPanel();
+		commandPanel = new JPanel();
+
+		/*
+		 * (4*(n-1) * 2 + 1, (3*n - 2) * 2)
+		 *    == (4 * bokTrojkata * 2 + polowa przesuniecia, (2 * bokTrojkata + bokSzesciokata) * 2)
 		 */
-		public GameHistoryFrame(AbstractBoard board) { //, Game_attribute gAttr) { //Game currentGame) {
-			this.board = board;
-//			game_attr = gAttr;
+		boardPanel.setLayout(new GridLayout(8 * n - 5, 6 * n - 4));
+		commandPanel.setLayout(new GridLayout(1, 2));
 
-			int[] allPieces = board.getPiecesPositions();
+		add(boardPanel, BorderLayout.CENTER);
+		add(commandPanel, BorderLayout.SOUTH);
 
-			try {
-				numOfPlayerPieces = GameHelperMethods.getNumberOfPieces( board.getGameType() );
-			} catch (WrongGameTypeException wgtx) {
-				System.out.println(wgtx);
-				System.exit(1);
+		initMenuBar();
+		initHelpDialog();
+		initCommandButtons();
+		initButtons();
+
+	}
+
+	private void initMenuBar() {
+		JMenuBar mBar = new JMenuBar();
+		JMenu mGame = new JMenu("Game");
+		JMenuItem helpMenu = new JMenuItem("Help");
+		JMenuItem moveMenu = new JMenuItem("Next Move");
+		JMenuItem playerMenu = new JMenuItem("Previous Move");
+
+		mBar.add(mGame);
+
+		mGame.add(helpMenu);
+		mGame.add(moveMenu);
+		mGame.add(playerMenu);
+
+		LabelListener labListener = new LabelListener();
+
+		helpMenu.addActionListener(labListener);
+		moveMenu.addActionListener(labListener);
+		playerMenu.addActionListener(labListener);
+
+		setJMenuBar(mBar);
+
+	}
+
+	private void initHelpDialog() {
+		JButton dialogButton = new JButton("Ok");
+		authors = "auhtors:\nBartosz Cybulski\nBartlomiej Krolikowski\n";
+		howToUse = "When it's your turn you can click on a space containing your peg\n"
+				+ "and next click on empty space.\nThis will move the peg on that space.\n"
+				+ "You should then press \"Make move\" item in the menu to upload your move.\n"
+				+ "You can also make no move and then you should only press \"Make move\"\n";
+		dialogText = new JTextArea(howToUse + "\n" + authors, 6, 1);
+
+		dialogButton.addActionListener(new DialogButtonListener());
+
+		dialogText.setEditable(false);
+
+		infoDialog = new JDialog(this, "Informations about the game", true);
+		infoDialog.setSize(500, 200);
+		infoDialog.setResizable(false);
+		infoDialog.setLayout(new BorderLayout());
+		infoDialog.add(dialogText, BorderLayout.CENTER);
+		infoDialog.add(dialogButton, BorderLayout.SOUTH);
+		infoDialog.setLocationRelativeTo(null);
+
+	}
+
+	private void initCommandButtons() {
+		JButton nextMove = new JButton("Next Move");
+		JButton previousMove = new JButton("Previous Move");
+
+		previousMove.addActionListener(new LabelListener());
+		nextMove.addActionListener(new LabelListener());
+
+		commandPanel.add(previousMove);
+		commandPanel.add(nextMove);
+	}
+
+	private void initButtons() {
+		buttons = new FieldButton[board.fields.length];
+
+		/*int n = board.getEdgeLength();
+				for (int i=buttons.length; i<(3*n-2)*(3*n-2); i++) {
+					add(new JPanel());
+				}*/
+		for (int i=0; i < buttons.length; i++) {
+			buttons[i] = new FieldButton();
+			buttons[i].setField(board.fields[i], i);
+
+		}
+
+		FieldOrganizer fo = new FieldOrganizer(buttons, board.getEdgeLength());
+		fo.organize();
+
+		addOrganized( fo.getOrganizedFields() );
+
+	}
+
+	private void addOrganized(FieldButton[][] orgFB) {
+		int width = (3 * board.getEdgeLength());
+		for (int i=0; i < orgFB.length; i++) {
+			FieldButton[] oneRow = orgFB[i];
+			int halfEmptyCount = (width - (i % 2) - oneRow.length) / 2;
+
+			for (int j=0; j < halfEmptyCount - (i % 2); j++) {
+				boardPanel.add(new JPanel());
+				boardPanel.add(new JPanel());
 			}
 
-			// allPieces.length == numOfPlayers * numOfPlayerPositions
-			numOfPlayers = allPieces.length / numOfPlayerPieces;
-			positions = new int[numOfPlayers][numOfPlayerPieces];
-
-			int n = board.getEdgeLength();
-
-			setLayout(new BorderLayout());
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-			boardPanel = new JPanel();
-			commandPanel = new JPanel();
-
-			/*
-			 * (4*(n-1) * 2 + 1, (3*n - 2) * 2)
-			 *    == (4 * bokTrojkata * 2 + polowa przesuniecia, (2 * bokTrojkata + bokSzesciokata) * 2)
-			 */
-			boardPanel.setLayout(new GridLayout(8 * n - 5, 6 * n - 4));
-			commandPanel.setLayout(new GridLayout(1, 2));
-
-			add(boardPanel, BorderLayout.CENTER);
-			add(commandPanel, BorderLayout.SOUTH);
-
-			initMenuBar();
-			initHelpDialog();
-			initCommandButtons();
-			initButtons();
-
-		}
-
-		private void initMenuBar() {
-			JMenuBar mBar = new JMenuBar();
-			JMenu mGame = new JMenu("Game");
-			JMenuItem helpMenu = new JMenuItem("Help");
-			JMenuItem moveMenu = new JMenuItem("Next Move");
-			JMenuItem playerMenu = new JMenuItem("Previous Move");
-
-			mBar.add(mGame);
-
-			mGame.add(helpMenu);
-			mGame.add(moveMenu);
-			mGame.add(playerMenu);
-
-			LabelListener labListener = new LabelListener();
-
-			helpMenu.addActionListener(labListener);
-			moveMenu.addActionListener(labListener);
-			playerMenu.addActionListener(labListener);
-
-			setJMenuBar(mBar);
-
-		}
-
-		private void initHelpDialog() {
-			JButton dialogButton = new JButton("Ok");
-			authors = "auhtors:\nBartosz Cybulski\nBartlomiej Krolikowski\n";
-			howToUse = "When it's your turn you can click on a space containing your peg\n"
-					+ "and next click on empty space.\nThis will move the peg on that space.\n"
-					+ "You should then press \"Make move\" item in the menu to upload your move.\n"
-					+ "You can also make no move and then you should only press \"Make move\"\n";
-			dialogText = new JTextArea(howToUse + "\n" + authors, 6, 1);
-
-			dialogButton.addActionListener(new DialogButtonListener());
-
-			dialogText.setEditable(false);
-
-			infoDialog = new JDialog(this, "Informations about the game", true);
-			infoDialog.setSize(500, 200);
-			infoDialog.setResizable(false);
-			infoDialog.setLayout(new BorderLayout());
-			infoDialog.add(dialogText, BorderLayout.CENTER);
-			infoDialog.add(dialogButton, BorderLayout.SOUTH);
-			infoDialog.setLocationRelativeTo(null);
-
-		}
-
-		private void initCommandButtons() {
-			JButton nextMove = new JButton("Next Move");
-			JButton previousMove = new JButton("Previous Move");
-
-			previousMove.addActionListener(new LabelListener());
-			nextMove.addActionListener(new LabelListener());
-
-			commandPanel.add(previousMove);
-			commandPanel.add(nextMove);
-		}
-
-		private void initButtons() {
-			buttons = new FieldButton[board.fields.length];
-
-			/*int n = board.getEdgeLength();
-					for (int i=buttons.length; i<(3*n-2)*(3*n-2); i++) {
-						add(new JPanel());
-					}*/
-			for (int i=0; i < buttons.length; i++) {
-				buttons[i] = new FieldButton();
-				buttons[i].setField(board.fields[i], i);
-				buttons[i].addActionListener(new FieldsListener());
-
-			}
-
-			FieldOrganizer fo = new FieldOrganizer(buttons, board.getEdgeLength());
-			fo.organize();
-
-			addOrganized( fo.getOrganizedFields() );
-
-		}
-
-		private void addOrganized(FieldButton[][] orgFB) {
-			int width = (3 * board.getEdgeLength());
-			for (int i=0; i < orgFB.length; i++) {
-				FieldButton[] oneRow = orgFB[i];
-				int halfEmptyCount = (width - (i % 2) - oneRow.length) / 2;
-
-				for (int j=0; j < halfEmptyCount - (i % 2); j++) {
-					boardPanel.add(new JPanel());
-					boardPanel.add(new JPanel());
+			for (int j=0; j < oneRow.length; j++) {
+				if (i % 2 == 0) {
+					boardPanel.add(oneRow[j]);
 				}
 
-				for (int j=0; j < oneRow.length; j++) {
-					if (i % 2 == 0) {
-						boardPanel.add(oneRow[j]);
-					//System.out.print(PieceHelperMethods.pieceToID(oneRow[j].getHomeType()));
-					}
+				boardPanel.add(new JPanel());
 
-					boardPanel.add(new JPanel());
-
-					if (i % 2 != 0) {
-						boardPanel.add(oneRow[j]);
-					//System.out.print(PieceHelperMethods.pieceToID(oneRow[j].getPiece()));
-					}
-
-				}
-
-				for (int j=0; j < halfEmptyCount + width; j++) {
-					boardPanel.add(new JPanel());
-					boardPanel.add(new JPanel());
+				if (i % 2 != 0) {
+					boardPanel.add(oneRow[j]);
 				}
 
 			}
 
-		}
-
-		/**
-		 * metoda ustawiajaca pionki na planszy kozystajac z {@link ClientConnection#getPieces() ClientConnection.getPieces()}
-		 */
-		public void setNewPieces() {
-			decodePieces(); //connection.getPieces(); // server
-			//int myID = connection.getID();
-
-			for (int i=0; i < buttons.length; i++) {
-				buttons[i].setPiece( Piece.NONE );
-				buttons[i].choosePiece();
-	System.out.println(buttons[i].getPiece());
-			}
-
-			for (int i=0; i < positions.length; i++) {
-				for (int j=0; j < positions[i].length; j++) {
-	//System.out.println(myID);
-					int pieceColor = GameHelperMethods.positionInArrayToId(i, numOfPlayers);
-					Piece piece = PieceHelperMethods.idToPiece(pieceColor);
-					FieldButton but = buttons[positions[i][j]];
-
-					but.setPiece(piece);
-	System.out.println(but.getPiece());
-					but.choosePiece();
-	System.out.println(Integer.toString(i) + "," + Integer.toString(j));
-
-				}
-
+			for (int j=0; j < halfEmptyCount + width; j++) {
+				boardPanel.add(new JPanel());
+				boardPanel.add(new JPanel());
 			}
 
 		}
 
-		private void decodePieces() {
-			int[] allPieces = board.getPiecesPositions();
+	}
 
-			for (int i=0; i < positions.length; i++) {
-				for (int j=0; j < positions[i].length; j++) {
-					positions[i][j] = allPieces[i * numOfPlayerPieces + j];
-				}
-			}
+	/**
+	 * metoda ustawiajaca pionki na planszy kozystajac z {@link ClientConnection#getPieces() ClientConnection.getPieces()}
+	 */
+	public void setNewPieces() {
+		decodePieces();
 
+		for (int i=0; i < buttons.length; i++) {
+			buttons[i].setPiece( Piece.NONE );
+			buttons[i].choosePiece();
 
 		}
 
-		/**
-		 * metoda informujaca uzytkownika o problemach uniemozliwiajacych dalsza gre
-		 * informuje tez o sytuacji w ktorej ktorys z graczy konczy rozgrywke,
-		 * mimo ze nie musi to konczyc gry
-		 * @param x wyjatek przekazujacy informacje o problemie lub zwyciezcy
-		 */
-/*		public void signalise(Exception x) {
-			more = false;
+		for (int i=0; i < positions.length; i++) {
+			for (int j=0; j < positions[i].length; j++) {
+				int pieceColor = GameHelperMethods.positionInArrayToId(i, numOfPlayers);
+				Piece piece = PieceHelperMethods.idToPiece(pieceColor);
+				FieldButton but = buttons[positions[i][j]];
 
-			if (x instanceof GameEndedException) {
-				dialogText.setText(x.getMessage());
-			}
-			else {
-				dialogText.setText("An error has occured:\n" + x.getMessage());
+				but.setPiece(piece);
+				but.choosePiece();
+
 			}
 
+		}
+
+	}
+
+	private void decodePieces() {
+		int[] allPieces = board.getPiecesPositions();
+
+		for (int i=0; i < positions.length; i++) {
+			for (int j=0; j < positions[i].length; j++) {
+				positions[i][j] = allPieces[i * numOfPlayerPieces + j];
+			}
+		}
+
+	}
+
+	private class LabelListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent arg0) {
+			if (arg0.getActionCommand().contentEquals("Help")) {
+				showHelpDialog();
+			}
+			else if (arg0.getActionCommand().contentEquals("Next Move")) {
+				showNextMove();
+			}
+			else if (arg0.getActionCommand().contentEquals("Previous Move")) {
+				showPreviousMove();
+			}
+
+		}
+
+		private void showHelpDialog() {
+			dialogText.setText(howToUse + "\n" + authors);
 			infoDialog.setVisible(true);
-
-		}
-*/
-
-		/**
-		 * informuje gracza, ze skonczyl gre
-		 */
-/*		public void informAboutWinning(int positionInRanking) {
-			dialogText.setText("Congratulations!\nYou are " + Integer.toString(positionInRanking) + ".\n");
-			infoDialog.setVisible(true);
-
-		}
-*/
-		private class LabelListener implements ActionListener {
-
-			public void actionPerformed(ActionEvent arg0) {
-				if (arg0.getActionCommand().contentEquals("Help")) {
-					showHelpDialog();
-				}
-				else if (arg0.getActionCommand().contentEquals("Next Move")) {
-					showNextMove();
-				}
-				else if (arg0.getActionCommand().contentEquals("Previous Move")) {
-					showPreviousMove();
-				}
-
-			}
-
-			private void showHelpDialog() {
-				dialogText.setText(howToUse + "\n" + authors);
-				infoDialog.setVisible(true);
-			}
-
-			private void showNextMove() {
-				System.out.println("Next");
-				// TODO:
-				/*
-				 * MT_procedures mtp;
-				 * Move_attribute ma = mtp.getNextMove(); // w przyblizeniu
-				 * int moveFrom = Integer.toString(ma.previous_position);
-				 * int moveTo = Integer.toString(ma.next_position);
-				 * board.makeMove(moveFrom, moveTo);
-				 */
-			}
-
-			private void showPreviousMove() {
-				System.out.println("Previous");
-				// TODO:
-				/*
-				 * MT_procedures mtp;
-				 * Move_attribute ma; // w przyblizeniu: ma jest juz zainicjowane i przechowuje obecny ruch
-				 * int moveFrom = Integer.toString(ma.previous_position);
-				 * int moveTo = Integer.toString(ma.next_position);
-				 * board.makeMove(moveTo, moveFrom); // wykonanie ruchu w odwrotnej kolejnosci
-				 * ma = mtp.getPreviousMove(); // w przyblizeniu
-				 */
-			}
-
 		}
 
-		private class DialogButtonListener implements ActionListener {
-			public void actionPerformed(ActionEvent arg0) {
-				infoDialog.setVisible(false);
+		private void showNextMove() {
+			boolean notFoundYet = true;
 
-				if (!more) {
-					System.exit(0);
-				}
+			do {
+				moveID++;
+				Optional<Move_attribute> oma = mtp.findById(moveID);
 
-			}
+				if ( oma.equals(Optional.empty()) ) {
+					dialogText.setText("This is the last move.");
+					infoDialog.setVisible(true);
+					moveID--;
+					break;
 
-		}
-
-		private class FieldsListener implements ActionListener {
-
-			public void actionPerformed(ActionEvent arg0) {
-/*				FieldButton fb = (FieldButton)arg0.getSource();
-				int index = fb.getID();
-				if (pressed == -1) {
-					if (fb.getPiece() == PieceHelperMethods.idToPiece(connection.getID())) {
-						pressed = index;
-						buttons[whereFrom].choosePiece();
-						buttons[whereTo].choosePiece();
-						whereFrom = index;
-						fb.setBackground(Color.BLACK);
-					}
-					else {
-						String text;
-
-						if (fb.getPiece() == Piece.NONE) {
-							text = "The space is empty!";
-						}
-						else {
-							text = "Wrong peg.\nYour color is "
-									+ PieceHelperMethods.idToPiece(connection.getID()).toString();
-						}
-
-						dialogText.setText(text);
-						infoDialog.setVisible(true);
-					}
 				}
 				else {
-					if (fb.getPiece() == Piece.NONE) {
-						buttons[pressed].chooseColor();
-						pressed = -1;
-						whereTo = index;
-						fb.setBackground(Color.PINK);
-						repaint();
+					move_attr = oma.get();
+
+					if (move_attr.get_gameid() == gameID) {
+						notFoundYet = false;
+						firstMove = false;
+						whereFrom = Integer.parseInt( move_attr.get_previous_position() );
+						whereTo = Integer.parseInt( move_attr.get_next_position() );
+						board.makeMove(whereFrom, whereTo);
+						setNewPieces();
+
 					}
-					else {
-						dialogText.setText("There is already a peg on that space");
-						infoDialog.setVisible(true);
-					}
+
 				}
 
-*/			}
+			} while (notFoundYet);
 
 		}
+
+		private void showPreviousMove() {
+			boolean notFoundYet = true;
+
+			if (firstMove) {
+				dialogText.setText("This is the first move.");
+				infoDialog.setVisible(true);
+				return;
+
+			}
+
+			// wykonanie ruchu w odwrotnej kolejnosci
+			whereFrom = Integer.parseInt( move_attr.get_next_position() );
+			whereTo = Integer.parseInt( move_attr.get_previous_position() );
+			board.makeMove(whereFrom, whereTo);
+			setNewPieces();
+
+			do {
+				moveID--;
+				Optional<Move_attribute> oma = mtp.findById(moveID);
+
+				if ( oma.equals(Optional.empty()) ) {
+					firstMove = true;
+					dialogText.setText("This is the first move.");
+					infoDialog.setVisible(true);
+					moveID++;
+					break;
+
+				}
+				else {
+					move_attr = oma.get();
+
+					if (move_attr.get_gameid() == gameID) {
+						notFoundYet = false;
+					}
+
+				}
+
+			} while (notFoundYet);
+
+		}
+
+	}
+
+	private class DialogButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			infoDialog.setVisible(false);
+
+			if (!more) {
+				System.exit(0);
+			}
+
+		}
+
+	}
 
 }

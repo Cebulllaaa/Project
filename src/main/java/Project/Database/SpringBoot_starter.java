@@ -1,6 +1,7 @@
 package Project.Database;
 
 import javax.annotation.PostConstruct;
+import javax.swing.JFrame;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,10 @@ import Project.Database.Procedures.GT_procedures;
 import Project.Database.Procedures.MT_procedures;
 import Project.Database.Tables.Game_attribute;
 import Project.Database.Tables.Move_attribute;
+import Project.common.board.AbstractBoard;
+import Project.common.board.StandartBoard;
+import Project.common.exceptions.ApplicationErrorException;
+import Project.server.GUI.GameHistoryFrame;
 import Project.server.main.Server;
 import Project.server.main.ServerActivities;
 import Project.server.main.StartServerConnection;
@@ -36,12 +41,21 @@ public class SpringBoot_starter {
 	
 	public static void main(String[] args) {
         try {
-			port = Integer.parseInt(args[0]);
-			players = Integer.parseInt(args[1]);
+        	if (args[0].contentEquals("--debug")) {
+        		port = Integer.parseInt(args[1]);
+    			players = Integer.parseInt(args[2]);
+        	}
+        	else {
+        		port = Integer.parseInt(args[0]);
+        		players = Integer.parseInt(args[1]);
+        	}
 			
 		}
 		catch(NumberFormatException e) {
 			System.out.println("Podano niewlasciwy typ argumentu");
+			System.out.println(args[0]);
+			System.out.println(args[1]);
+			System.exit(1);
 		}
         SpringApplication.run(SpringBoot_starter.class, args);
     }
@@ -70,6 +84,27 @@ public class SpringBoot_starter {
 			}
 			catch(Exception e) {
 				System.out.println(e);
+			}
+		}
+		else {
+			try {
+				StandartBoard sBoard = new StandartBoard();
+				int gameID = port;
+				Game_attribute gameAttr = game_procedures.findById(gameID);
+
+				sBoard.initPieces(gameAttr.getnmb_players());
+				System.setProperty("java.awt.headless", "false");
+
+				GameHistoryFrame gameHistory = new GameHistoryFrame(sBoard, game_procedures, move_procedures, gameID);
+
+				gameHistory.setTitle("Game History");
+				gameHistory.setSize(800, 800);
+				gameHistory.setLocationRelativeTo(null);
+				gameHistory.setVisible(true);
+
+			}
+			catch (ApplicationErrorException aex) {
+				aex.printStackTrace();
 			}
 		}
 	}
@@ -174,6 +209,8 @@ public class SpringBoot_starter {
 	}
 	public void add_game(int x) {
 		game = new Game_attribute(x);
+//int count = (int) game_procedures.count(); // to bylo potrzebne zeby uniknac konfliktu kluczy
+//game.setId(count + 1); // to bylo potrzebne zeby uniknac konfliktu kluczy
 		this.game_procedures.save(game);
 		game_id = game.getId();
 	}
@@ -181,4 +218,5 @@ public class SpringBoot_starter {
 		move = new Move_attribute(game_id,prv,next);
 		this.move_procedures.save(move);
 	}
+
 }
