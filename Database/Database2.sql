@@ -15,6 +15,10 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+DROP DATABASE IF EXISTS `games_data`;
+CREATE DATABASE IF NOT EXISTS `games_data` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `games_data`;
+
 --
 -- Table structure for table `games_table`
 --
@@ -23,7 +27,7 @@ DROP TABLE IF EXISTS `games_table`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `games_table` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `number_of_players` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -37,35 +41,6 @@ LOCK TABLES `games_table` WRITE;
 /*!40000 ALTER TABLE `games_table` DISABLE KEYS */;
 INSERT INTO `games_table` VALUES (1,2),(2,2);
 /*!40000 ALTER TABLE `games_table` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `hibernate_sequence`
---
-
-DROP TABLE IF EXISTS `hibernate_sequence`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hibernate_sequence` (
-  `next_not_cached_value` bigint(21) NOT NULL,
-  `minimum_value` bigint(21) NOT NULL,
-  `maximum_value` bigint(21) NOT NULL,
-  `start_value` bigint(21) NOT NULL COMMENT 'start value when sequences is created or value if RESTART is used',
-  `increment` bigint(21) NOT NULL COMMENT 'increment value',
-  `cache_size` bigint(21) unsigned NOT NULL,
-  `cycle_option` tinyint(1) unsigned NOT NULL COMMENT '0 if no cycles are allowed, 1 if the sequence should begin a new cycle when maximum_value is passed',
-  `cycle_count` bigint(21) NOT NULL COMMENT 'How many cycles have been done'
-) ENGINE=InnoDB SEQUENCE=1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hibernate_sequence`
---
-
-LOCK TABLES `hibernate_sequence` WRITE;
-/*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (1001,1,9223372036854775806,1,1,1000,0,0);
-/*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

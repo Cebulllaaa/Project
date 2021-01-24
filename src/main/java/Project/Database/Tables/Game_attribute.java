@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Table (name = "games_table")
 public class Game_attribute {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // <zmiana
 	private Integer id;
 	private int number_of_players;
 	public Game_attribute(){
